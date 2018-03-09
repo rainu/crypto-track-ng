@@ -47,6 +47,7 @@ dockerrize:
     - docker-compose build
     - docker-compose push
   dependencies:
-    - build
+    - build-server
+    - build-course-crawler
   only:
     - master
