@@ -8,17 +8,32 @@
     "dev": "cross-env NODE_ENV=development nodemon server/server/index.js --watch server",
     "build": "nuxt build",
     "start": "cross-env NODE_ENV=production node server/server/index.js",
-    "generate": "nuxt generate"
+    "generate": "nuxt generate",
+    "course": "node ./services/course-crawler/src/run.js",
+    "test-course": "mocha services/course-crawler/test --recursive",
+    "build-course": "webpack --config services/course-crawler/production.webpack.config.js && node minify-package-json.js services/course-crawler/dist && cp -r config services/course-crawler/dist/"
   },
   "dependencies": {
-    "nuxt": "^1.0.0",
-    "express": "^4.15.3",
-    "bootstrap-vue": "^1.0.2",
+    "@nuxtjs/axios": "^5.0.0",
     "bootstrap": "^4.0.0-beta.2",
-    "@nuxtjs/axios": "^5.0.0"
+    "bootstrap-vue": "^1.0.2",
+    "cheerio": "^1.0.0-rc.2",
+    "config": "^1.30.0",
+    "csv-parse": "^2.0.4",
+    "depcheck": "^0.6.9",
+    "express": "^4.15.3",
+    "http-status-codes": "^1.3.0",
+    "moment": "^2.21.0",
+    "mongoose": "^5.0.9",
+    "nuxt": "^1.0.0",
+    "request": "^2.83.0",
+    "webpack": "^4.1.1",
+    "webpack-node-externals": "^1.6.0",
+    "winston": "^3.0.0-rc2"
   },
   "devDependencies": {
     "cross-env": "^5.0.1",
-    "nodemon": "^1.11.0"
+    "nodemon": "^1.11.0",
+    "webpack-cli": "^2.0.10"
   }
 }
