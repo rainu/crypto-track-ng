@@ -1,0 +1,11 @@
+image: node:alpine
+
+stages:
+  - build
+
+build:
+  stage: build
+  script:
+    - apk --update add git
+    - npm install
+    - npm run build
