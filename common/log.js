@@ -3,8 +3,11 @@
 let winston = require('winston');
 
 const logger = winston.createLogger({
-  level: 'info',
-  format: winston.format.json()
+  level: process.env.LOG_LEVEL || "info",
+  format: winston.format.combine(
+    winston.format.splat(),
+    winston.format.json()
+  )
 });
 
 //
@@ -26,5 +29,9 @@ logger.error = function(message, err) {
   if(err) origErr.call(logger, message + ' ' + err.stack);
   else origErr.call(logger, message);
 };
+
+logger.debug = (message, ...args) => {
+  logger.log('debug', message, ...args)
+}
 
 module.exports = logger;
