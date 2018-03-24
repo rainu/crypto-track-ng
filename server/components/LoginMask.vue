@@ -1,0 +1,55 @@
+<template>
+  <div class="login-box">
+    <div class="login-logo">
+      <b>CoinTrack</b>
+    </div>
+    <div class="login-box-body">
+      <message-error v-if="loginFails">Die Anmeldung ist fehlgeschlagen!</message-error>
+
+      <form @submit.prevent="login">
+        <div class="form-group has-feedback" :class="{'has-error': loginFails}">
+          <input class="form-control" placeholder="Benutzername" type="text" v-model="username">
+          <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+        </div>
+        <div class="form-group has-feedback" :class="{'has-error': loginFails}">
+          <input class="form-control" placeholder="Passwort" type="password" v-model="password">
+          <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+        </div>
+        <div class="row">
+          <!-- /.col -->
+          <div class="col-lg-offset-4 col-lg-8 col-xs-12">
+            <button type="submit" class="btn btn-primary btn-block btn-flat">Login</button>
+          </div>
+          <!-- /.col -->
+        </div>
+      </form>
+    </div>
+  </div>
+</template>
+
+<script>
+  export default {
+    data() {
+      return {
+        username: '',
+        password: '',
+        status: ''
+      }
+    },
+    computed: {
+      loginFails() {
+        return this.status === "invalid";
+      }
+    },
+    methods: {
+      login() {
+        this.$store.dispatch('auth/login', {
+          username: this.username,
+          password: this.password,
+        }).then(status => {
+          this.status = status
+        })
+      }
+    }
+  }
+</script>

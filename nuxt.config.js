@@ -1,4 +1,5 @@
 const pkg = require('./package')
+const webpack = require('webpack')
 const bodyParser = require('body-parser')
 
 module.exports = {
@@ -30,6 +31,7 @@ module.exports = {
   ** Global CSS
   */
   css: [
+    'bootstrap/dist/css/bootstrap.css',
     'admin-lte/dist/css/AdminLTE.min.css',
     'admin-lte/dist/css/skins/skin-black.min.css',
     'font-awesome/css/font-awesome.min.css',
@@ -41,6 +43,7 @@ module.exports = {
   ** Plugins to load before mounting the App
   */
   plugins: [
+    '~/plugins/global_components'
   ],
 
   /*
@@ -50,11 +53,12 @@ module.exports = {
     // Doc: https://github.com/nuxt-community/axios-module#usage
     '@nuxtjs/axios',
     // Doc: https://bootstrap-vue.js.org/docs/
-    'bootstrap-vue/nuxt'
+    // 'bootstrap-vue/nuxt'
   ],
 
   serverMiddleware: [
     require('morgan')('combined'),
+    require('cookie-parser')(),
     bodyParser.json(),
     bodyParser.urlencoded({ extended: true }),
     '~/backend/middleware/authentication',
@@ -74,6 +78,15 @@ module.exports = {
   ** Build configuration
   */
   build: {
+    vendor: ['jquery', 'bootstrap'],
+    plugins: [
+      // set shortcuts as global for bootstrap
+      new webpack.ProvidePlugin({
+        $: 'jquery',
+        jQuery: 'jquery',
+        'window.jQuery': 'jquery'
+      })
+    ],
     /*
     ** You can extend webpack config here
     */

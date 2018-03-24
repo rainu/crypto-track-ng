@@ -22,6 +22,7 @@
     "bootstrap-vue": "^1.0.2",
     "cheerio": "^1.0.0-rc.2",
     "config": "^1.30.0",
+    "cookie-parser": "^1.4.3",
     "cryptocoins-icons": "^2.7.0",
     "csv-parse": "^2.0.4",
     "depcheck": "^0.6.9",

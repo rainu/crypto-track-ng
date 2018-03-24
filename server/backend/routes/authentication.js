@@ -5,6 +5,7 @@ const OAuthAccessToken = require('../../../common/db/model/oauth2/access_token')
 const OAuthRefreshToken = require('../../../common/db/model/oauth2/refresh_token')
 const OAuthUser = require('../../../common/db/model/oauth2/user')
 const oauth = require('../oauth2');
+const {InvalidGrantError} = require('oauth2-server')
 const Config = require('../../../common/config')
 const Log = require('../../../common/log')
 const bcrypt = require('bcrypt');
@@ -40,7 +41,10 @@ router.route('/auth/token').post((req, res) => {
       },
     })
   }).catch(err => {
-    Log.error("Error while request oauth2-token!", err)
+    if (! err instanceof InvalidGrantError) {
+      Log.error("Error while request oauth2-token!", err)
+    }
+
     return res.status(err.code || HttpStatus.INTERNAL_SERVER_ERROR).json(err)
   })
 });

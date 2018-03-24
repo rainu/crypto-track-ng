@@ -70,7 +70,7 @@ function getUser(username, password) {
     })
   })
   .catch(err => {
-    Log.error("[OAUTH2] getUser - Err: %o", err)
+    Log.error("[OAUTH2] getUser - Err: ", err)
   });
 }
 
