@@ -1,9 +1,33 @@
 "use strict";
 
-const config = require('config');
 const log = require('./log');
 
 const ENV_PREFIX = 'CFG_';
+
+let config = {
+  server: {
+    port: 3000,
+  },
+  oauth2: {
+    client: {
+      id: "clientId",
+      secret: "secret"
+    },
+    user: {
+      name: "admin",
+      password: "admin"
+    }
+  },
+  mongo: {
+    host: "localhost",
+    port: 27017,
+    db: "prod"
+  },
+  request: {
+    repeatSleep: 1000,
+    maxRetry: 10
+  }
+}
 
 outer: for(let curEnv of Object.keys(process.env)) {
   if(curEnv.startsWith(ENV_PREFIX)) {
