@@ -1,4 +1,5 @@
 const pkg = require('./package')
+const bodyParser = require('body-parser')
 
 module.exports = {
   mode: 'universal',
@@ -29,6 +30,11 @@ module.exports = {
   ** Global CSS
   */
   css: [
+    'admin-lte/dist/css/AdminLTE.min.css',
+    'admin-lte/dist/css/skins/skin-black.min.css',
+    'font-awesome/css/font-awesome.min.css',
+    'cryptocoins-icons/webfont/cryptocoins.css',
+    'cryptocoins-icons/webfont/cryptocoins-colors.css',
   ],
 
   /*
@@ -47,11 +53,21 @@ module.exports = {
     'bootstrap-vue/nuxt'
   ],
 
+  serverMiddleware: [
+    require('morgan')('combined'),
+    bodyParser.json(),
+    bodyParser.urlencoded({ extended: true }),
+    '~/backend/middleware/authentication',
+    '~/backend/routes/authentication',
+    '~/backend/routes/version'
+  ],
+
   /*
   ** Axios module configuration
   */
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
+    credentials: true
   },
 
   /*
