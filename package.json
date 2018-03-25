@@ -11,7 +11,7 @@
     "generate": "nuxt generate",
     "course": "node ./services/course-crawler/src/run.js",
     "test-course": "mocha services/course-crawler/test --recursive",
-    "build-course": "webpack --config services/course-crawler/production.webpack.config.js && node minify-package-json.js services/course-crawler/dist && cp -r config services/course-crawler/dist/"
+    "build-course": "webpack --config services/course-crawler/production.webpack.config.js && node minify-package-json.js services/course-crawler/dist"
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.0.0",
