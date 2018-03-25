@@ -28,7 +28,7 @@ module.exports = {
   loading: { color: '#008078' },
 
   router: {
-    middleware: 'i18n'
+    middleware: ['i18n', 'usercheck']
   },
 
   /*
@@ -47,7 +47,8 @@ module.exports = {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    '~/plugins/i18n.js',
+    '~/plugins/i18n',
+    '~/plugins/route_helper',
     '~/plugins/global_components'
   ],
 

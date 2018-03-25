@@ -1,7 +1,6 @@
 <template>
   <section class="container">
     <login-mask v-if="!isAuthenticated"></login-mask>
-    <button v-else class="btn btn-primary" @click="logout">{{$t('login.logout')}}</button>
   </section>
 </template>
 
@@ -10,18 +9,28 @@ import LoginMask from "@/components/LoginMask";
 import {mapGetters} from 'vuex';
 
 export default {
+  layout: 'login',
   components: {
     LoginMask
-  },
-  methods: {
-    logout(){
-      this.$store.dispatch('auth/logout')
-    }
   },
   computed: {
     ...mapGetters({
       isAuthenticated: 'auth/isAuthenticated'
     })
+  },
+  watch: {
+    isAuthenticated(authenticated){
+      if(authenticated) {
+        //go to user home after login was successfully
+        this.$router.$goto('userhome')
+      }
+    }
+  },
+  created() {
+    if(this.$store.getters['auth/isAuthenticated']) {
+      //go to user home after login was successfully
+      this.$router.$goto('userhome')
+    }
   }
 }
 </script>

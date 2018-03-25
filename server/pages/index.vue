@@ -1,4 +1,6 @@
+<template>
+  <div>You should not see this page!</div>
+</template>
+
 <script>
-  import Index from '~/pages/_lang/index'
-  export default Index
 </script>

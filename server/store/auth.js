@@ -4,22 +4,25 @@ import HttpStatus from 'http-status-codes';
 const COOKIE_JWT = "JWT"
 
 const state = () => ({
+  username: null,
   token: null,
   expiresAt: null,
 })
 
 const mutations = {
-  setToken(state, {token, expiresAt}) {
+  setToken(state, {username, token, expiresAt}) {
+    state.username = username;
     state.token = token;
     state.expiresAt = expiresAt;
 
     Cookie.set(COOKIE_JWT, JSON.stringify({
-      token, expiresAt
+      username, token, expiresAt
     }), {
       expires: expiresAt, //cookie will be removed after the access token is expired
     });
   },
   clearToken(state) {
+    state.username = null;
     state.token = null;
     state.expiresAt = null;
     Cookie.remove(COOKIE_JWT)
@@ -49,6 +52,7 @@ const actions = {
     return this.$axios.post("/auth/token", data)
     .then(response => {
       vuexContext.commit("setToken", {
+        username: authData.username,
         token: response.data.accessToken.token,
         expiresAt: new Date(response.data.accessToken.expiresAt),
       });
