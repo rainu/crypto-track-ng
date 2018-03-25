@@ -1,0 +1,15 @@
+{
+  "common": {
+    "error": "Fehler",
+    "alert": "Warnung",
+    "success": "Erfolgreich",
+    "info": "Information"
+  },
+  "login": {
+    "username": "Benutzername",
+    "password": "Passwort",
+    "login": "Anmelden",
+    "logout": "Abmelden",
+    "failed": "Die Anmeldung ist fehlgeschlagen! Bitte prüfen Sie Ihre Zugangsdaten."
+  }
+}

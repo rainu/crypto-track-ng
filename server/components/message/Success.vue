@@ -1,7 +1,7 @@
 <template>
   <div class="alert alert-success alert-dismissible">
     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-    <h4><i class="icon fa fa-check"></i> Erfolg</h4>
+    <h4><i class="icon fa fa-check"></i>{{$t('common.success')}}</h4>
     <slot></slot>
   </div>
 </template>

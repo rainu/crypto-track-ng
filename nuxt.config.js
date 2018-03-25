@@ -27,6 +27,10 @@ module.exports = {
   */
   loading: { color: '#008078' },
 
+  router: {
+    middleware: 'i18n'
+  },
+
   /*
   ** Global CSS
   */
@@ -43,6 +47,7 @@ module.exports = {
   ** Plugins to load before mounting the App
   */
   plugins: [
+    '~/plugins/i18n.js',
     '~/plugins/global_components'
   ],
 

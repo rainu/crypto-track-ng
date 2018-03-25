@@ -1,0 +1,15 @@
+{
+  "common": {
+    "error": "Error",
+    "alert": "Warning",
+    "success": "Success",
+    "info": "Information"
+  },
+  "login": {
+    "username": "Username",
+    "password": "Password",
+    "login": "Login",
+    "logout": "Logout",
+    "failed": "The login failed! Please check your credentials."
+  }
+}
