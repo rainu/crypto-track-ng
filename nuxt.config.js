@@ -19,7 +19,10 @@ module.exports = {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-    ]
+    ],
+    bodyAttrs: {
+      class: 'skin-black sidebar-mini'
+    }
   },
 
   /*
@@ -47,6 +50,7 @@ module.exports = {
   ** Plugins to load before mounting the App
   */
   plugins: [
+    '~/plugins/bootstrap',
     '~/plugins/i18n',
     '~/plugins/route_helper',
     '~/plugins/global_components'
@@ -84,7 +88,7 @@ module.exports = {
   ** Build configuration
   */
   build: {
-    vendor: ['jquery', 'bootstrap'],
+    vendor: ['jquery', 'bootstrap', 'admin-lte'],
     plugins: [
       // set shortcuts as global for bootstrap
       new webpack.ProvidePlugin({

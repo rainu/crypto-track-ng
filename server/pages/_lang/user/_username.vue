@@ -1,6 +1,5 @@
 <template>
-  <section class="container">
-  </section>
+  <nuxt-child/>
 </template>
 
 <script>

@@ -22,14 +22,14 @@ export default {
     isAuthenticated(authenticated){
       if(authenticated) {
         //go to user home after login was successfully
-        this.$router.$goto('userhome')
+        this.$router.$goto('dashboard')
       }
     }
   },
   created() {
     if(this.$store.getters['auth/isAuthenticated']) {
       //go to user home after login was successfully
-      this.$router.$goto('userhome')
+      this.$router.$goto('dashboard')
     }
   }
 }
