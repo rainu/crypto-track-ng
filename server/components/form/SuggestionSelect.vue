@@ -1,5 +1,5 @@
 <template>
-  <select class="form-control">
+  <select class="form-control" :multiple="options.multiple">
     <slot></slot>
   </select>
 </template>
@@ -34,13 +34,14 @@
       .trigger('change')
       // emit event on change.
       .on('change', function () {
-        vm.$emit('input', this.value)
+        vm.$emit('input', $(this).val())
       })
     },
     watch: {
       value: function (value) {
-        // update value
-        $(this.$el).val(value)
+        if ([...value].sort().join(",") !== [...$(this.$el).val()].sort().join(",")) {
+          $(this.$el).val(value).trigger('change');
+        }
       },
       options: function (options) {
         // update options

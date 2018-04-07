@@ -32,6 +32,13 @@
       "BCH": "BitcoinCash"
     }
   },
+  "wallet": {
+    "title": "Wallet-Information",
+    "address": "Address",
+    "type": "Type",
+    "name": "Displayname",
+    "comment": "Comment"
+  },
   "transaction": {
     "common": {
       "head": "Type and Date",

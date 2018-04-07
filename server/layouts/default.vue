@@ -32,6 +32,12 @@
               <span>Dashboard</span>
             </a>
           </nuxt-link>
+          <nuxt-link :to="{name: 'lang-user-username-wallet', params: { username: $route.params.username }}" tag="li" active-class="active">
+            <a>
+              <i class="fa fa-briefcase"></i>
+              <span>Wallets</span>
+            </a>
+          </nuxt-link>
           <nuxt-link :to="{name: 'lang-user-username-transaction', params: { username: $route.params.username }}" tag="li" active-class="active">
             <a>
               <i class="fa fa-exchange"></i>
