@@ -17,6 +17,7 @@ module.exports = {
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: pkg.description }
     ],
+    script: [],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ],
@@ -44,6 +45,8 @@ module.exports = {
     'font-awesome/css/font-awesome.min.css',
     'cryptocoins-icons/webfont/cryptocoins.css',
     'cryptocoins-icons/webfont/cryptocoins-colors.css',
+    'eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css',
+    'select2/dist/css/select2.min.css'
   ],
 
   /*
@@ -53,7 +56,11 @@ module.exports = {
     '~/plugins/bootstrap',
     '~/plugins/i18n',
     '~/plugins/route_helper',
-    '~/plugins/global_components'
+    '~/plugins/global_components',
+
+    //these plugins will only work on client side! (ssr == false)
+    { src: '~/plugins/datepicker', ssr: false },
+    { src: '~/plugins/select2', ssr: false }
   ],
 
   /*
@@ -62,8 +69,6 @@ module.exports = {
   modules: [
     // Doc: https://github.com/nuxt-community/axios-module#usage
     '@nuxtjs/axios',
-    // Doc: https://bootstrap-vue.js.org/docs/
-    // 'bootstrap-vue/nuxt'
   ],
 
   serverMiddleware: [
@@ -88,13 +93,13 @@ module.exports = {
   ** Build configuration
   */
   build: {
-    vendor: ['jquery', 'bootstrap', 'admin-lte'],
+    vendor: ['jquery', 'bootstrap', 'admin-lte', 'moment'],
     plugins: [
       // set shortcuts as global for bootstrap
       new webpack.ProvidePlugin({
-        $: 'jquery',
         jQuery: 'jquery',
-        'window.jQuery': 'jquery'
+        'window.jQuery': 'jquery',
+        $: 'jquery',
       })
     ],
     /*

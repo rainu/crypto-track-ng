@@ -3,7 +3,16 @@
     "error": "Error",
     "alert": "Warning",
     "success": "Success",
-    "info": "Information"
+    "info": "Information",
+    "new": "New",
+    "datetime": {
+      "format": "YYYY/MM/DD HH:mm:SS"
+    },
+    "amount": "Amount",
+    "currency": "Currency",
+    "fiat-currency": "Currency",
+    "crypto-currency": "Crypto-Currency",
+    "save": "Save"
   },
   "login": {
     "username": "Username",
@@ -11,5 +20,40 @@
     "login": "Login",
     "logout": "Logout",
     "failed": "The login failed! Please check your credentials."
+  },
+  "currencies": {
+    "fiat": {
+      "EUR": "Euro",
+      "USD": "US Dollar"
+    },
+    "crypto": {
+      "BTC": "Bitcoin",
+      "ETH": "Ethereum",
+      "BCH": "BitcoinCash"
+    }
+  },
+  "transaction": {
+    "common": {
+      "head": "Type and Date",
+      "type": "Type of transaction",
+      "date": "Date",
+      "details": {
+        "title": "Details (optional)",
+        "exchange": "Exchange",
+        "group": "Trading Group",
+        "comment": "Comment"
+      }
+    },
+    "exchange": {
+      "title": "Exchange",
+      "buy": "Buy",
+      "sell": "Sell",
+      "fee": "Trading Fee",
+      "countervalues": {
+        "title": "Exchange-Course",
+        "buy": "Buy value",
+        "sell": "Sell value"
+      }
+    }
   }
 }

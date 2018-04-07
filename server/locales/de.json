@@ -3,7 +3,16 @@
     "error": "Fehler",
     "alert": "Warnung",
     "success": "Erfolgreich",
-    "info": "Information"
+    "info": "Information",
+    "new": "Neu",
+    "datetime": {
+      "format": "DD.MM.YYYY HH:mm:SS"
+    },
+    "amount": "Anzahl",
+    "currency": "Währung",
+    "fiat-currency": "Währung",
+    "crypto-currency": "Krypto-Währung",
+    "save": "Speichern"
   },
   "login": {
     "username": "Benutzername",
@@ -11,5 +20,40 @@
     "login": "Anmelden",
     "logout": "Abmelden",
     "failed": "Die Anmeldung ist fehlgeschlagen! Bitte prüfen Sie Ihre Zugangsdaten."
+  },
+  "currencies": {
+    "fiat": {
+      "EUR": "Euro",
+      "USD": "US Dollar"
+    },
+    "crypto": {
+      "BTC": "Bitcoin",
+      "ETH": "Ethereum",
+      "BCH": "BitcoinCash"
+    }
+  },
+  "transaction": {
+    "common": {
+      "head": "Typ und Datum",
+      "type": "Typ der Transaktion",
+      "date": "Datum",
+      "details": {
+        "title": "Optionale Details",
+        "exchange": "Börse",
+        "group": "Trading Gruppe",
+        "comment": "Kommentar"
+      }
+    },
+    "exchange": {
+      "title": "Umtausch",
+      "buy": "Kauf",
+      "sell": "Verkauf",
+      "fee": "Trading Gebühren",
+      "countervalues": {
+        "title": "Umtausch-Kurse",
+        "buy": "Kaufwert",
+        "sell": "Verkaufwert"
+      }
+    }
   }
 }
