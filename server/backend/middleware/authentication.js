@@ -32,7 +32,7 @@ module.exports = (req, res, next) => {
     Log.debug("[AUTH-MIDDLEWARE] Request a secure resource. Request is authorized.")
 
     // Request is authorized.
-    req.user = token
+    req.token = token
     next()
   }).catch(function (err) {
     // Request is not authorized.
