@@ -31,17 +31,27 @@ const mutations = {
 
 const actions = {
   init(vuexContext, nuxtContext){
-    if (nuxtContext.req) {
-      //the server has got a request - so we have to look
-      //for cookies there
-      if (nuxtContext.req.cookies[COOKIE_JWT]) {
-        //server
-        vuexContext.commit('setToken', JSON.parse(nuxtContext.req.cookies[COOKIE_JWT]))
+    return new Promise((resolve, reject) => {
+      if (nuxtContext.req) {
+        //the server has got a request - so we have to look
+        //for cookies there
+        if (nuxtContext.req.cookies[COOKIE_JWT]) {
+          //server
+          let jwt = JSON.parse(nuxtContext.req.cookies[COOKIE_JWT])
+          this.$axios.setToken("Bearer " + jwt.token)
+
+          vuexContext.commit('setToken', jwt)
+        }
+      } else {
+        //client
+        let jwt = JSON.parse(Cookie.get(COOKIE_JWT))
+        this.$axios.setToken("Bearer " + jwt.token)
+
+        vuexContext.commit('setToken', jwt)
       }
-    } else {
-      //client
-      vuexContext.commit('setToken', JSON.parse(Cookie.get(COOKIE_JWT)))
-    }
+
+      resolve()
+    })
   },
   login(vuexContext, authData) {
     let data = new URLSearchParams();
@@ -51,6 +61,8 @@ const actions = {
 
     return this.$axios.post("/auth/token", data)
     .then(response => {
+      this.$axios.setToken("Bearer " + response.data.accessToken.token)
+
       vuexContext.commit("setToken", {
         username: authData.username,
         token: response.data.accessToken.token,
@@ -69,6 +81,8 @@ const actions = {
     });
   },
   logout(vuexContext) {
+    this.$axios.setToken(false)
+
     vuexContext.commit("clearToken");
   }
 }

@@ -48,6 +48,13 @@
           password: this.password,
         }).then(status => {
           this.status = status
+
+          //logged in
+          if(this.status) {
+            //do cool stuff here after the user was successfully logged in...
+
+            this.$store.dispatch('wallet/refreshWallets')
+          }
         })
       }
     }
