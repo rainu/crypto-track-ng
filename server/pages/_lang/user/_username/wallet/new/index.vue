@@ -1,5 +1,7 @@
 <template>
   <form role="form" @submit.prevent="submit">
+    <message-error v-if="saveError">{{$t('wallet.save-error')}}</message-error>
+
     <div class="form-body">
       <div class="row">
         <!-- address info -->
@@ -35,6 +37,7 @@
 </template>
 
 <script>
+  import { mapActions, mapState } from 'vuex'
   import { required, minLength } from 'vuelidate/lib/validators'
 
   export default {
@@ -43,12 +46,22 @@
         address: '',
         types: [],
         displayName: '',
-        comment: ''
+        comment: '',
+        saveError: false
       }
     },
     validations: {
       address: {
         required,
+        uniqueAddress(address) {
+          for(let curWallet of this.wallets) {
+            if(curWallet.address === address) {
+              //there is a wallet with the same address!
+              return false;
+            }
+          }
+          return true
+        }
       },
       types: {
         required,
@@ -56,12 +69,41 @@
       },
       displayName: {
         required,
+        uniqueName(name) {
+          for(let curWallet of this.wallets) {
+            if(curWallet.name === name) {
+              //there is a wallet with the same name!
+              return false;
+            }
+          }
+          return true
+        }
       },
       comment: {
       }
     },
+    computed: {
+      ...mapState({
+        wallets: state => state.wallet.wallets,
+      })
+    },
     methods: {
+      ...mapActions({
+        storeNewWallet: 'wallet/addWallet'
+      }),
       submit(){
+        let wallet = {
+          address: this.address,
+          name: this.displayName,
+          types: this.types,
+          description: this.comment
+        };
+        this.storeNewWallet(wallet).then(() => {
+          //storing was successful
+          this.$router.$goto('wallets')
+        }).catch(err => {
+          this.saveError = true
+        })
       }
     },
     mounted(){

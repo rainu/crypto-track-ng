@@ -38,14 +38,14 @@ const actions = {
         if (nuxtContext.req.cookies[COOKIE_JWT]) {
           //server
           let jwt = JSON.parse(nuxtContext.req.cookies[COOKIE_JWT])
-          this.$axios.setToken("Bearer " + jwt.token)
+          this.$axios.setToken(jwt.token, "Bearer")
 
           vuexContext.commit('setToken', jwt)
         }
       } else {
         //client
         let jwt = JSON.parse(Cookie.get(COOKIE_JWT))
-        this.$axios.setToken("Bearer " + jwt.token)
+        this.$axios.setToken(jwt.token, "Bearer")
 
         vuexContext.commit('setToken', jwt)
       }
@@ -61,7 +61,7 @@ const actions = {
 
     return this.$axios.post("/auth/token", data)
     .then(response => {
-      this.$axios.setToken("Bearer " + response.data.accessToken.token)
+      this.$axios.setToken(response.data.accessToken.token, "Bearer")
 
       vuexContext.commit("setToken", {
         username: authData.username,

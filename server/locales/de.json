@@ -5,14 +5,16 @@
     "success": "Erfolgreich",
     "info": "Information",
     "new": "Neu",
+    "edit": "Bearbeiten",
+    "delete": "Löschen",
+    "save": "Speichern",
     "datetime": {
       "format": "DD.MM.YYYY HH:mm:SS"
     },
     "amount": "Anzahl",
     "currency": "Währung",
     "fiat-currency": "Währung",
-    "crypto-currency": "Krypto-Währung",
-    "save": "Speichern"
+    "crypto-currency": "Krypto-Währung"
   },
   "login": {
     "username": "Benutzername",
@@ -37,7 +39,8 @@
     "address": "Adresse",
     "type": "Typ",
     "name": "Anzeigename",
-    "comment": "Beschreibung"
+    "comment": "Beschreibung",
+    "save-error": "Die Wallet konnte nicht gespeichert werden!"
   },
   "transaction": {
     "common": {

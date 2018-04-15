@@ -7,6 +7,9 @@ const routes = {
   },
   dashboard(store) {
     return `/${store.state.i18n.locale}/user/${store.state.auth.username}/dashboard`
+  },
+  wallets(store) {
+    return `/${store.state.i18n.locale}/user/${store.state.auth.username}/wallet`
   }
 }
 

@@ -53,6 +53,7 @@ module.exports = {
   ** Plugins to load before mounting the App
   */
   plugins: [
+    '~/plugins/axios',
     '~/plugins/bootstrap',
     '~/plugins/i18n',
     '~/plugins/route_helper',
