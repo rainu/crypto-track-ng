@@ -18,6 +18,13 @@ const mutations = {
     for(let key of Object.keys(savedWallet)){
       savedWallet[key] = wallet[key]
     }
+  },
+  deleteWallet(state, id) {
+    for(let i in state.wallets){
+      if(state.wallets[i].id === id) {
+        state.wallets.splice(i, 1)
+      }
+    }
   }
 }
 
@@ -81,7 +88,18 @@ const actions = {
         reject()
       })
     })
-  }
+  },
+  deleteWallet(ctx, walletId) {
+    return new Promise((resolve, reject) => {
+      this.$axios.delete("/api/wallet/" + walletId).then(response => {
+        ctx.commit('deleteWallet', walletId)
+        resolve()
+      }).catch(err => {
+        console.log("Error while deleting user wallet!", err)
+        reject()
+      })
+    })
+  },
 }
 
 const getters = {

@@ -8,6 +8,7 @@
     "edit": "Edit",
     "delete": "Delete",
     "save": "Save",
+    "ok": "OK",
     "abort": "Abort",
     "back": "Back",
     "datetime": {
@@ -43,7 +44,8 @@
     "name": "Displayname",
     "comment": "Comment",
     "save-error": "The wallet could not be saved!",
-    "edit-success": "The wallet was successful saved."
+    "edit-success": "The wallet was successful saved.",
+    "delete-question": "Are you sure to delete the Wallet with the name <b>{name}</b>?"
   },
   "transaction": {
     "common": {

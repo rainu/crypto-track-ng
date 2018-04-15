@@ -8,6 +8,7 @@
     "edit": "Bearbeiten",
     "delete": "Löschen",
     "save": "Speichern",
+    "ok": "OK",
     "abort": "Abbrechen",
     "back": "Zurück",
     "datetime": {
@@ -43,7 +44,8 @@
     "name": "Anzeigename",
     "comment": "Beschreibung",
     "save-error": "Die Wallet konnte nicht gespeichert werden!",
-    "edit-success": "Das Wallet wurde erfolgreich aktualisiert."
+    "edit-success": "Das Wallet wurde erfolgreich aktualisiert.",
+    "delete-question": "Wollen Sie wirklich das Wallet mit dem Namen <b>{name}</b> löschen?"
   },
   "transaction": {
     "common": {

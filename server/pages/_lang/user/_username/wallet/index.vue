@@ -35,7 +35,7 @@
             </div>
             <div class="row">
               <div class="col-xs-6">
-                <button type="button" class="btn btn-block btn-danger">
+                <button type="button" class="btn btn-block btn-danger" @click="requestDeleteWallet(w.id)">
                   <i class="fa fa-trash"></i> {{$t('common.delete')}}
                 </button>
               </div>
@@ -45,6 +45,10 @@
                 </nuxt-link>
               </div>
             </div>
+
+            <modal-warning v-if="deleteRequest === w.id" :payload="{ walletId: w.id }" @decided="handleDeleteDecision">
+              <span v-html="$t('wallet.delete-question', w)"></span>
+            </modal-warning>
           </div>
         </div>
       </div>
@@ -62,13 +66,33 @@
 </template>
 
 <script>
-  import {mapState} from 'vuex';
+  import { mapState, mapActions } from 'vuex';
 
   export default {
+    data(){
+      return {
+        deleteRequest: null,
+      }
+    },
     computed: {
       ...mapState({
         wallets: state => state.wallet.wallets,
       }),
     },
+    methods: {
+      ...mapActions({
+        deleteWallet: 'wallet/deleteWallet'
+      }),
+      requestDeleteWallet(id){
+        this.deleteRequest = id
+      },
+      handleDeleteDecision(decision) {
+        this.deleteRequest = null
+
+        if(decision.option === 'ok') {
+          this.deleteWallet(decision.payload.walletId)
+        }
+      }
+    }
   }
 </script>

@@ -101,7 +101,7 @@ router.route('/api/wallet/:id')
       _id: req.params.id,
       owner: req.token.user._id,  //make sure that no user can delete foreign wallets!
     }).then(() => {
-      resp.status(HttpStatus.OK);
+      resp.status(HttpStatus.NO_CONTENT);
       resp.end();
     }).catch(err => {
       log.error("An error occurred while delete a user wallet!", err)
