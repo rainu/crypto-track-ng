@@ -40,9 +40,9 @@
                 </button>
               </div>
               <div class="col-xs-6">
-                <button type="button" class="btn btn-block btn-primary">
+                <nuxt-link :to="{name: 'lang-user-username-wallet-edit-id', params: { id: w.id }}" tag="a" role="button" class="btn btn-block btn-primary">
                   <i class="fa fa-pencil"></i> {{$t('common.edit')}}
-                </button>
+                </nuxt-link>
               </div>
             </div>
           </div>

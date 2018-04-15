@@ -1,6 +1,7 @@
 <template>
   <form role="form" @submit.prevent="submit">
     <message-error v-if="saveError">{{$t('wallet.save-error')}}</message-error>
+    <message-success v-if="saveSuccess">{{$t('wallet.edit-success')}}</message-success>
 
     <div class="form-body">
       <div class="row">
@@ -31,7 +32,7 @@
     <div class="form-footer row">
       <div class="col-xs-6 col-lg-offset-8 col-lg-2">
         <nuxt-link :to="{name: 'lang-user-username-wallet'}" tag="a" role="button" class="btn btn-block btn-danger">
-          {{$t('common.abort')}}
+          {{$t('common.back')}}
         </nuxt-link>
       </div>
       <div class="col-xs-6 col-lg-2">
@@ -49,12 +50,16 @@
 
   export default {
     data(){
+      const wallet = this.$store.getters['wallet/byId'](this.$route.params.id)
+
       return {
-        address: '',
-        types: [],
-        displayName: '',
-        comment: '',
-        saveError: false
+        wallet: wallet,
+        address: wallet.address,
+        types: wallet.types,
+        displayName: wallet.name,
+        comment: wallet.description,
+        saveError: false,
+        saveSuccess: false
       }
     },
     validations: {
@@ -62,6 +67,11 @@
         required,
         uniqueAddress(address) {
           for(let curWallet of this.wallets) {
+            if(curWallet.id === this.wallet.id) {
+              //skip the own wallet
+              continue;
+            }
+
             if(curWallet.address === address) {
               //there is a wallet with the same address!
               return false;
@@ -78,6 +88,11 @@
         required,
         uniqueName(name) {
           for(let curWallet of this.wallets) {
+            if(curWallet.id === this.wallet.id) {
+              //skip the own wallet
+              continue;
+            }
+
             if(curWallet.name === name) {
               //there is a wallet with the same name!
               return false;
@@ -96,18 +111,19 @@
     },
     methods: {
       ...mapActions({
-        storeNewWallet: 'wallet/addWallet'
+        storeWallet: 'wallet/saveWallet'
       }),
       submit(){
         let wallet = {
+          id: this.wallet.id,
           address: this.address,
           name: this.displayName,
           types: this.types,
           description: this.comment
         };
-        this.storeNewWallet(wallet).then(() => {
+        this.storeWallet(wallet).then(() => {
           //storing was successful
-          this.$router.$goto('wallets')
+          this.saveSuccess = true
         }).catch(err => {
           this.saveError = true
         })

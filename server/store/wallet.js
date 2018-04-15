@@ -12,6 +12,13 @@ const mutations = {
   setWallets(state, wallets) {
     state.wallets.push(...wallets)
   },
+  setWallet(state, wallet) {
+    let savedWallet = state.wallets.find(w => w.id === wallet.id);
+
+    for(let key of Object.keys(savedWallet)){
+      savedWallet[key] = wallet[key]
+    }
+  }
 }
 
 const actions = {
@@ -33,7 +40,10 @@ const actions = {
       this.$axios.get("/api/wallets").then(response => {
         ctx.commit('clearWallets')
         for(let walletContainer of response.data){
-          ctx.commit('addWallet', walletContainer.wallet)
+          ctx.commit('addWallet', {
+            id: walletContainer.id,
+            ...walletContainer.wallet
+          })
         }
         resolve()
       }).catch(err => {
@@ -46,10 +56,28 @@ const actions = {
     return new Promise((resolve, reject) => {
       this.$axios.post("/api/wallet", wallet).then(response => {
         let walletContainer = response.data
-        ctx.commit('addWallet', walletContainer.wallet)
+        ctx.commit('addWallet', {
+          id: walletContainer.id,
+          ...walletContainer.wallet
+        })
         resolve()
       }).catch(err => {
         console.log("Error while adding new user wallet!", err)
+        reject()
+      })
+    })
+  },
+  saveWallet(ctx, wallet) {
+    return new Promise((resolve, reject) => {
+      this.$axios.put("/api/wallet/" + wallet.id, wallet).then(response => {
+        let walletContainer = response.data
+        ctx.commit('setWallet', {
+          id: walletContainer.id,
+          ...walletContainer.wallet
+        })
+        resolve()
+      }).catch(err => {
+        console.log("Error while editing user wallet!", err)
         reject()
       })
     })
@@ -57,6 +85,9 @@ const actions = {
 }
 
 const getters = {
+  byId: (state) => (id) => {
+    return state.wallets.find(w => w.id === id)
+  }
 }
 
 export default {
