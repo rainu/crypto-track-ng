@@ -40,9 +40,9 @@
     "nuxt": "^1.0.0",
     "oauth2-server": "^3.0.0",
     "request": "^2.83.0",
-    "select2": "^4.0.6-rc.1",
     "vue-bootstrap-datetimepicker": "^4.1.3",
     "vue-i18n": "^7.6.0",
+    "vue-select": "^2.4.0",
     "vuelidate": "^0.6.2",
     "webpack-node-externals": "^1.6.0",
     "winston": "^3.0.0-rc2"

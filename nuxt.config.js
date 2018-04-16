@@ -46,7 +46,6 @@ module.exports = {
     'cryptocoins-icons/webfont/cryptocoins.css',
     'cryptocoins-icons/webfont/cryptocoins-colors.css',
     'eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css',
-    'select2/dist/css/select2.min.css'
   ],
 
   /*
@@ -61,7 +60,7 @@ module.exports = {
 
     //these plugins will only work on client side! (ssr == false)
     { src: '~/plugins/datepicker', ssr: false },
-    { src: '~/plugins/select2', ssr: false }
+    { src: '~/plugins/vue-select', ssr: false }
   ],
 
   /*

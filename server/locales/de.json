@@ -19,6 +19,10 @@
     "fiat-currency": "Währung",
     "crypto-currency": "Krypto-Währung"
   },
+  "select": {
+    "no-result": "Keine Ergebnisse gefunden",
+    "loading": "Lade..."
+  },
   "login": {
     "username": "Benutzername",
     "password": "Passwort",
@@ -28,13 +32,28 @@
   },
   "currencies": {
     "fiat": {
-      "EUR": "Euro",
-      "USD": "US Dollar"
+      "EUR": {
+        "label": "Euro",
+        "icon": "fa fa-euro"
+      },
+      "USD": {
+        "label": "US Dollar",
+        "icon": "fa fa-usd"
+      }
     },
     "crypto": {
-      "BTC": "Bitcoin",
-      "ETH": "Ethereum",
-      "BCH": "BitcoinCash"
+      "BTC": {
+        "label": "Bitcoin",
+        "icon": "cc BTC-alt"
+      },
+      "ETH": {
+        "label": "Ethereum",
+        "icon": "cc ETH"
+      },
+      "BCH": {
+        "label": "BitcoinCash",
+        "icon": "cc BCH"
+      }
     }
   },
   "wallet": {

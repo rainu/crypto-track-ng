@@ -1,12 +1,16 @@
 <template>
-  <form-suggestion-select v-model="selectedValues" :css="css" :options="options">
-    <optgroup v-if="fiat" :label="$t('common.fiat-currency')">
-      <option v-for="currency, name in fiatCurrencies()" :value="name">{{name}} -> {{currency}}</option>
-    </optgroup>
-    <optgroup v-if="crypto" :label="$t('common.crypto-currency')">
-      <option v-for="currency, name in cryptoCurrencies()" :value="name">{{name}} -> {{currency}}</option>
-    </optgroup>
-  </form-suggestion-select>
+  <v-select v-model="selectedValues" :options="options()" multiple>
+    <template slot="option" slot-scope="option">
+      <span :class="option.icon"></span>
+      {{ option.label }}
+    </template>
+    <template slot="spinner">
+      <i class="icon icon-spinner"></i>
+    </template>
+    <template slot="no-options">
+      <span>{{$t('select.no-result')}}</span>
+    </template>
+  </v-select>
 </template>
 
 <script>
@@ -15,12 +19,11 @@
   export default {
     props: {
       value: {
-        default: null,
+        default(){
+          return [];
+        },
         required: true,
         type: Array
-      },
-      css: {
-        required: false,
       },
       fiat: {
         default: true,
@@ -33,24 +36,49 @@
     },
     name: "select-currency",
     data() {
+      let options = this.options().filter(option => {
+        for(let so of this.value) {
+          if(option.value === so){
+            return true;
+          }
+        }
+        return false;
+      });
+
       return {
-        options: {
-          multiple: true,
-        },
-        selectedValues: this.value,
+        selectedValues: options,
       }
     },
     methods: {
-      fiatCurrencies() {
-        return locales.localeMappings[this.$store.state.i18n.locale].currencies.fiat;
-      },
-      cryptoCurrencies() {
-        return locales.localeMappings[this.$store.state.i18n.locale].currencies.crypto;
+      options(){
+        let options = []
+        const fiat = locales.localeMappings[this.$store.state.i18n.locale].currencies.fiat;
+        const crypto = locales.localeMappings[this.$store.state.i18n.locale].currencies.crypto;
+
+        if(this.fiat) {
+          for (let symbol of Object.keys(fiat)) {
+            options.push({
+              label: `${fiat[symbol].label} -> ${symbol}`,
+              value: symbol,
+              icon: fiat[symbol].icon
+            })
+          }
+        }
+        if(this.crypto) {
+          for (let symbol of Object.keys(crypto)) {
+            options.push({
+              label: `${crypto[symbol].label} -> ${symbol}`,
+              value: symbol,
+              icon: crypto[symbol].icon
+            })
+          }
+        }
+        return options;
       }
     },
     watch: {
       selectedValues(){
-        this.$emit('input', this.selectedValues)
+        this.$emit('input', this.selectedValues.map(v => v.value))
       }
     }
   }
