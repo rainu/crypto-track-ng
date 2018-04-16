@@ -78,7 +78,8 @@ module.exports = {
     bodyParser.urlencoded({ extended: true }),
     '~/backend/middleware/authentication',
     '~/backend/routes/authentication',
-    '~/backend/routes/wallet'
+    '~/backend/routes/wallet',
+    '~/backend/routes/transaction'
   ],
 
   /*

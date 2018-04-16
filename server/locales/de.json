@@ -77,7 +77,8 @@
         "exchange": "Börse",
         "group": "Trading Gruppe",
         "comment": "Kommentar"
-      }
+      },
+      "save-error": "Die Transaktion konnte nicht gespeichert werden!"
     },
     "exchange": {
       "title": "Umtausch",

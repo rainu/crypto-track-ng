@@ -19,36 +19,38 @@ function transform(dbWallet){
   return t;
 }
 
-//get the wallets of the current user
-router.route('/api/wallets').get((req, resp) => {
-  Wallet.find({owner: req.token.user._id}).then(wallets => {
-    resp.send(wallets.map(w => transform(w)));
-  }).catch(err => {
-    log.error("An error occurred while request user wallets!", err)
+router.route('/api/wallet')
 
-    resp.status(HttpStatus.NOT_FOUND);
-    resp.end();
+  //get the wallets of the current user
+  .get((req, resp) => {
+    Wallet.find({owner: req.token.user._id}).then(wallets => {
+      resp.send(wallets.map(w => transform(w)));
+    }).catch(err => {
+      log.error("An error occurred while request user wallets!", err)
+
+      resp.status(HttpStatus.NOT_FOUND);
+      resp.end();
+    })
   })
-});
 
-//create a new wallet for the user
-router.route('/api/wallet').post((req, resp) => {
-  let wallet = new Wallet({
-    owner: req.token.user._id,
-    ...req.body
-  });
+  //create a new wallet for the user
+  .post((req, resp) => {
+    let wallet = new Wallet({
+      owner: req.token.user._id,
+      ...req.body
+    });
 
-  wallet.save().then(() => {
-    resp.location('/api/wallet/' + wallet._id);
-    resp.status(HttpStatus.CREATED);
-    resp.send(transform(wallet))
-  }).catch(err => {
-    log.error("An error occurred while create a new user wallet!", err)
+    wallet.save().then(() => {
+      resp.location('/api/wallet/' + wallet._id);
+      resp.status(HttpStatus.CREATED);
+      resp.send(transform(wallet))
+    }).catch(err => {
+      log.error("An error occurred while create a new user wallet!", err)
 
-    resp.status(HttpStatus.CONFLICT);
-    resp.end();
+      resp.status(HttpStatus.CONFLICT);
+      resp.end();
+    })
   })
-})
 
 router.route('/api/wallet/:id')
   //gets a given wallet

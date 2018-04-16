@@ -1,5 +1,7 @@
 <template>
   <form role="form" @submit.prevent="submit">
+    <message-error v-if="saveError">{{$t('transaction.save-error')}}</message-error>
+
     <div class="form-body">
       <div class="row">
         <div class="col-xs-12">
@@ -40,6 +42,7 @@
 </template>
 
 <script>
+  import { mapActions } from 'vuex'
   import { required, minValue } from 'vuelidate/lib/validators'
   import Gift from '@/components/form/transaction/Gift'
   import Income from '@/components/form/transaction/Income'
@@ -56,6 +59,7 @@
         date: null,
         type: 'exchange',
         container: null,
+        saveError: false
       }
     },
     validations: {
@@ -69,6 +73,9 @@
       }
     },
     methods: {
+      ...mapActions({
+        storeNewTransaction: 'transaction/addTransaction'
+      }),
       submit(){
         //we have to inline the container fields
         let date = this.date;
@@ -76,11 +83,19 @@
         let container = this.container;
 
         let payload = {
-          date, type,
-          ...container
+          date,
+          type,
+          involvedWallets: container.involvedWallets,
+          data: container.data
         }
+        delete payload.data.involvedWallets
 
-        console.log(payload)
+        this.storeNewTransaction(payload).then(() => {
+          //storing was successful
+          this.$router.$goto('transactions')
+        }).catch(err => {
+          this.saveError = true
+        })
       }
     },
     mounted(){

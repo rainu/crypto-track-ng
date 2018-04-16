@@ -10,6 +10,9 @@ const routes = {
   },
   wallets(store) {
     return `/${store.state.i18n.locale}/user/${store.state.auth.username}/wallet`
+  },
+  transactions(store) {
+    return `/${store.state.i18n.locale}/user/${store.state.auth.username}/transaction`
   }
 }
 

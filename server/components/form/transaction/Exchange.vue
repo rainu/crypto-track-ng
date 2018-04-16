@@ -48,9 +48,13 @@
             <label >{{$t('common.amount')}}</label>
             <input type="text" class="form-control" v-model="data.fee.amount" />
           </div>
+          <div class="form-group" :class="{'has-error': $v.data.fee.wallet.$error}">
+            <label >{{$t('common.wallet')}}</label>
+            <input-wallet v-model="data.fee.wallet" :whitelist="[data.fee.currency]"/>
+          </div>
           <div class="form-group" :class="{'has-error': $v.data.fee.currency.$error}">
             <label >{{$t('common.currency')}}</label>
-            <input-currency v-model="data.fee.currency" />
+            <input-currency v-model="data.fee.currency" :whitelist="feeCurrenciesWhitelist" />
           </div>
         </fieldset>
       </div>
@@ -152,7 +156,8 @@
           },
           fee: {
             amount: null,
-            currency: ''
+            currency: '',
+            wallet: ''
           },
           details: {
             exchange: '',
@@ -213,6 +218,9 @@
             numeric,
             required: requiredIf('currency')
           },
+          wallet: {
+            required: requiredIf('amount')
+          },
           currency: {
             required: requiredIf('amount')
           }
@@ -243,6 +251,13 @@
           return []
         }
         const wallet = this.getWalletById(this.data.sell.wallet)
+        return wallet.types
+      },
+      feeCurrenciesWhitelist(){
+        if(this.data.fee.wallet === ''){
+          return []
+        }
+        const wallet = this.getWalletById(this.data.fee.wallet)
         return wallet.types
       }
     },
@@ -281,13 +296,26 @@
       'data.sell.currency'(){
         this.checkWallet(this.data.sell)
       },
+      'data.fee.wallet'(){
+        this.checkCurrency(this.data.fee)
+      },
+      'data.fee.currency'(){
+        this.checkWallet(this.data.fee)
+      },
       data: {
         handler() {
           this.$v.$touch();
 
           //emit only valid data
           if(!this.$v.data.$error) {
-            this.$emit('input', this.data)
+            this.$emit('input', {
+              involvedWallets: [ ...new Set([
+                this.data.buy.wallet,
+                this.data.sell.wallet,
+                this.data.fee.wallet,
+              ].filter(i => i))],
+              data: this.data,
+            })
           }
         },
         deep: true,

@@ -44,7 +44,7 @@ const actions = {
   },
   refreshWallets(ctx){
     return new Promise((resolve, reject) => {
-      this.$axios.get("/api/wallets").then(response => {
+      this.$axios.get("/api/wallet").then(response => {
         ctx.commit('clearWallets')
         for(let walletContainer of response.data){
           ctx.commit('addWallet', {

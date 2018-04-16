@@ -77,7 +77,8 @@
         "exchange": "Exchange",
         "group": "Trading Group",
         "comment": "Comment"
-      }
+      },
+      "save-error": "The transaction could not be saved!"
     },
     "exchange": {
       "title": "Exchange",
