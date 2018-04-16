@@ -1,0 +1,95 @@
+<template>
+  <v-select v-model="selectedWallet" :options="options()">
+    <template slot="option" slot-scope="option">
+      <span :class="option.icon"></span>
+      {{ option.label }}
+    </template>
+    <template slot="spinner">
+      <i class="icon icon-spinner"></i>
+    </template>
+    <template slot="no-options">
+      <span>{{$t('select.no-result')}}</span>
+    </template>
+  </v-select>
+</template>
+
+<script>
+  export default {
+    props: {
+      value: {
+        default: '',
+        required: true,
+        type: String
+      },
+      whitelist: {
+        default(){
+          return []
+        },
+        required: false,
+        type: Array,
+      }
+    },
+    name: "input-wallet",
+    data() {
+      let option = ''
+      for(let curOpt of this.options()) {
+        if(curOpt.value === this.value){
+          option = curOpt.value;
+          break;
+        }
+      }
+      return {
+        selectedWallet: option,
+      }
+    },
+    methods: {
+      options(){
+        let cleanedWhitelist = []
+        if(this.whitelist){
+          //filter out null values or empty strings
+          cleanedWhitelist = this.whitelist.filter(i => i)
+        }
+
+        return this.$store.state.wallet.wallets.filter(wallet => {
+          //we have to filter out potential whitelisted wallets
+          //the whitelist contains currencies which the wallet must support
+          if(cleanedWhitelist.length > 0){
+            for(let wli of cleanedWhitelist){
+              for(let currency of wallet.types) {
+                if(wli === currency) {
+                  return true;
+                }
+              }
+            }
+
+            //the wallet doesn't support the currency
+            return false;
+          }else{
+            //no whitelist -> all wallets are supported
+            return true;
+          }
+        }).map(wallet => {
+          return {
+            label: `${wallet.name} (${wallet.address})`,
+            value: wallet.id,
+          }
+        })
+      }
+    },
+    watch: {
+      value(){
+        if(this.value === '') {
+          this.selectedWallet = ''
+        }
+      },
+      selectedWallet(){
+        let value = this.selectedWallet ? this.selectedWallet.value : ''
+        this.$emit('input', value)
+      }
+    }
+  }
+</script>
+
+<style scoped>
+
+</style>

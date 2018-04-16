@@ -1,5 +1,5 @@
 <template>
-  <v-select v-model="selectedValues" :options="options()" multiple>
+  <v-select v-model="selected" :options="options()" multiple>
     <template slot="option" slot-scope="option">
       <span :class="option.icon"></span>
       {{ option.label }}
@@ -32,6 +32,13 @@
       crypto: {
         default: true,
         required: false,
+      },
+      whitelist: {
+        default(){
+          return []
+        },
+        required: false,
+        type: Array,
       }
     },
     name: "select-currency",
@@ -46,39 +53,50 @@
       });
 
       return {
-        selectedValues: options,
+        selected: options,
       }
     },
     methods: {
-      options(){
+      options() {
+        let cleanedWhitelist = []
+        if (this.whitelist) {
+          //filter out null values or empty strings
+          cleanedWhitelist = this.whitelist.filter(i => i)
+        }
+
         let options = []
         const fiat = locales.localeMappings[this.$store.state.i18n.locale].currencies.fiat;
         const crypto = locales.localeMappings[this.$store.state.i18n.locale].currencies.crypto;
 
-        if(this.fiat) {
+        if (this.fiat) {
           for (let symbol of Object.keys(fiat)) {
-            options.push({
-              label: `${fiat[symbol].label} -> ${symbol}`,
-              value: symbol,
-              icon: fiat[symbol].icon
-            })
+            if (cleanedWhitelist.length === 0 || cleanedWhitelist.includes(symbol)) {
+              options.push({
+                label: `${fiat[symbol].label} -> ${symbol}`,
+                value: symbol,
+                icon: fiat[symbol].icon
+              })
+            }
           }
         }
-        if(this.crypto) {
+        if (this.crypto) {
           for (let symbol of Object.keys(crypto)) {
-            options.push({
-              label: `${crypto[symbol].label} -> ${symbol}`,
-              value: symbol,
-              icon: crypto[symbol].icon
-            })
+            if (cleanedWhitelist.length === 0 || cleanedWhitelist.includes(symbol)) {
+              options.push({
+                label: `${crypto[symbol].label} -> ${symbol}`,
+                value: symbol,
+                icon: crypto[symbol].icon
+              })
+            }
           }
         }
         return options;
       }
     },
     watch: {
-      selectedValues(){
-        this.$emit('input', this.selectedValues.map(v => v.value))
+      selected(){
+        let value = this.selected ? this.selected.map(v => v.value) : []
+        this.$emit('input', value)
       }
     }
   }

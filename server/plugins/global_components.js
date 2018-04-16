@@ -10,6 +10,7 @@ import ModalWarning from '../components/modal/Warning'
 import Logout from '../components/Logout'
 import CurrencyInput from '../components/form/CurrencyInput'
 import CurrencySelect from '../components/form/CurrencySelect'
+import WalletChooser from '../components/form/WalletChooser'
 
 Vue.use(Vuelidate)
 Vue.component('message-success', Success)
@@ -21,3 +22,4 @@ Vue.component('modal-warning', ModalWarning)
 Vue.component('auth-logout', Logout)
 Vue.component('input-currency', CurrencyInput)
 Vue.component('select-currency', CurrencySelect)
+Vue.component('input-wallet', WalletChooser)

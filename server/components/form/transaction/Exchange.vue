@@ -10,9 +10,13 @@
             <label >{{$t('common.amount')}}</label>
             <input type="text" class="form-control" v-model="data.buy.amount" />
           </div>
+          <div class="form-group" :class="{'has-error': $v.data.buy.wallet.$error}">
+            <label >{{$t('common.wallet')}}</label>
+            <input-wallet v-model="data.buy.wallet" :whitelist="[data.buy.currency]"/>
+          </div>
           <div class="form-group" :class="{'has-error': $v.data.buy.currency.$error}">
             <label >{{$t('common.currency')}}</label>
-            <input-currency v-model="data.buy.currency" />
+            <input-currency v-model="data.buy.currency" :whitelist="buyCurrenciesWhitelist" />
           </div>
         </fieldset>
       </div>
@@ -25,9 +29,13 @@
             <label >{{$t('common.amount')}}</label>
             <input type="text" class="form-control" v-model="data.sell.amount" />
           </div>
+          <div class="form-group" :class="{'has-error': $v.data.sell.wallet.$error}">
+            <label >{{$t('common.wallet')}}</label>
+            <input-wallet v-model="data.sell.wallet" :whitelist="[data.sell.currency]"/>
+          </div>
           <div class="form-group" :class="{'has-error': $v.data.sell.currency.$error}">
             <label >{{$t('common.currency')}}</label>
-            <input-currency v-model="data.sell.currency" />
+            <input-currency v-model="data.sell.currency" :whitelist="sellCurrenciesWhitelist" />
           </div>
         </fieldset>
       </div>
@@ -107,6 +115,7 @@
 </template>
 
 <script>
+  import {mapGetters} from 'vuex';
   import { required, minValue, numeric, requiredIf } from 'vuelidate/lib/validators'
 
   export default {
@@ -126,6 +135,7 @@
           buy: {
             amount: null,
             currency: '',
+            wallet: '',
             countervalue: {
               amount: null,
               currency: this.fiat
@@ -134,6 +144,7 @@
           sell: {
             amount: null,
             currency: '',
+            wallet: '',
             countervalue: {
               amount: null,
               currency: this.fiat
@@ -159,6 +170,9 @@
             numeric,
             minValue: minValue(0),
           },
+          wallet: {
+            required,
+          },
           currency: {
             required,
           },
@@ -177,6 +191,9 @@
             required,
             numeric,
             minValue: minValue(0),
+          },
+          wallet: {
+            required,
           },
           currency: {
             required,
@@ -210,7 +227,60 @@
         }
       }
     },
+    computed: {
+      ...mapGetters({
+        getWalletById: 'wallet/byId'
+      }),
+      buyCurrenciesWhitelist(){
+        if(this.data.buy.wallet === ''){
+          return []
+        }
+        const wallet = this.getWalletById(this.data.buy.wallet)
+        return wallet.types
+      },
+      sellCurrenciesWhitelist(){
+        if(this.data.sell.wallet === ''){
+          return []
+        }
+        const wallet = this.getWalletById(this.data.sell.wallet)
+        return wallet.types
+      }
+    },
+    methods: {
+      checkWallet(container){
+        if(container.currency && container.wallet) {
+          const wallet = this.getWalletById(container.wallet)
+
+          if(wallet.types.filter(t => t === container.currency).length === 0){
+            //the wallet doesn't support the currency
+            container.wallet = ''
+          }
+        }
+      },
+      checkCurrency(container){
+        if(container.currency && container.wallet) {
+          const wallet = this.getWalletById(container.wallet)
+
+          if(wallet.types.filter(t => t === container.currency).length === 0){
+            //the wallet doesn't support the currency
+            container.currency = ''
+          }
+        }
+      },
+    },
     watch: {
+      'data.buy.wallet'(){
+        this.checkCurrency(this.data.buy)
+      },
+      'data.buy.currency'(){
+        this.checkWallet(this.data.buy)
+      },
+      'data.sell.wallet'(){
+        this.checkCurrency(this.data.sell)
+      },
+      'data.sell.currency'(){
+        this.checkWallet(this.data.sell)
+      },
       data: {
         handler() {
           this.$v.$touch();

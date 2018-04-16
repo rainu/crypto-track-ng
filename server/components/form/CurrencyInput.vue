@@ -30,6 +30,13 @@
       crypto: {
         default: true,
         required: false,
+      },
+      whitelist: {
+        default(){
+          return []
+        },
+        required: false,
+        type: Array,
       }
     },
     name: "input-currency",
@@ -48,34 +55,50 @@
     },
     methods: {
       options(){
+        let cleanedWhitelist = []
+        if(this.whitelist){
+          //filter out null values or empty strings
+          cleanedWhitelist = this.whitelist.filter(i => i)
+        }
+
         let options = []
         const fiat = locales.localeMappings[this.$store.state.i18n.locale].currencies.fiat;
         const crypto = locales.localeMappings[this.$store.state.i18n.locale].currencies.crypto;
 
         if(this.fiat) {
           for (let symbol of Object.keys(fiat)) {
-            options.push({
-              label: `${fiat[symbol].label} -> ${symbol}`,
-              value: symbol,
-              icon: fiat[symbol].icon
-            })
+            if(cleanedWhitelist.length === 0 || cleanedWhitelist.includes(symbol)) {
+              options.push({
+                label: `${fiat[symbol].label} -> ${symbol}`,
+                value: symbol,
+                icon: fiat[symbol].icon
+              })
+            }
           }
         }
         if(this.crypto) {
           for (let symbol of Object.keys(crypto)) {
-            options.push({
-              label: `${crypto[symbol].label} -> ${symbol}`,
-              value: symbol,
-              icon: crypto[symbol].icon
-            })
+            if(cleanedWhitelist.length === 0 || cleanedWhitelist.includes(symbol)) {
+              options.push({
+                label: `${crypto[symbol].label} -> ${symbol}`,
+                value: symbol,
+                icon: crypto[symbol].icon
+              })
+            }
           }
         }
         return options;
       }
     },
     watch: {
+      value(){
+        if(this.value === '') {
+          this.selectedValue = ''
+        }
+      },
       selectedValue(){
-        this.$emit('input', this.selectedValue.value)
+        let value = this.selectedValue ? this.selectedValue.value : ''
+        this.$emit('input', value)
       }
     }
   }
