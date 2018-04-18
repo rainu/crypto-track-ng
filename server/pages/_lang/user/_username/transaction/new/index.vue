@@ -10,18 +10,19 @@
             <div class="form-group">
               <label >{{$t('transaction.common.type')}}</label>
               <select v-model="type" class="form-control">
-                <option value="exchange"  >{{$t('transaction.exchange.title')}}</option>
+                <option value="exchange" >[&lt;-&gt;] {{$t('transaction.exchange.title')}}</option>
                 <optgroup :label="$t('transaction.type.in')">
-                  <option value="income" >{{$t('transaction.income.title')}}</option>
-                  <option value="gift" >{{$t('transaction.gift.title')}}</option>
+                  <option value="income" >[-&gt;] {{$t('transaction.income.title')}}</option>
+                  <option value="giftIn" >[-&gt;] {{$t('transaction.gift.title')}}</option>
                 </optgroup>
                 <optgroup :label="$t('transaction.type.out')">
-                  <option value="spent" >{{$t('transaction.spent.title')}}</option>
-                  <option value="donation" >{{$t('transaction.donation.title')}}</option>
-                  <option value="lost" >{{$t('transaction.lost.title')}}</option>
-                  <option value="stolen" >{{$t('transaction.stolen.title')}}</option>
+                  <option value="spent" >[&lt;-] {{$t('transaction.spent.title')}}</option>
+                  <option value="giftOut" >[&lt;-] {{$t('transaction.gift.title')}}</option>
+                  <option value="donation" >[&lt;-] {{$t('transaction.donation.title')}}</option>
+                  <option value="lost" >[&lt;-] {{$t('transaction.lost.title')}}</option>
+                  <option value="stolen" >[&lt;-] {{$t('transaction.stolen.title')}}</option>
                 </optgroup>
-                <option value="transfer" >Transfer</option>
+                <option value="transfer" >[&lt;-&gt;] Transfer</option>
               </select>
             </div>
 
@@ -34,7 +35,8 @@
       </div>
       <div class="row">
         <Donation v-if="type === 'donation'" v-model="container.donation"></Donation>
-        <Gift v-if="type === 'gift'" v-model="container.gift"></Gift>
+        <GiftIn v-if="type === 'giftIn'" v-model="container.giftIn"></GiftIn>
+        <GiftOut v-if="type === 'giftOut'" v-model="container.giftOut"></GiftOut>
         <Income v-if="type === 'income'" v-model="container.income"></Income>
         <Spent v-if="type === 'spent'" v-model="container.spent"></Spent>
         <Exchange v-if="type === 'exchange'" v-model="container.exchange"></Exchange>
@@ -55,7 +57,8 @@
   import { mapActions } from 'vuex'
   import { required, minValue } from 'vuelidate/lib/validators'
   import Donation from '@/components/form/transaction/Donation'
-  import Gift from '@/components/form/transaction/Gift'
+  import GiftIn from '@/components/form/transaction/GiftIn'
+  import GiftOut from '@/components/form/transaction/GiftOut'
   import Income from '@/components/form/transaction/Income'
   import Spent from '@/components/form/transaction/Spent'
   import Lost from '@/components/form/transaction/Lost'
@@ -65,7 +68,7 @@
 
   export default {
     components: {
-      Donation, Gift, Income, Spent, Exchange, Transfer, Lost, Stolen
+      Donation, GiftIn, GiftOut, Income, Spent, Exchange, Transfer, Lost, Stolen
     },
     data(){
       return {
@@ -73,7 +76,8 @@
         type: 'exchange',
         container: {
           donation: null,
-          gift: null,
+          giftIn: null,
+          giftOut: null,
           income: null,
           spent: null,
           lost: null,

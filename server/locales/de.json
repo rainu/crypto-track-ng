@@ -125,10 +125,12 @@
     "gift": {
       "title": "Geschenk",
       "in": "Geschenk",
+      "out": "Geschenk",
       "fee": "Transaktions Gebühren",
       "countervalues": {
         "title": "Umtausch-Kurse",
-        "in": "Wert des Geschenkes"
+        "in": "Wert des Geschenkes",
+        "out": "Wert des Geschenkes"
       }
     },
     "lost": {
