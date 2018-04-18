@@ -68,6 +68,10 @@
     "delete-question": "Are you sure to delete the Wallet with the name <b>{name}</b>?"
   },
   "transaction": {
+    "type":{
+      "in": "Income",
+      "out": "Outcome"
+    },
     "common": {
       "head": "Type and Date",
       "type": "Type of transaction",
@@ -92,11 +96,30 @@
       }
     },
     "income": {
+      "title": "Income",
       "in": "Income",
       "fee": "Transaction Fee",
       "countervalues": {
         "title": "Exchange-Course",
         "in": "Value of income"
+      }
+    },
+    "donation": {
+      "title": "Donation",
+      "out": "Donation",
+      "fee": "Transaction Fee",
+      "countervalues": {
+        "title": "Exchange-Course",
+        "out": "Value of donation"
+      }
+    },
+    "gift": {
+      "title": "Gift",
+      "in": "Gift",
+      "fee": "Transaction Fee",
+      "countervalues": {
+        "title": "Exchange-Course",
+        "in": "Value of gift"
       }
     }
   }

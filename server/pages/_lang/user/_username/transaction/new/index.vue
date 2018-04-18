@@ -11,9 +11,14 @@
               <label >{{$t('transaction.common.type')}}</label>
               <select v-model="type" class="form-control">
                 <option value="exchange"  >{{$t('transaction.exchange.title')}}</option>
-                <option value="income" >Einzahlung</option>
-                <option value="gift" >Geschenk</option>
-                <option value="spent" >Ausgabe</option>
+                <optgroup :label="$t('transaction.type.in')">
+                  <option value="income" >{{$t('transaction.income.title')}}</option>
+                  <option value="gift" >{{$t('transaction.gift.title')}}</option>
+                </optgroup>
+                <optgroup :label="$t('transaction.type.out')">
+                  <option value="donation" >{{$t('transaction.donation.title')}}</option>
+                  <option value="spent" >Ausgabe</option>
+                </optgroup>
                 <option value="transfer" >Transfer</option>
               </select>
             </div>
@@ -26,6 +31,7 @@
         </div>
       </div>
       <div class="row">
+        <Donation v-if="type === 'donation'" v-model="container.donation"></Donation>
         <Gift v-if="type === 'gift'" v-model="container.gift"></Gift>
         <Income v-if="type === 'income'" v-model="container.income"></Income>
         <Spent v-if="type === 'spent'" v-model="container.spent"></Spent>
@@ -44,6 +50,7 @@
 <script>
   import { mapActions } from 'vuex'
   import { required, minValue } from 'vuelidate/lib/validators'
+  import Donation from '@/components/form/transaction/Donation'
   import Gift from '@/components/form/transaction/Gift'
   import Income from '@/components/form/transaction/Income'
   import Spent from '@/components/form/transaction/Spent'
@@ -52,13 +59,14 @@
 
   export default {
     components: {
-      Gift, Income, Spent, Exchange, Transfer
+      Donation, Gift, Income, Spent, Exchange, Transfer
     },
     data(){
       return {
         date: null,
         type: 'exchange',
         container: {
+          donation: null,
           gift: null,
           income: null,
           spent: null,

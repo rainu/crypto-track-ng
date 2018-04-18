@@ -68,6 +68,10 @@
     "delete-question": "Wollen Sie wirklich das Wallet mit dem Namen <b>{name}</b> löschen?"
   },
   "transaction": {
+    "type":{
+      "in": "Eingang",
+      "out": "Ausgang"
+    },
     "common": {
       "head": "Typ und Datum",
       "type": "Typ der Transaktion",
@@ -92,11 +96,30 @@
       }
     },
     "income": {
+      "title": "Einzahlung",
       "in": "Einzahlung",
       "fee": "Transaktions Gebühren",
       "countervalues": {
         "title": "Umtausch-Kurse",
         "in": "Wert der Einzahlung"
+      }
+    },
+    "donation": {
+      "title": "Spende",
+      "out": "Spende",
+      "fee": "Transaktions Gebühren",
+      "countervalues": {
+        "title": "Umtausch-Kurse",
+        "out": "Wert der Spende"
+      }
+    },
+    "gift": {
+      "title": "Geschenk",
+      "in": "Geschenk",
+      "fee": "Transaktions Gebühren",
+      "countervalues": {
+        "title": "Umtausch-Kurse",
+        "in": "Wert des Geschenkes"
       }
     }
   }

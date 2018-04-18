@@ -1,22 +1,22 @@
 <template>
   <div class="container-fluid">
-    <!-- row for income info -->
+    <!-- row for donation info -->
     <div class="row">
-      <!-- income info -->
+      <!-- donation info -->
       <div class="col-xs-12 col-lg-6">
         <fieldset>
-          <legend>{{$t('transaction.income.in')}}</legend>
-          <div class="form-group" :class="{'has-error': $v.data.in.amount.$error}">
+          <legend>{{$t('transaction.donation.out')}}</legend>
+          <div class="form-group" :class="{'has-error': $v.data.out.amount.$error}">
             <label >{{$t('common.amount')}}</label>
-            <input type="text" class="form-control" v-model="data.in.amount" />
+            <input type="text" class="form-control" v-model="data.out.amount" />
           </div>
-          <div class="form-group" :class="{'has-error': $v.data.in.wallet.$error}">
+          <div class="form-group" :class="{'has-error': $v.data.out.wallet.$error}">
             <label >{{$t('common.wallet')}}</label>
-            <input-wallet v-model="data.in.wallet" :whitelist="[data.in.currency]"/>
+            <input-wallet v-model="data.out.wallet" :whitelist="[data.out.currency]"/>
           </div>
-          <div class="form-group" :class="{'has-error': $v.data.in.currency.$error}">
+          <div class="form-group" :class="{'has-error': $v.data.out.currency.$error}">
             <label >{{$t('common.currency')}}</label>
-            <input-currency v-model="data.in.currency" :whitelist="inCurrenciesWhitelist" />
+            <input-currency v-model="data.out.currency" :whitelist="outCurrenciesWhitelist" />
           </div>
         </fieldset>
       </div>
@@ -24,7 +24,7 @@
       <!-- fee info -->
       <div class="col-xs-12 col-lg-6">
         <fieldset>
-          <legend>{{$t('transaction.income.fee')}}</legend>
+          <legend>{{$t('transaction.donation.fee')}}</legend>
           <div class="form-group" :class="{'has-error': $v.data.fee.amount.$error}">
             <label >{{$t('common.amount')}}</label>
             <input type="text" class="form-control" v-model="data.fee.amount" />
@@ -45,18 +45,18 @@
     <div class="row">
       <div class="col-xs-12 col-lg-12">
         <fieldset>
-          <legend>{{$t('transaction.income.countervalues.title')}}</legend>
+          <legend>{{$t('transaction.donation.countervalues.title')}}</legend>
           <div class="row">
 
             <!-- countervalue -->
             <div class="col-xs-12 col-lg-6">
-              <div class="form-group" :class="{'has-error': $v.data.in.countervalue.amount.$error}">
-                <label >{{$t('transaction.income.countervalues.in')}}</label>
-                <input type="text" class="form-control" v-model="data.in.countervalue.amount" />
+              <div class="form-group" :class="{'has-error': $v.data.out.countervalue.amount.$error}">
+                <label >{{$t('transaction.donation.countervalues.out')}}</label>
+                <input type="text" class="form-control" v-model="data.out.countervalue.amount" />
               </div>
-              <div class="form-group" :class="{'has-error': $v.data.in.countervalue.currency.$error}">
+              <div class="form-group" :class="{'has-error': $v.data.out.countervalue.currency.$error}">
                 <label >{{$t('common.currency')}}</label>
-                <input-currency :crypto="false" v-model="data.in.countervalue.currency" />
+                <input-currency :crypto="false" v-model="data.out.countervalue.currency" />
               </div>
             </div>
 
@@ -108,7 +108,7 @@
 
       return {
         data: {
-          in: {
+          out: {
             amount: null,
             currency: '',
             wallet: '',
@@ -132,7 +132,7 @@
     },
     validations: {
       data: {
-        in: {
+        out: {
           amount: {
             required,
             numeric,
@@ -180,11 +180,11 @@
       ...mapGetters({
         getWalletById: 'wallet/byId'
       }),
-      inCurrenciesWhitelist(){
-        if(this.data.in.wallet === ''){
+      outCurrenciesWhitelist(){
+        if(this.data.out.wallet === ''){
           return []
         }
-        const wallet = this.getWalletById(this.data.in.wallet)
+        const wallet = this.getWalletById(this.data.out.wallet)
         return wallet.types
       },
       feeCurrenciesWhitelist(){
@@ -218,11 +218,11 @@
       },
     },
     watch: {
-      'data.in.wallet'(){
-        this.checkCurrency(this.data.in)
+      'data.out.wallet'(){
+        this.checkCurrency(this.data.out)
       },
-      'data.in.currency'(){
-        this.checkWallet(this.data.in)
+      'data.out.currency'(){
+        this.checkWallet(this.data.out)
       },
       'data.fee.wallet'(){
         this.checkCurrency(this.data.fee)
@@ -238,7 +238,7 @@
           if(!this.$v.data.$error) {
             this.$emit('input', {
               involvedWallets: [ ...new Set([
-                this.data.in.wallet,
+                this.data.out.wallet,
                 this.data.fee.wallet,
               ].filter(i => i))],
               data: this.data,
