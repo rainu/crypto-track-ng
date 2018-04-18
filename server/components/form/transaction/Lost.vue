@@ -1,11 +1,11 @@
 <template>
   <div class="container-fluid">
-    <!-- row for spent info -->
+    <!-- row for lost info -->
     <div class="row">
-      <!-- spent info -->
-      <div class="col-xs-12 col-lg-6">
+      <!-- lost info -->
+      <div class="col-xs-12 col-lg-12">
         <fieldset>
-          <legend>{{$t('transaction.spent.out')}}</legend>
+          <legend>{{$t('transaction.lost.out')}}</legend>
           <div class="form-group" :class="{'has-error': $v.data.out.amount.$error}">
             <label >{{$t('common.amount')}}</label>
             <input type="text" class="form-control" v-model="data.out.amount" />
@@ -21,37 +21,19 @@
         </fieldset>
       </div>
 
-      <!-- fee info -->
-      <div class="col-xs-12 col-lg-6">
-        <fieldset>
-          <legend>{{$t('transaction.spent.fee')}}</legend>
-          <div class="form-group" :class="{'has-error': $v.data.fee.amount.$error}">
-            <label >{{$t('common.amount')}}</label>
-            <input type="text" class="form-control" v-model="data.fee.amount" />
-          </div>
-          <div class="form-group" :class="{'has-error': $v.data.fee.wallet.$error}">
-            <label >{{$t('common.wallet')}}</label>
-            <input-wallet v-model="data.fee.wallet" :whitelist="[data.fee.currency]"/>
-          </div>
-          <div class="form-group" :class="{'has-error': $v.data.fee.currency.$error}">
-            <label >{{$t('common.currency')}}</label>
-            <input-currency v-model="data.fee.currency" :whitelist="feeCurrenciesWhitelist" />
-          </div>
-        </fieldset>
-      </div>
     </div>
 
     <!-- row for countervalues -->
     <div class="row">
       <div class="col-xs-12 col-lg-12">
         <fieldset>
-          <legend>{{$t('transaction.spent.countervalues.title')}}</legend>
+          <legend>{{$t('transaction.lost.countervalues.title')}}</legend>
           <div class="row">
 
             <!-- countervalue -->
             <div class="col-xs-12 col-lg-6">
               <div class="form-group" :class="{'has-error': $v.data.out.countervalue.amount.$error}">
-                <label >{{$t('transaction.spent.countervalues.out')}}</label>
+                <label >{{$t('transaction.lost.countervalues.out')}}</label>
                 <input type="text" class="form-control" v-model="data.out.countervalue.amount" />
               </div>
               <div class="form-group" :class="{'has-error': $v.data.out.countervalue.currency.$error}">
@@ -117,11 +99,6 @@
               currency: this.fiat
             },
           },
-          fee: {
-            amount: null,
-            currency: '',
-            wallet: ''
-          },
           details: {
             exchange: '',
             group: '',
@@ -154,18 +131,6 @@
             }
           },
         },
-        fee: {
-          amount: {
-            numeric,
-            required: requiredIf('currency')
-          },
-          wallet: {
-            required: requiredIf('amount')
-          },
-          currency: {
-            required: requiredIf('amount')
-          }
-        },
         details: {
           exchange: {
           },
@@ -185,13 +150,6 @@
           return []
         }
         const wallet = this.getWalletById(this.data.out.wallet)
-        return wallet.types
-      },
-      feeCurrenciesWhitelist(){
-        if(this.data.fee.wallet === ''){
-          return []
-        }
-        const wallet = this.getWalletById(this.data.fee.wallet)
         return wallet.types
       }
     },
@@ -224,12 +182,6 @@
       'data.out.currency'(){
         this.checkWallet(this.data.out)
       },
-      'data.fee.wallet'(){
-        this.checkCurrency(this.data.fee)
-      },
-      'data.fee.currency'(){
-        this.checkWallet(this.data.fee)
-      },
       data: {
         handler() {
           this.$v.$touch();
@@ -239,7 +191,6 @@
             this.$emit('input', {
               involvedWallets: [ ...new Set([
                 this.data.out.wallet,
-                this.data.fee.wallet,
               ].filter(i => i))],
               data: this.data,
             })

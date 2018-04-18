@@ -104,6 +104,15 @@
         "in": "Value of income"
       }
     },
+    "spent": {
+      "title": "Spent",
+      "out": "Spent",
+      "fee": "Transaction Fee",
+      "countervalues": {
+        "title": "Exchange-Course",
+        "out": "Value"
+      }
+    },
     "donation": {
       "title": "Donation",
       "out": "Donation",
@@ -120,6 +129,22 @@
       "countervalues": {
         "title": "Exchange-Course",
         "in": "Value of gift"
+      }
+    },
+    "lost": {
+      "title": "Lost",
+      "out": "Lost",
+      "countervalues": {
+        "title": "Exchange-Course",
+        "out": "Value"
+      }
+    },
+    "stolen": {
+      "title": "Stolen",
+      "out": "Stolen",
+      "countervalues": {
+        "title": "Exchange-Course",
+        "out": "Value"
       }
     }
   }

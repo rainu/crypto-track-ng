@@ -104,6 +104,15 @@
         "in": "Wert der Einzahlung"
       }
     },
+    "spent": {
+      "title": "Ausgabe",
+      "out": "Ausgabe",
+      "fee": "Transaktions Gebühren",
+      "countervalues": {
+        "title": "Umtausch-Kurse",
+        "out": "Wert"
+      }
+    },
     "donation": {
       "title": "Spende",
       "out": "Spende",
@@ -120,6 +129,22 @@
       "countervalues": {
         "title": "Umtausch-Kurse",
         "in": "Wert des Geschenkes"
+      }
+    },
+    "lost": {
+      "title": "Verloren",
+      "out": "Verloren",
+      "countervalues": {
+        "title": "Umtausch-Kurse",
+        "out": "Wert zum Zeitpunkt des Verlustes"
+      }
+    },
+    "stolen": {
+      "title": "Gestohlen",
+      "out": "Gestohlen",
+      "countervalues": {
+        "title": "Umtausch-Kurse",
+        "out": "Wert zum Zeitpunkt des Diebstals"
       }
     }
   }

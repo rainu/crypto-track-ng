@@ -16,8 +16,10 @@
                   <option value="gift" >{{$t('transaction.gift.title')}}</option>
                 </optgroup>
                 <optgroup :label="$t('transaction.type.out')">
+                  <option value="spent" >{{$t('transaction.spent.title')}}</option>
                   <option value="donation" >{{$t('transaction.donation.title')}}</option>
-                  <option value="spent" >Ausgabe</option>
+                  <option value="lost" >{{$t('transaction.lost.title')}}</option>
+                  <option value="stolen" >{{$t('transaction.stolen.title')}}</option>
                 </optgroup>
                 <option value="transfer" >Transfer</option>
               </select>
@@ -37,6 +39,8 @@
         <Spent v-if="type === 'spent'" v-model="container.spent"></Spent>
         <Exchange v-if="type === 'exchange'" v-model="container.exchange"></Exchange>
         <Transfer v-if="type === 'transfer'" v-model="container.transfer"></Transfer>
+        <Lost v-if="type === 'lost'" v-model="container.lost"></Lost>
+        <Stolen v-if="type === 'stolen'" v-model="container.stolen"></Stolen>
       </div>
     </div>
     <div class="form-footer">
@@ -54,12 +58,14 @@
   import Gift from '@/components/form/transaction/Gift'
   import Income from '@/components/form/transaction/Income'
   import Spent from '@/components/form/transaction/Spent'
+  import Lost from '@/components/form/transaction/Lost'
+  import Stolen from '@/components/form/transaction/Stolen'
   import Exchange from '@/components/form/transaction/Exchange'
   import Transfer from '@/components/form/transaction/Transfer'
 
   export default {
     components: {
-      Donation, Gift, Income, Spent, Exchange, Transfer
+      Donation, Gift, Income, Spent, Exchange, Transfer, Lost, Stolen
     },
     data(){
       return {
@@ -70,6 +76,8 @@
           gift: null,
           income: null,
           spent: null,
+          lost: null,
+          stolen: null,
           exchange: null,
           transfer: null,
         },
