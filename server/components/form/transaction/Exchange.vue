@@ -134,8 +134,14 @@
       }
     },
     data(){
+      if(this.value) {
+        return {
+          data: this.value.data
+        }
+      }
+
       return {
-        data: this.value || {
+        data: {
           buy: {
             amount: null,
             currency: '',

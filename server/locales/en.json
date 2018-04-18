@@ -90,6 +90,14 @@
         "buy": "Buy value",
         "sell": "Sell value"
       }
+    },
+    "income": {
+      "in": "Income",
+      "fee": "Transaction Fee",
+      "countervalues": {
+        "title": "Exchange-Course",
+        "in": "Value of income"
+      }
     }
   }
 }

@@ -26,11 +26,11 @@
         </div>
       </div>
       <div class="row">
-        <Gift v-if="type === 'gift'"></Gift>
-        <Income v-if="type === 'income'"></Income>
-        <Spent v-if="type === 'spent'"></Spent>
-        <Exchange v-if="type === 'exchange'" v-model="container"></Exchange>
-        <Transfer v-if="type === 'transfer'"></Transfer>
+        <Gift v-if="type === 'gift'" v-model="container.gift"></Gift>
+        <Income v-if="type === 'income'" v-model="container.income"></Income>
+        <Spent v-if="type === 'spent'" v-model="container.spent"></Spent>
+        <Exchange v-if="type === 'exchange'" v-model="container.exchange"></Exchange>
+        <Transfer v-if="type === 'transfer'" v-model="container.transfer"></Transfer>
       </div>
     </div>
     <div class="form-footer">
@@ -58,7 +58,13 @@
       return {
         date: null,
         type: 'exchange',
-        container: null,
+        container: {
+          gift: null,
+          income: null,
+          spent: null,
+          exchange: null,
+          transfer: null,
+        },
         saveError: false
       }
     },
@@ -80,7 +86,7 @@
         //we have to inline the container fields
         let date = this.date;
         let type = this.type;
-        let container = this.container;
+        let container = this.container[type];
 
         let payload = {
           date,
@@ -102,8 +108,11 @@
       this.$v.container.$touch()
     },
     watch: {
-      container() {
-        this.$v.date.$touch()
+      container: {
+        handler() {
+          this.$v.date.$touch()
+        },
+        deep: true,
       }
     }
   }

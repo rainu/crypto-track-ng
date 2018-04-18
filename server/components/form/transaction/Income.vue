@@ -1,11 +1,253 @@
 <template>
-  <div>
-    INCOME
+  <div class="container-fluid">
+    <!-- row for buy/sell info -->
+    <div class="row">
+      <!-- buy info -->
+      <div class="col-xs-12 col-lg-6">
+        <fieldset>
+          <legend>{{$t('transaction.income.in')}}</legend>
+          <div class="form-group" :class="{'has-error': $v.data.in.amount.$error}">
+            <label >{{$t('common.amount')}}</label>
+            <input type="text" class="form-control" v-model="data.in.amount" />
+          </div>
+          <div class="form-group" :class="{'has-error': $v.data.in.wallet.$error}">
+            <label >{{$t('common.wallet')}}</label>
+            <input-wallet v-model="data.in.wallet" :whitelist="[data.in.currency]"/>
+          </div>
+          <div class="form-group" :class="{'has-error': $v.data.in.currency.$error}">
+            <label >{{$t('common.currency')}}</label>
+            <input-currency v-model="data.in.currency" :whitelist="inCurrenciesWhitelist" />
+          </div>
+        </fieldset>
+      </div>
+
+      <!-- fee info -->
+      <div class="col-xs-12 col-lg-6">
+        <fieldset>
+          <legend>{{$t('transaction.income.fee')}}</legend>
+          <div class="form-group" :class="{'has-error': $v.data.fee.amount.$error}">
+            <label >{{$t('common.amount')}}</label>
+            <input type="text" class="form-control" v-model="data.fee.amount" />
+          </div>
+          <div class="form-group" :class="{'has-error': $v.data.fee.wallet.$error}">
+            <label >{{$t('common.wallet')}}</label>
+            <input-wallet v-model="data.fee.wallet" :whitelist="[data.fee.currency]"/>
+          </div>
+          <div class="form-group" :class="{'has-error': $v.data.fee.currency.$error}">
+            <label >{{$t('common.currency')}}</label>
+            <input-currency v-model="data.fee.currency" :whitelist="feeCurrenciesWhitelist" />
+          </div>
+        </fieldset>
+      </div>
+    </div>
+
+    <!-- row for countervalues -->
+    <div class="row">
+      <div class="col-xs-12 col-lg-12">
+        <fieldset>
+          <legend>{{$t('transaction.income.countervalues.title')}}</legend>
+          <div class="row">
+
+            <!-- countervalue -->
+            <div class="col-xs-12 col-lg-6">
+              <div class="form-group" :class="{'has-error': $v.data.in.countervalue.amount.$error}">
+                <label >{{$t('transaction.income.countervalues.in')}}</label>
+                <input type="text" class="form-control" v-model="data.in.countervalue.amount" />
+              </div>
+              <div class="form-group" :class="{'has-error': $v.data.in.countervalue.currency.$error}">
+                <label >{{$t('common.currency')}}</label>
+                <input-currency :crypto="false" v-model="data.in.countervalue.currency" />
+              </div>
+            </div>
+
+          </div>
+        </fieldset>
+      </div>
+    </div>
+
+    <!-- row for detail info -->
+    <div class="row">
+      <div class="col-xs-12 col-lg-12">
+        <fieldset>
+          <legend>{{$t('transaction.common.details.title')}}</legend>
+          <div class="form-group" :class="{'has-error': $v.data.details.exchange.$error}">
+            <label >{{$t('transaction.common.details.exchange')}}</label>
+            <input type="text" class="form-control" v-model="data.details.exchange" />
+          </div>
+          <div class="form-group" :class="{'has-error': $v.data.details.group.$error}">
+            <label >{{$t('transaction.common.details.group')}}</label>
+            <input type="text" class="form-control" v-model="data.details.group" />
+          </div>
+          <div class="form-group" :class="{'has-error': $v.data.details.comment.$error}">
+            <label >{{$t('transaction.common.details.comment')}}</label>
+            <input type="text" class="form-control" v-model="data.details.comment" />
+          </div>
+        </fieldset>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+  import {mapGetters} from 'vuex';
+  import { required, minValue, numeric, requiredIf } from 'vuelidate/lib/validators'
+
   export default {
+    props: {
+      value: {
+        default: null,
+        required: false
+      }
+    },
+    data(){
+      if(this.value) {
+        return {
+          data: this.value.data
+        }
+      }
+
+      return {
+        data: {
+          in: {
+            amount: null,
+            currency: '',
+            wallet: '',
+            countervalue: {
+              amount: null,
+              currency: this.fiat
+            },
+          },
+          fee: {
+            amount: null,
+            currency: '',
+            wallet: ''
+          },
+          details: {
+            exchange: '',
+            group: '',
+            comment: ''
+          }
+        }
+      }
+    },
+    validations: {
+      data: {
+        in: {
+          amount: {
+            required,
+            numeric,
+            minValue: minValue(0),
+          },
+          wallet: {
+            required,
+          },
+          currency: {
+            required,
+          },
+          countervalue: {
+            amount: {
+              numeric,
+              required: requiredIf('currency')
+            },
+            currency: {
+              required: requiredIf('amount')
+            }
+          },
+        },
+        fee: {
+          amount: {
+            numeric,
+            required: requiredIf('currency')
+          },
+          wallet: {
+            required: requiredIf('amount')
+          },
+          currency: {
+            required: requiredIf('amount')
+          }
+        },
+        details: {
+          exchange: {
+          },
+          group: {
+          },
+          comment: {
+          }
+        }
+      }
+    },
+    computed: {
+      ...mapGetters({
+        getWalletById: 'wallet/byId'
+      }),
+      inCurrenciesWhitelist(){
+        if(this.data.in.wallet === ''){
+          return []
+        }
+        const wallet = this.getWalletById(this.data.in.wallet)
+        return wallet.types
+      },
+      feeCurrenciesWhitelist(){
+        if(this.data.fee.wallet === ''){
+          return []
+        }
+        const wallet = this.getWalletById(this.data.fee.wallet)
+        return wallet.types
+      }
+    },
+    methods: {
+      checkWallet(container){
+        if(container.currency && container.wallet) {
+          const wallet = this.getWalletById(container.wallet)
+
+          if(wallet.types.filter(t => t === container.currency).length === 0){
+            //the wallet doesn't support the currency
+            container.wallet = ''
+          }
+        }
+      },
+      checkCurrency(container){
+        if(container.currency && container.wallet) {
+          const wallet = this.getWalletById(container.wallet)
+
+          if(wallet.types.filter(t => t === container.currency).length === 0){
+            //the wallet doesn't support the currency
+            container.currency = ''
+          }
+        }
+      },
+    },
+    watch: {
+      'data.in.wallet'(){
+        this.checkCurrency(this.data.in)
+      },
+      'data.in.currency'(){
+        this.checkWallet(this.data.in)
+      },
+      'data.fee.wallet'(){
+        this.checkCurrency(this.data.fee)
+      },
+      'data.fee.currency'(){
+        this.checkWallet(this.data.fee)
+      },
+      data: {
+        handler() {
+          this.$v.$touch();
+
+          //emit only valid data
+          if(!this.$v.data.$error) {
+            this.$emit('input', {
+              involvedWallets: [ ...new Set([
+                this.data.in.wallet,
+                this.data.fee.wallet,
+              ].filter(i => i))],
+              data: this.data,
+            })
+          }
+        },
+        deep: true,
+      }
+    }
   }
 </script>
 

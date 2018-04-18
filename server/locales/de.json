@@ -90,6 +90,14 @@
         "buy": "Kaufwert",
         "sell": "Verkaufwert"
       }
+    },
+    "income": {
+      "in": "Einzahlung",
+      "fee": "Transaktions Gebühren",
+      "countervalues": {
+        "title": "Umtausch-Kurse",
+        "in": "Wert der Einzahlung"
+      }
     }
   }
 }
