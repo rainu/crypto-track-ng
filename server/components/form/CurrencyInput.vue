@@ -44,7 +44,7 @@
       let option = ''
       for(let curOpt of this.options()) {
         if(curOpt.value === this.value){
-          option = curOpt.value;
+          option = curOpt;
           break;
         }
       }
