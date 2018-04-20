@@ -95,6 +95,15 @@
         "sell": "Verkaufwert"
       }
     },
+    "transfer": {
+      "out": "Transferierter Betrag (Ausgang)",
+      "in": "Transferierter Betrag (Eingang)",
+      "fee": "Transaktions Gebühren",
+      "countervalues": {
+        "title": "Umtausch-Kurse",
+        "value": "Wert des transferierten Betrags"
+      }
+    },
     "income": {
       "title": "Einzahlung",
       "in": "Einzahlung",

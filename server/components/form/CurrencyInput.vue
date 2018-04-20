@@ -94,6 +94,13 @@
       value(){
         if(this.value === '') {
           this.selectedValue = ''
+        }else{
+          for(let curOpt of this.options()) {
+            if(curOpt.value === this.value){
+              this.selectedValue = curOpt;
+              break;
+            }
+          }
         }
       },
       selectedValue(){
