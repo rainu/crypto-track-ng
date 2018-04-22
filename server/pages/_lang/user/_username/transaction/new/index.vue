@@ -1,6 +1,6 @@
 <template>
   <form role="form" @submit.prevent="submit">
-    <message-error v-if="saveError">{{$t('transaction.save-error')}}</message-error>
+    <message-error v-if="saveError">{{$t('transaction.common.save-error')}}</message-error>
 
     <div class="form-body">
       <div class="row">
