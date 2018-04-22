@@ -60,7 +60,7 @@
   "wallet": {
     "title": "Wallet-Informationen",
     "address": "Adresse",
-    "type": "Typ",
+    "currency": "Unterstüzte Währungen",
     "name": "Anzeigename",
     "comment": "Beschreibung",
     "save-error": "Die Wallet konnte nicht gespeichert werden!",

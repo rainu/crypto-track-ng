@@ -127,10 +127,16 @@
       return {
         data: {
           amount: null,
-          currency: '',
+          currency: {
+            name: null,
+            type: null
+          },
           countervalue: {
             amount: null,
-            currency: this.fiat
+            currency: {
+              name: null,
+              type: null
+            }
           },
           out: {
             wallet: '',
@@ -140,7 +146,10 @@
           },
           fee: {
             amount: null,
-            currency: '',
+            currency: {
+              name: null,
+              type: null
+            },
             wallet: ''
           },
           details: {
@@ -158,14 +167,23 @@
           minValue: minValue(0),
         },
         currency: {
-          required,
+          name: {
+            required
+          },
+          type: {
+            required
+          }
         },
         countervalue: {
           amount: {
-            required: requiredIf('currency')
+            required: requiredIf('currency.name')
           },
           currency: {
-            required: requiredIf('amount')
+            name: {
+              required: requiredIf(function() {
+                return this.data.countervalue.amount
+              })
+            }
           }
         },
         out: {
@@ -180,13 +198,17 @@
         },
         fee: {
           amount: {
-            required: requiredIf('currency')
+            required: requiredIf('currency.name')
           },
           wallet: {
             required: requiredIf('amount')
           },
           currency: {
-            required: requiredIf('amount')
+            name: {
+              required: requiredIf(function() {
+                return this.data.fee.amount
+              })
+            }
           }
         },
         details: {
@@ -208,9 +230,9 @@
           return []
         }
         const outWallet = this.getWalletById(this.data.out.wallet)
-        const outTypes = outWallet ? outWallet.types : []
+        const outTypes = outWallet ? outWallet.currencies : []
         const inWallet = this.getWalletById(this.data.in.wallet)
-        const inTypes = inWallet ? inWallet.types : []
+        const inTypes = inWallet ? inWallet.currencies : []
 
         return [...new Set([...outTypes, ...inTypes])]
       },
@@ -219,25 +241,25 @@
           return []
         }
         const wallet = this.getWalletById(this.data.fee.wallet)
-        return wallet.types
+        return wallet.currencies
       }
     },
     methods: {
       checkWallet(container){
-        if(container.currency && container.wallet) {
+        if(container.currency.name && container.wallet) {
           const wallet = this.getWalletById(container.wallet)
 
-          if(wallet.types.filter(t => t === container.currency).length === 0){
+          if(wallet.currencies.filter(c => c.name === container.currency.name && c.type === container.currency.type).length === 0){
             //the wallet doesn't support the currency
             container.wallet = ''
           }
         }
       },
       checkCurrency(container){
-        if(container.currency && container.wallet) {
+        if(container.currency.name && container.wallet) {
           const wallet = this.getWalletById(container.wallet)
 
-          if(wallet.types.filter(t => t === container.currency).length === 0){
+          if(wallet.currencies.filter(c => c.name === container.currency.name && c.type === container.currency.type).length === 0){
             //the wallet doesn't support the currency
             container.currency = ''
           }
@@ -245,7 +267,7 @@
       },
     },
     watch: {
-      'data.currency'(){
+      'data.currency.name'(){
         this.checkWallet(this.data.in)
         this.checkWallet(this.data.out)
       },
@@ -258,7 +280,7 @@
       'data.fee.wallet'(){
         this.checkCurrency(this.data.fee)
       },
-      'data.fee.currency'(){
+      'data.fee.currency.name'(){
         this.checkWallet(this.data.fee)
       },
       data: {

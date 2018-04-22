@@ -60,7 +60,7 @@
   "wallet": {
     "title": "Wallet-Information",
     "address": "Address",
-    "type": "Type",
+    "currency": "Supported Currencies",
     "name": "Displayname",
     "comment": "Comment",
     "save-error": "The wallet could not be saved!",

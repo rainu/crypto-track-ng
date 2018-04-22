@@ -46,8 +46,11 @@
       options(){
         let cleanedWhitelist = []
         if(this.whitelist){
-          //filter out null values or empty strings
-          cleanedWhitelist = this.whitelist.filter(i => i)
+          //filter out invalid values:
+          // empty object
+          // object within no name
+          // object within no typ
+          cleanedWhitelist = this.whitelist.filter(i => i).filter(i => i.name).filter(i => i.type)
         }
 
         return this.$store.state.wallet.wallets.filter(wallet => {
@@ -55,8 +58,8 @@
           //the whitelist contains currencies which the wallet must support
           if(cleanedWhitelist.length > 0){
             for(let wli of cleanedWhitelist){
-              for(let currency of wallet.types) {
-                if(wli === currency) {
+              for(let currency of wallet.currencies) {
+                if(wli.type === currency.type && wli.name === currency.name) {
                   return true;
                 }
               }

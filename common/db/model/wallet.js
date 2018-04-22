@@ -3,6 +3,15 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+const currencies = mongoose.Schema({
+  name: {
+    type: String
+  },
+  type: {
+    type: String
+  }
+},{ _id : false });
+
 const WalletSchema = new Schema({
   owner: {
     type: Schema.Types.ObjectId,
@@ -14,8 +23,8 @@ const WalletSchema = new Schema({
   name: {
     type: String,
   },
-  types: {
-    type: [String]
+  currencies: {
+    type: [currencies]
   },
   description: {
     type: String,

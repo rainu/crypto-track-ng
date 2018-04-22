@@ -19,9 +19,9 @@
   export default {
     props: {
       value: {
-        default: '',
+        default: {},
         required: true,
-        type: String
+        type: Object
       },
       fiat: {
         default: true,
@@ -42,10 +42,12 @@
     name: "input-currency",
     data() {
       let option = ''
-      for(let curOpt of this.options()) {
-        if(curOpt.value === this.value){
-          option = curOpt;
-          break;
+      if(this.value) {
+        for (let curOpt of this.options()) {
+          if (curOpt.value === this.value.name && curOpt.type === this.value.type) {
+            option = curOpt;
+            break;
+          }
         }
       }
 
@@ -55,10 +57,23 @@
     },
     methods: {
       options(){
-        let cleanedWhitelist = []
+        let cleanedWhitelists = {
+          fiat: [],
+          crypto: []
+        }
         if(this.whitelist){
-          //filter out null values or empty strings
-          cleanedWhitelist = this.whitelist.filter(i => i)
+          //filter out invalid values:
+          // empty object
+          // object within no name
+          // object within no typ
+          cleanedWhitelists = {
+            fiat: this.whitelist.filter(i => i).filter(i => i.name).filter(i => i.type)
+                    .filter(i => i.type === 'fiat')
+                    .map(i => i.name),
+            crypto: this.whitelist.filter(i => i).filter(i => i.name).filter(i => i.type)
+                    .filter(i => i.type === 'crypto')
+                    .map(i => i.name),
+          }
         }
 
         let options = []
@@ -67,22 +82,24 @@
 
         if(this.fiat) {
           for (let symbol of Object.keys(fiat)) {
-            if(cleanedWhitelist.length === 0 || cleanedWhitelist.includes(symbol)) {
+            if(cleanedWhitelists.fiat.length === 0 || cleanedWhitelists.fiat.includes(symbol)) {
               options.push({
                 label: `${fiat[symbol].label} -> ${symbol}`,
                 value: symbol,
-                icon: fiat[symbol].icon
+                icon: fiat[symbol].icon,
+                type: 'fiat'
               })
             }
           }
         }
         if(this.crypto) {
           for (let symbol of Object.keys(crypto)) {
-            if(cleanedWhitelist.length === 0 || cleanedWhitelist.includes(symbol)) {
+            if(cleanedWhitelists.crypto.length === 0 || cleanedWhitelists.crypto.includes(symbol)) {
               options.push({
                 label: `${crypto[symbol].label} -> ${symbol}`,
                 value: symbol,
-                icon: crypto[symbol].icon
+                icon: crypto[symbol].icon,
+                type: 'crypto'
               })
             }
           }
@@ -92,11 +109,15 @@
     },
     watch: {
       value(){
-        if(this.value === '') {
+        if(this.value.name === '') {
           this.selectedValue = ''
-        }else{
+        }else if (
+          this.selectedValue &&
+          this.selectedValue.name !== this.value.name &&
+          this.selectedValue.type !== this.value.type){
+
           for(let curOpt of this.options()) {
-            if(curOpt.value === this.value){
+            if(curOpt.value === this.value.name){
               this.selectedValue = curOpt;
               break;
             }
@@ -104,7 +125,16 @@
         }
       },
       selectedValue(){
-        let value = this.selectedValue ? this.selectedValue.value : ''
+        let value = {
+          name: null,
+          type: null
+        }
+        if(this.selectedValue) {
+          value = {
+            name: this.selectedValue.value,
+            type: this.selectedValue.type
+          }
+        }
         this.$emit('input', value)
       }
     }

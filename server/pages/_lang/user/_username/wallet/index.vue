@@ -24,9 +24,9 @@
                       <td>{{w.description}}</td>
                     </tr>
                     <tr>
-                      <th>{{$t('wallet.type')}}</th>
+                      <th>{{$t('wallet.currency')}}</th>
                       <td>
-                        <span v-for="type in w.types" class="label label-primary">{{type}}</span>
+                        <span v-for="currency in w.currencies" class="label label-primary">{{currency.name}}</span>
                       </td>
                     </tr>
                     </tbody>

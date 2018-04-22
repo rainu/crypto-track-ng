@@ -16,9 +16,9 @@
               <label >{{$t('wallet.address')}}</label>
               <input type="text" class="form-control" v-model="address" @input="$v.address.$touch()" />
             </div>
-            <div class="form-group" :class="{'has-error': $v.types.$error}">
-              <label >{{$t('wallet.type')}}</label>
-              <select-currency v-model="types" @input="$v.types.$touch()"/>
+            <div class="form-group" :class="{'has-error': $v.currencies.$error}">
+              <label >{{$t('wallet.currency')}}</label>
+              <select-currency v-model="currencies" @input="$v.currencies.$touch()"/>
             </div>
             <div class="form-group" :class="{'has-error': $v.comment.$error}">
               <label >{{$t('wallet.comment')}}</label>
@@ -51,7 +51,7 @@
     data(){
       return {
         address: '',
-        types: [],
+        currencies: [],
         displayName: '',
         comment: '',
         saveError: false
@@ -70,7 +70,7 @@
           return true
         }
       },
-      types: {
+      currencies: {
         required,
         minLength: minLength(1)
       },
@@ -102,7 +102,7 @@
         let wallet = {
           address: this.address,
           name: this.displayName,
-          types: this.types,
+          currencies: this.currencies,
           description: this.comment
         };
         this.storeNewWallet(wallet).then(() => {

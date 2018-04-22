@@ -45,7 +45,7 @@
     data() {
       let options = this.options().filter(option => {
         for(let so of this.value) {
-          if(option.value === so){
+          if(option.value === so.name && option.type === so.type){
             return true;
           }
         }
@@ -74,7 +74,8 @@
               options.push({
                 label: `${fiat[symbol].label} -> ${symbol}`,
                 value: symbol,
-                icon: fiat[symbol].icon
+                icon: fiat[symbol].icon,
+                type: 'fiat'
               })
             }
           }
@@ -85,7 +86,8 @@
               options.push({
                 label: `${crypto[symbol].label} -> ${symbol}`,
                 value: symbol,
-                icon: crypto[symbol].icon
+                icon: crypto[symbol].icon,
+                type: 'crypto'
               })
             }
           }
@@ -95,7 +97,15 @@
     },
     watch: {
       selected(){
-        let value = this.selected ? this.selected.map(v => v.value) : []
+        let value = []
+        if(this.selected) {
+          value = this.selected.map(v => {
+            return {
+              name: v.value,
+              type: v.type
+            }
+          })
+        }
         this.$emit('input', value)
       }
     }
