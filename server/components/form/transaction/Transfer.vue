@@ -8,7 +8,7 @@
           <legend>{{$t('transaction.transfer.out')}}</legend>
           <div class="form-group" :class="{'has-error': $v.data.amount.$error}">
             <label >{{$t('common.amount')}}</label>
-            <input type="text" class="form-control" v-model="data.amount" />
+            <input-number v-model="data.amount" ></input-number>
           </div>
           <div class="form-group" :class="{'has-error': $v.data.out.wallet.$error}">
             <label >{{$t('common.wallet')}}</label>
@@ -26,7 +26,7 @@
           <legend>{{$t('transaction.transfer.in')}}</legend>
           <div class="form-group" :class="{'has-error': $v.data.amount.$error}">
             <label >{{$t('common.amount')}}</label>
-            <input type="text" class="form-control" v-model="data.amount" />
+            <input-number v-model="data.amount" ></input-number>
           </div>
           <div class="form-group" :class="{'has-error': $v.data.in.wallet.$error}">
             <label >{{$t('common.wallet')}}</label>
@@ -45,7 +45,7 @@
           <legend>{{$t('transaction.transfer.fee')}}</legend>
           <div class="form-group" :class="{'has-error': $v.data.fee.amount.$error}">
             <label >{{$t('common.amount')}}</label>
-            <input type="text" class="form-control" v-model="data.fee.amount" />
+            <input-number v-model="data.fee.amount" ></input-number>
           </div>
           <div class="form-group" :class="{'has-error': $v.data.fee.wallet.$error}">
             <label >{{$t('common.wallet')}}</label>
@@ -70,7 +70,7 @@
             <div class="col-xs-12 col-lg-12">
               <div class="form-group" :class="{'has-error': $v.data.countervalue.amount.$error}">
                 <label >{{$t('transaction.transfer.countervalues.value')}}</label>
-                <input type="text" class="form-control" v-model="data.countervalue.amount" />
+                <input-number v-model="data.countervalue.amount" ></input-number>
               </div>
               <div class="form-group" :class="{'has-error': $v.data.countervalue.currency.$error}">
                 <label >{{$t('common.currency')}}</label>
@@ -108,7 +108,7 @@
 
 <script>
   import {mapGetters} from 'vuex';
-  import { required, minValue, numeric, requiredIf } from 'vuelidate/lib/validators'
+  import { required, minValue, requiredIf } from 'vuelidate/lib/validators'
 
   export default {
     props: {
@@ -155,7 +155,6 @@
       data: {
         amount: {
           required,
-          numeric,
           minValue: minValue(0),
         },
         currency: {
@@ -163,7 +162,6 @@
         },
         countervalue: {
           amount: {
-            numeric,
             required: requiredIf('currency')
           },
           currency: {
@@ -182,7 +180,6 @@
         },
         fee: {
           amount: {
-            numeric,
             required: requiredIf('currency')
           },
           wallet: {

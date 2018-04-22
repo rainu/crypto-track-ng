@@ -8,7 +8,7 @@
           <legend>{{$t('transaction.donation.out')}}</legend>
           <div class="form-group" :class="{'has-error': $v.data.out.amount.$error}">
             <label >{{$t('common.amount')}}</label>
-            <input type="text" class="form-control" v-model="data.out.amount" />
+            <input-number v-model="data.out.amount" ></input-number>
           </div>
           <div class="form-group" :class="{'has-error': $v.data.out.wallet.$error}">
             <label >{{$t('common.wallet')}}</label>
@@ -27,7 +27,7 @@
           <legend>{{$t('transaction.donation.fee')}}</legend>
           <div class="form-group" :class="{'has-error': $v.data.fee.amount.$error}">
             <label >{{$t('common.amount')}}</label>
-            <input type="text" class="form-control" v-model="data.fee.amount" />
+            <input-number v-model="data.fee.amount" ></input-number>
           </div>
           <div class="form-group" :class="{'has-error': $v.data.fee.wallet.$error}">
             <label >{{$t('common.wallet')}}</label>
@@ -52,7 +52,7 @@
             <div class="col-xs-12 col-lg-6">
               <div class="form-group" :class="{'has-error': $v.data.out.countervalue.amount.$error}">
                 <label >{{$t('transaction.donation.countervalues.out')}}</label>
-                <input type="text" class="form-control" v-model="data.out.countervalue.amount" />
+                <input-number v-model="data.out.countervalue.amount" ></input-number>
               </div>
               <div class="form-group" :class="{'has-error': $v.data.out.countervalue.currency.$error}">
                 <label >{{$t('common.currency')}}</label>
@@ -90,7 +90,7 @@
 
 <script>
   import {mapGetters} from 'vuex';
-  import { required, minValue, numeric, requiredIf } from 'vuelidate/lib/validators'
+  import { required, minValue, requiredIf } from 'vuelidate/lib/validators'
 
   export default {
     props: {
@@ -135,7 +135,6 @@
         out: {
           amount: {
             required,
-            numeric,
             minValue: minValue(0),
           },
           wallet: {
@@ -146,7 +145,6 @@
           },
           countervalue: {
             amount: {
-              numeric,
               required: requiredIf('currency')
             },
             currency: {
@@ -156,7 +154,6 @@
         },
         fee: {
           amount: {
-            numeric,
             required: requiredIf('currency')
           },
           wallet: {

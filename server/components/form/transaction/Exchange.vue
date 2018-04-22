@@ -8,7 +8,7 @@
           <legend>{{$t('transaction.exchange.buy')}}</legend>
           <div class="form-group" :class="{'has-error': $v.data.buy.amount.$error}">
             <label >{{$t('common.amount')}}</label>
-            <input type="text" class="form-control" v-model="data.buy.amount" />
+            <input-number v-model="data.buy.amount" ></input-number>
           </div>
           <div class="form-group" :class="{'has-error': $v.data.buy.wallet.$error}">
             <label >{{$t('common.wallet')}}</label>
@@ -27,7 +27,7 @@
           <legend>{{$t('transaction.exchange.sell')}}</legend>
           <div class="form-group" :class="{'has-error': $v.data.sell.amount.$error}">
             <label >{{$t('common.amount')}}</label>
-            <input type="text" class="form-control" v-model="data.sell.amount" />
+            <input-number v-model="data.sell.amount" ></input-number>
           </div>
           <div class="form-group" :class="{'has-error': $v.data.sell.wallet.$error}">
             <label >{{$t('common.wallet')}}</label>
@@ -46,7 +46,7 @@
           <legend>{{$t('transaction.exchange.fee')}}</legend>
           <div class="form-group" :class="{'has-error': $v.data.fee.amount.$error}">
             <label >{{$t('common.amount')}}</label>
-            <input type="text" class="form-control" v-model="data.fee.amount" />
+            <input-number v-model="data.fee.amount" ></input-number>
           </div>
           <div class="form-group" :class="{'has-error': $v.data.fee.wallet.$error}">
             <label >{{$t('common.wallet')}}</label>
@@ -71,7 +71,7 @@
             <div class="col-xs-12 col-lg-6">
               <div class="form-group" :class="{'has-error': $v.data.buy.countervalue.amount.$error}">
                 <label >{{$t('transaction.exchange.countervalues.buy')}}</label>
-                <input type="text" class="form-control" v-model="data.buy.countervalue.amount" />
+                <input-number v-model="data.buy.countervalue.amount" ></input-number>
               </div>
               <div class="form-group" :class="{'has-error': $v.data.buy.countervalue.currency.$error}">
                 <label >{{$t('common.currency')}}</label>
@@ -83,7 +83,7 @@
             <div class="col-xs-12 col-lg-6">
               <div class="form-group" :class="{'has-error': $v.data.sell.countervalue.amount.$error}">
                 <label >{{$t('transaction.exchange.countervalues.sell')}}</label>
-                <input type="text" class="form-control" v-model="data.sell.countervalue.amount" />
+                <input-number v-model="data.sell.countervalue.amount" ></input-number>
               </div>
               <div class="form-group" :class="{'has-error': $v.data.sell.countervalue.currency.$error}">
                 <label >{{$t('common.currency')}}</label>
@@ -120,7 +120,7 @@
 
 <script>
   import {mapGetters} from 'vuex';
-  import { required, minValue, numeric, requiredIf } from 'vuelidate/lib/validators'
+  import { required, minValue, requiredIf } from 'vuelidate/lib/validators'
 
   export default {
     props: {
@@ -178,7 +178,6 @@
         buy: {
           amount: {
             required,
-            numeric,
             minValue: minValue(0),
           },
           wallet: {
@@ -189,7 +188,6 @@
           },
           countervalue: {
             amount: {
-              numeric,
               required: requiredIf('currency')
             },
             currency: {
@@ -200,7 +198,6 @@
         sell: {
           amount: {
             required,
-            numeric,
             minValue: minValue(0),
           },
           wallet: {
@@ -211,7 +208,6 @@
           },
           countervalue: {
             amount: {
-              numeric,
               required: requiredIf('currency')
             },
             currency: {
@@ -221,7 +217,6 @@
         },
         fee: {
           amount: {
-            numeric,
             required: requiredIf('currency')
           },
           wallet: {
