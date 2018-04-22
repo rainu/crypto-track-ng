@@ -96,6 +96,7 @@
       }
     },
     "transfer": {
+      "title": "Transfer",
       "out": "Transferred Amount (Out)",
       "in": "Transferred Amount (In)",
       "fee": "Transaction Fee",

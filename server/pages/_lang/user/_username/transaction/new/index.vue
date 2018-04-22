@@ -22,7 +22,7 @@
                   <option value="lost" >[&lt;-] {{$t('transaction.lost.title')}}</option>
                   <option value="stolen" >[&lt;-] {{$t('transaction.stolen.title')}}</option>
                 </optgroup>
-                <option value="transfer" >[&lt;-&gt;] Transfer</option>
+                <option value="transfer" >[&lt;-&gt;] {{$t('transaction.transfer.title')}}</option>
               </select>
             </div>
 
