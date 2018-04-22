@@ -54,6 +54,7 @@
             //do cool stuff here after the user was successfully logged in...
 
             this.$store.dispatch('wallet/refreshWallets')
+            this.$store.dispatch('transaction/refreshTransactions')
           }
         })
       }
