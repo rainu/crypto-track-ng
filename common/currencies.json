@@ -5,7 +5,7 @@
       "icon": "fa fa-euro",
       "factor": 1E-2,
       "format": {
-        "numeral": "0.00"
+        "numeral": "0.[00]"
       }
     },
     "USD": {
@@ -13,7 +13,7 @@
       "icon": "fa fa-usd",
       "factor": 1E-2,
       "format": {
-        "numeral": "0.00"
+        "numeral": "0.[00]"
       }
     }
   },
@@ -23,7 +23,7 @@
       "icon": "cc BTC-alt",
       "factor": 1E-8,
       "format": {
-        "numeral": "0.00000000"
+        "numeral": "0.[00000000]"
       }
     },
     "ETH": {
@@ -31,7 +31,7 @@
       "icon": "cc ETH",
       "factor": 1E-18,
       "format": {
-        "numeral": "0.000000000000000000"
+        "numeral": "0.[000000000000000000]"
       }
     },
     "BCH": {
@@ -39,7 +39,7 @@
       "icon": "cc BCH",
       "factor": 1E-8,
       "format": {
-        "numeral": "0.00000000"
+        "numeral": "0.[00000000]"
       }
     }
   }

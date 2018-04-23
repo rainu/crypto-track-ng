@@ -12,6 +12,9 @@ import InputNumber from '../components/form/InputNumber'
 import CurrencyInput from '../components/form/CurrencyInput'
 import CurrencySelect from '../components/form/CurrencySelect'
 import WalletChooser from '../components/form/WalletChooser'
+import CurrencyIcon from '../components/widget/CurrencyIcon'
+import CurrencyAmount from '../components/widget/CurrencyAmount'
+import TransactionTable from '../components/widget/transaction/Table'
 
 Vue.use(Vuelidate)
 Vue.component('message-success', Success)
@@ -25,3 +28,6 @@ Vue.component('input-number', InputNumber)
 Vue.component('input-currency', CurrencyInput)
 Vue.component('select-currency', CurrencySelect)
 Vue.component('input-wallet', WalletChooser)
+Vue.component('transaction-table', TransactionTable)
+Vue.component('icon-currency', CurrencyIcon)
+Vue.component('currency-amount', CurrencyAmount)
