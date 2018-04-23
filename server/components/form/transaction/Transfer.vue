@@ -8,7 +8,7 @@
           <legend>{{$t('transaction.transfer.out')}}</legend>
           <div class="form-group" :class="{'has-error': $v.data.amount.$error}">
             <label >{{$t('common.amount')}}</label>
-            <input-number v-model="data.amount" ></input-number>
+            <input-number v-model="data.amount" :number-format="numberFormat" ></input-number>
           </div>
           <div class="form-group" :class="{'has-error': $v.data.out.wallet.$error}">
             <label >{{$t('common.wallet')}}</label>
@@ -26,7 +26,7 @@
           <legend>{{$t('transaction.transfer.in')}}</legend>
           <div class="form-group" :class="{'has-error': $v.data.amount.$error}">
             <label >{{$t('common.amount')}}</label>
-            <input-number v-model="data.amount" ></input-number>
+            <input-number v-model="data.amount" :number-format="numberFormat" ></input-number>
           </div>
           <div class="form-group" :class="{'has-error': $v.data.in.wallet.$error}">
             <label >{{$t('common.wallet')}}</label>
@@ -45,7 +45,7 @@
           <legend>{{$t('transaction.transfer.fee')}}</legend>
           <div class="form-group" :class="{'has-error': $v.data.fee.amount.$error}">
             <label >{{$t('common.amount')}}</label>
-            <input-number v-model="data.fee.amount" ></input-number>
+            <input-number v-model="data.fee.amount" :number-format="numberFormatFee" ></input-number>
           </div>
           <div class="form-group" :class="{'has-error': $v.data.fee.wallet.$error}">
             <label >{{$t('common.wallet')}}</label>
@@ -70,7 +70,7 @@
             <div class="col-xs-12 col-lg-12">
               <div class="form-group" :class="{'has-error': $v.data.countervalue.amount.$error}">
                 <label >{{$t('transaction.transfer.countervalues.value')}}</label>
-                <input-number v-model="data.countervalue.amount" ></input-number>
+                <input-number v-model="data.countervalue.amount" :number-format="numberFormatCountervalue" ></input-number>
               </div>
               <div class="form-group" :class="{'has-error': $v.data.countervalue.currency.$error}">
                 <label >{{$t('common.currency')}}</label>
@@ -107,6 +107,7 @@
 </template>
 
 <script>
+  import * as currencies from '../../../../common/currencies'
   import {mapGetters} from 'vuex';
   import { required, minValue, requiredIf } from 'vuelidate/lib/validators'
 
@@ -242,6 +243,15 @@
         }
         const wallet = this.getWalletById(this.data.fee.wallet)
         return wallet.currencies
+      },
+      numberFormat(){
+        return this.getNumberFormat(this.data)
+      },
+      numberFormatCountervalue(){
+        return this.getNumberFormat(this.data.countervalue)
+      },
+      numberFormatFee(){
+        return this.getNumberFormat(this.data.fee)
       }
     },
     methods: {
@@ -265,11 +275,16 @@
           }
         }
       },
+      getNumberFormat(container){
+        if(container.currency.name) {
+          return currencies[container.currency.type][container.currency.name].format.numeral
+        }
+        return null
+      }
     },
     watch: {
       'data.currency.name'(){
-        this.checkWallet(this.data.in)
-        this.checkWallet(this.data.out)
+        this.checkWallet(this.data)
       },
       'data.out.wallet'(){
         this.checkCurrency(this.data)

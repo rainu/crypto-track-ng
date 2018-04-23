@@ -8,7 +8,7 @@
           <legend>{{$t('transaction.stolen.out')}}</legend>
           <div class="form-group" :class="{'has-error': $v.data.out.amount.$error}">
             <label >{{$t('common.amount')}}</label>
-            <input-number v-model="data.out.amount" ></input-number>
+            <input-number v-model="data.out.amount" :number-format="numberFormatOut"></input-number>
           </div>
           <div class="form-group" :class="{'has-error': $v.data.out.wallet.$error}">
             <label >{{$t('common.wallet')}}</label>
@@ -34,7 +34,7 @@
             <div class="col-xs-12 col-lg-6">
               <div class="form-group" :class="{'has-error': $v.data.out.countervalue.amount.$error}">
                 <label >{{$t('transaction.stolen.countervalues.out')}}</label>
-                <input-number v-model="data.out.countervalue.amount" ></input-number>
+                <input-number v-model="data.out.countervalue.amount" :number-format="numberFormatOutCountervalue"></input-number>
               </div>
               <div class="form-group" :class="{'has-error': $v.data.out.countervalue.currency.$error}">
                 <label >{{$t('common.currency')}}</label>
@@ -71,6 +71,7 @@
 </template>
 
 <script>
+  import * as currencies from '../../../../common/currencies'
   import {mapGetters} from 'vuex';
   import { required, minValue, requiredIf } from 'vuelidate/lib/validators'
 
@@ -164,6 +165,12 @@
         }
         const wallet = this.getWalletById(this.data.out.wallet)
         return wallet.currencies
+      },
+      numberFormatOut(){
+        return this.getNumberFormat(this.data.out)
+      },
+      numberFormatOutCountervalue(){
+        return this.getNumberFormat(this.data.out.countervalue)
       }
     },
     methods: {
@@ -187,6 +194,12 @@
           }
         }
       },
+      getNumberFormat(container){
+        if(container.currency.name) {
+          return currencies[container.currency.type][container.currency.name].format.numeral
+        }
+        return null
+      }
     },
     watch: {
       'data.out.wallet'(){

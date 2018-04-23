@@ -8,7 +8,7 @@
           <legend>{{$t('transaction.exchange.buy')}}</legend>
           <div class="form-group" :class="{'has-error': $v.data.buy.amount.$error}">
             <label >{{$t('common.amount')}}</label>
-            <input-number v-model="data.buy.amount" ></input-number>
+            <input-number v-model="data.buy.amount" :number-format="numberFormatBuy" ></input-number>
           </div>
           <div class="form-group" :class="{'has-error': $v.data.buy.wallet.$error}">
             <label >{{$t('common.wallet')}}</label>
@@ -27,7 +27,7 @@
           <legend>{{$t('transaction.exchange.sell')}}</legend>
           <div class="form-group" :class="{'has-error': $v.data.sell.amount.$error}">
             <label >{{$t('common.amount')}}</label>
-            <input-number v-model="data.sell.amount" ></input-number>
+            <input-number v-model="data.sell.amount" :number-format="numberFormatSell" ></input-number>
           </div>
           <div class="form-group" :class="{'has-error': $v.data.sell.wallet.$error}">
             <label >{{$t('common.wallet')}}</label>
@@ -46,7 +46,7 @@
           <legend>{{$t('transaction.exchange.fee')}}</legend>
           <div class="form-group" :class="{'has-error': $v.data.fee.amount.$error}">
             <label >{{$t('common.amount')}}</label>
-            <input-number v-model="data.fee.amount" ></input-number>
+            <input-number v-model="data.fee.amount" :number-format="numberFormatFee" ></input-number>
           </div>
           <div class="form-group" :class="{'has-error': $v.data.fee.wallet.$error}">
             <label >{{$t('common.wallet')}}</label>
@@ -71,7 +71,7 @@
             <div class="col-xs-12 col-lg-6">
               <div class="form-group" :class="{'has-error': $v.data.buy.countervalue.amount.$error}">
                 <label >{{$t('transaction.exchange.countervalues.buy')}}</label>
-                <input-number v-model="data.buy.countervalue.amount" ></input-number>
+                <input-number v-model="data.buy.countervalue.amount" :number-format="numberFormatBuyCountervalue" ></input-number>
               </div>
               <div class="form-group" :class="{'has-error': $v.data.buy.countervalue.currency.$error}">
                 <label >{{$t('common.currency')}}</label>
@@ -83,7 +83,7 @@
             <div class="col-xs-12 col-lg-6">
               <div class="form-group" :class="{'has-error': $v.data.sell.countervalue.amount.$error}">
                 <label >{{$t('transaction.exchange.countervalues.sell')}}</label>
-                <input-number v-model="data.sell.countervalue.amount" ></input-number>
+                <input-number v-model="data.sell.countervalue.amount" :number-format="numberFormatSellCountervalue" ></input-number>
               </div>
               <div class="form-group" :class="{'has-error': $v.data.sell.countervalue.currency.$error}">
                 <label >{{$t('common.currency')}}</label>
@@ -119,6 +119,7 @@
 </template>
 
 <script>
+  import * as currencies from '../../../../common/currencies'
   import {mapGetters} from 'vuex';
   import { required, minValue, requiredIf } from 'vuelidate/lib/validators'
 
@@ -293,6 +294,21 @@
         }
         const wallet = this.getWalletById(this.data.fee.wallet)
         return wallet.currencies
+      },
+      numberFormatFee(){
+        return this.getNumberFormat(this.data.fee)
+      },
+      numberFormatBuy(){
+        return this.getNumberFormat(this.data.buy)
+      },
+      numberFormatBuyCountervalue(){
+        return this.getNumberFormat(this.data.buy.countervalue)
+      },
+      numberFormatSell(){
+        return this.getNumberFormat(this.data.sell)
+      },
+      numberFormatSellCountervalue(){
+        return this.getNumberFormat(this.data.sell.countervalue)
       }
     },
     methods: {
@@ -316,6 +332,12 @@
           }
         }
       },
+      getNumberFormat(container){
+        if(container.currency.name) {
+          return currencies[container.currency.type][container.currency.name].format.numeral
+        }
+        return null
+      }
     },
     watch: {
       'data.buy.wallet'(){

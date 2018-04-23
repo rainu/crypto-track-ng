@@ -8,7 +8,7 @@
           <legend>{{$t('transaction.income.in')}}</legend>
           <div class="form-group" :class="{'has-error': $v.data.in.amount.$error}">
             <label >{{$t('common.amount')}}</label>
-            <input-number v-model="data.in.amount" ></input-number>
+            <input-number v-model="data.in.amount" :number-format="numberFormatIn" ></input-number>
           </div>
           <div class="form-group" :class="{'has-error': $v.data.in.wallet.$error}">
             <label >{{$t('common.wallet')}}</label>
@@ -27,7 +27,7 @@
           <legend>{{$t('transaction.income.fee')}}</legend>
           <div class="form-group" :class="{'has-error': $v.data.fee.amount.$error}">
             <label >{{$t('common.amount')}}</label>
-            <input-number v-model="data.fee.amount" ></input-number>
+            <input-number v-model="data.fee.amount" :number-format="numberFormatFee" ></input-number>
           </div>
           <div class="form-group" :class="{'has-error': $v.data.fee.wallet.$error}">
             <label >{{$t('common.wallet')}}</label>
@@ -52,7 +52,7 @@
             <div class="col-xs-12 col-lg-6">
               <div class="form-group" :class="{'has-error': $v.data.in.countervalue.amount.$error}">
                 <label >{{$t('transaction.income.countervalues.in')}}</label>
-                <input-number v-model="data.in.countervalue.amount" ></input-number>
+                <input-number v-model="data.in.countervalue.amount" :number-format="numberFormatInCountervalue" ></input-number>
               </div>
               <div class="form-group" :class="{'has-error': $v.data.in.countervalue.currency.$error}">
                 <label >{{$t('common.currency')}}</label>
@@ -89,6 +89,7 @@
 </template>
 
 <script>
+  import * as currencies from '../../../../common/currencies'
   import {mapGetters} from 'vuex';
   import { required, minValue, requiredIf } from 'vuelidate/lib/validators'
 
@@ -212,6 +213,15 @@
         }
         const wallet = this.getWalletById(this.data.fee.wallet)
         return wallet.currencies
+      },
+      numberFormatFee(){
+        return this.getNumberFormat(this.data.fee)
+      },
+      numberFormatIn(){
+        return this.getNumberFormat(this.data.in)
+      },
+      numberFormatInCountervalue(){
+        return this.getNumberFormat(this.data.in.countervalue)
       }
     },
     methods: {
@@ -235,6 +245,12 @@
           }
         }
       },
+      getNumberFormat(container){
+        if(container.currency.name) {
+          return currencies[container.currency.type][container.currency.name].format.numeral
+        }
+        return null
+      }
     },
     watch: {
       'data.in.wallet'(){
