@@ -31,32 +31,6 @@
     "logout": "Logout",
     "failed": "The login failed! Please check your credentials."
   },
-  "currencies": {
-    "fiat": {
-      "EUR": {
-        "label": "Euro",
-        "icon": "fa fa-euro"
-      },
-      "USD": {
-        "label": "US Dollar",
-        "icon": "fa fa-usd"
-      }
-    },
-    "crypto": {
-      "BTC": {
-        "label": "Bitcoin",
-        "icon": "cc BTC-alt"
-      },
-      "ETH": {
-        "label": "Ethereum",
-        "icon": "cc ETH"
-      },
-      "BCH": {
-        "label": "BitcoinCash",
-        "icon": "cc BCH"
-      }
-    }
-  },
   "wallet": {
     "title": "Wallet-Information",
     "address": "Address",
@@ -82,6 +56,7 @@
         "group": "Trading Group",
         "comment": "Comment"
       },
+      "fee": "Fee",
       "save-error": "The transaction could not be saved!"
     },
     "exchange": {

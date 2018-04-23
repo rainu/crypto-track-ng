@@ -31,32 +31,6 @@
     "logout": "Abmelden",
     "failed": "Die Anmeldung ist fehlgeschlagen! Bitte prüfen Sie Ihre Zugangsdaten."
   },
-  "currencies": {
-    "fiat": {
-      "EUR": {
-        "label": "Euro",
-        "icon": "fa fa-euro"
-      },
-      "USD": {
-        "label": "US Dollar",
-        "icon": "fa fa-usd"
-      }
-    },
-    "crypto": {
-      "BTC": {
-        "label": "Bitcoin",
-        "icon": "cc BTC-alt"
-      },
-      "ETH": {
-        "label": "Ethereum",
-        "icon": "cc ETH"
-      },
-      "BCH": {
-        "label": "BitcoinCash",
-        "icon": "cc BCH"
-      }
-    }
-  },
   "wallet": {
     "title": "Wallet-Informationen",
     "address": "Adresse",
@@ -82,6 +56,7 @@
         "group": "Trading Gruppe",
         "comment": "Kommentar"
       },
+      "fee": "Gebühr",
       "save-error": "Die Transaktion konnte nicht gespeichert werden!"
     },
     "exchange": {

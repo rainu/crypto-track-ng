@@ -14,7 +14,7 @@
 </template>
 
 <script>
-  import locales from '@/locales'
+  import * as currencies from '../../../common/currencies'
 
   export default {
     props: {
@@ -77,8 +77,8 @@
         }
 
         let options = []
-        const fiat = locales.localeMappings[this.$store.state.i18n.locale].currencies.fiat;
-        const crypto = locales.localeMappings[this.$store.state.i18n.locale].currencies.crypto;
+        const fiat = currencies.fiat;
+        const crypto = currencies.crypto;
 
         if(this.fiat) {
           for (let symbol of Object.keys(fiat)) {
