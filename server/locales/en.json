@@ -62,13 +62,13 @@
     },
     "exchange": {
       "title": "Exchange",
-      "buy": "Buy",
-      "sell": "Sell",
+      "in": "Buy",
+      "out": "Sell",
       "fee": "Trading Fee",
       "countervalues": {
         "title": "Exchange-Course",
-        "buy": "Buy value",
-        "sell": "Sell value"
+        "in": "Buy value",
+        "out": "Sell value"
       }
     },
     "transfer": {

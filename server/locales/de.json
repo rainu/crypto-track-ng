@@ -62,13 +62,13 @@
     },
     "exchange": {
       "title": "Umtausch",
-      "buy": "Kauf",
-      "sell": "Verkauf",
+      "in": "Kauf",
+      "out": "Verkauf",
       "fee": "Trading Gebühren",
       "countervalues": {
         "title": "Umtausch-Kurse",
-        "buy": "Kaufwert",
-        "sell": "Verkaufwert"
+        "in": "Kaufwert",
+        "out": "Verkaufwert"
       }
     },
     "transfer": {

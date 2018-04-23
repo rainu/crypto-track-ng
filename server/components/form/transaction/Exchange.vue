@@ -1,41 +1,41 @@
 <template>
   <div class="container-fluid">
-    <!-- row for buy/sell info -->
+    <!-- row for in/out info -->
     <div class="row">
-      <!-- buy info -->
+      <!-- in info -->
       <div class="col-xs-12 col-lg-4">
         <fieldset>
-          <legend>{{$t('transaction.exchange.buy')}}</legend>
-          <div class="form-group" :class="{'has-error': $v.data.buy.amount.$error}">
+          <legend>{{$t('transaction.exchange.in')}}</legend>
+          <div class="form-group" :class="{'has-error': $v.data.in.amount.$error}">
             <label >{{$t('common.amount')}}</label>
-            <input-number v-model="data.buy.amount" :number-format="numberFormatBuy" ></input-number>
+            <input-number v-model="data.in.amount" :number-format="numberFormatIn" ></input-number>
           </div>
-          <div class="form-group" :class="{'has-error': $v.data.buy.wallet.$error}">
+          <div class="form-group" :class="{'has-error': $v.data.in.wallet.$error}">
             <label >{{$t('common.wallet')}}</label>
-            <input-wallet v-model="data.buy.wallet" :whitelist="[data.buy.currency]"/>
+            <input-wallet v-model="data.in.wallet" :whitelist="[data.in.currency]"/>
           </div>
-          <div class="form-group" :class="{'has-error': $v.data.buy.currency.$error}">
+          <div class="form-group" :class="{'has-error': $v.data.in.currency.$error}">
             <label >{{$t('common.currency')}}</label>
-            <input-currency v-model="data.buy.currency" :whitelist="buyCurrenciesWhitelist" />
+            <input-currency v-model="data.in.currency" :whitelist="inCurrenciesWhitelist" />
           </div>
         </fieldset>
       </div>
 
-      <!-- sell info -->
+      <!-- out info -->
       <div class="col-xs-12 col-lg-4">
         <fieldset>
-          <legend>{{$t('transaction.exchange.sell')}}</legend>
-          <div class="form-group" :class="{'has-error': $v.data.sell.amount.$error}">
+          <legend>{{$t('transaction.exchange.out')}}</legend>
+          <div class="form-group" :class="{'has-error': $v.data.out.amount.$error}">
             <label >{{$t('common.amount')}}</label>
-            <input-number v-model="data.sell.amount" :number-format="numberFormatSell" ></input-number>
+            <input-number v-model="data.out.amount" :number-format="numberFormatOut" ></input-number>
           </div>
-          <div class="form-group" :class="{'has-error': $v.data.sell.wallet.$error}">
+          <div class="form-group" :class="{'has-error': $v.data.out.wallet.$error}">
             <label >{{$t('common.wallet')}}</label>
-            <input-wallet v-model="data.sell.wallet" :whitelist="[data.sell.currency]"/>
+            <input-wallet v-model="data.out.wallet" :whitelist="[data.out.currency]"/>
           </div>
-          <div class="form-group" :class="{'has-error': $v.data.sell.currency.$error}">
+          <div class="form-group" :class="{'has-error': $v.data.out.currency.$error}">
             <label >{{$t('common.currency')}}</label>
-            <input-currency v-model="data.sell.currency" :whitelist="sellCurrenciesWhitelist" />
+            <input-currency v-model="data.out.currency" :whitelist="outCurrenciesWhitelist" />
           </div>
         </fieldset>
       </div>
@@ -67,27 +67,27 @@
           <legend>{{$t('transaction.exchange.countervalues.title')}}</legend>
           <div class="row">
 
-            <!-- buy countervalue -->
+            <!-- in countervalue -->
             <div class="col-xs-12 col-lg-6">
-              <div class="form-group" :class="{'has-error': $v.data.buy.countervalue.amount.$error}">
-                <label >{{$t('transaction.exchange.countervalues.buy')}}</label>
-                <input-number v-model="data.buy.countervalue.amount" :number-format="numberFormatBuyCountervalue" ></input-number>
+              <div class="form-group" :class="{'has-error': $v.data.in.countervalue.amount.$error}">
+                <label >{{$t('transaction.exchange.countervalues.in')}}</label>
+                <input-number v-model="data.in.countervalue.amount" :number-format="numberFormatInCountervalue" ></input-number>
               </div>
-              <div class="form-group" :class="{'has-error': $v.data.buy.countervalue.currency.$error}">
+              <div class="form-group" :class="{'has-error': $v.data.in.countervalue.currency.$error}">
                 <label >{{$t('common.currency')}}</label>
-                <input-currency :crypto="false" v-model="data.buy.countervalue.currency" />
+                <input-currency :crypto="false" v-model="data.in.countervalue.currency" />
               </div>
             </div>
 
-            <!-- sell countervalue -->
+            <!-- out countervalue -->
             <div class="col-xs-12 col-lg-6">
-              <div class="form-group" :class="{'has-error': $v.data.sell.countervalue.amount.$error}">
-                <label >{{$t('transaction.exchange.countervalues.sell')}}</label>
-                <input-number v-model="data.sell.countervalue.amount" :number-format="numberFormatSellCountervalue" ></input-number>
+              <div class="form-group" :class="{'has-error': $v.data.out.countervalue.amount.$error}">
+                <label >{{$t('transaction.exchange.countervalues.out')}}</label>
+                <input-number v-model="data.out.countervalue.amount" :number-format="numberFormatOutCountervalue" ></input-number>
               </div>
-              <div class="form-group" :class="{'has-error': $v.data.sell.countervalue.currency.$error}">
+              <div class="form-group" :class="{'has-error': $v.data.out.countervalue.currency.$error}">
                 <label >{{$t('common.currency')}}</label>
-                <input-currency :crypto="false" v-model="data.sell.countervalue.currency" />
+                <input-currency :crypto="false" v-model="data.out.countervalue.currency" />
               </div>
             </div>
           </div>
@@ -139,7 +139,7 @@
 
       return {
         data: {
-          buy: {
+          in: {
             amount: null,
             currency: {
               name: null,
@@ -154,7 +154,7 @@
               }
             },
           },
-          sell: {
+          out: {
             amount: null,
             currency: {
               name: null,
@@ -187,7 +187,7 @@
     },
     validations: {
       data: {
-        buy: {
+        in: {
           amount: {
             required,
             minValue: minValue(0),
@@ -210,13 +210,13 @@
             currency: {
               name: {
                 required: requiredIf(function() {
-                  return this.data.buy.countervalue.amount
+                  return this.data.in.countervalue.amount
                 })
               }
             }
           },
         },
-        sell: {
+        out: {
           amount: {
             required,
             minValue: minValue(0),
@@ -239,7 +239,7 @@
             currency: {
               name: {
                 required: requiredIf(function() {
-                  return this.data.sell.countervalue.amount
+                  return this.data.out.countervalue.amount
                 })
               }
             },
@@ -274,18 +274,18 @@
       ...mapGetters({
         getWalletById: 'wallet/byId'
       }),
-      buyCurrenciesWhitelist(){
-        if(this.data.buy.wallet === ''){
+      inCurrenciesWhitelist(){
+        if(this.data.in.wallet === ''){
           return []
         }
-        const wallet = this.getWalletById(this.data.buy.wallet)
+        const wallet = this.getWalletById(this.data.in.wallet)
         return wallet.currencies
       },
-      sellCurrenciesWhitelist(){
-        if(this.data.sell.wallet === ''){
+      outCurrenciesWhitelist(){
+        if(this.data.out.wallet === ''){
           return []
         }
-        const wallet = this.getWalletById(this.data.sell.wallet)
+        const wallet = this.getWalletById(this.data.out.wallet)
         return wallet.currencies
       },
       feeCurrenciesWhitelist(){
@@ -298,17 +298,17 @@
       numberFormatFee(){
         return this.getNumberFormat(this.data.fee)
       },
-      numberFormatBuy(){
-        return this.getNumberFormat(this.data.buy)
+      numberFormatIn(){
+        return this.getNumberFormat(this.data.in)
       },
-      numberFormatBuyCountervalue(){
-        return this.getNumberFormat(this.data.buy.countervalue)
+      numberFormatInCountervalue(){
+        return this.getNumberFormat(this.data.in.countervalue)
       },
-      numberFormatSell(){
-        return this.getNumberFormat(this.data.sell)
+      numberFormatOut(){
+        return this.getNumberFormat(this.data.out)
       },
-      numberFormatSellCountervalue(){
-        return this.getNumberFormat(this.data.sell.countervalue)
+      numberFormatOutCountervalue(){
+        return this.getNumberFormat(this.data.out.countervalue)
       }
     },
     methods: {
@@ -340,17 +340,17 @@
       }
     },
     watch: {
-      'data.buy.wallet'(){
-        this.checkCurrency(this.data.buy)
+      'data.in.wallet'(){
+        this.checkCurrency(this.data.in)
       },
-      'data.buy.currency.name'(){
-        this.checkWallet(this.data.buy)
+      'data.in.currency.name'(){
+        this.checkWallet(this.data.in)
       },
-      'data.sell.wallet'(){
-        this.checkCurrency(this.data.sell)
+      'data.out.wallet'(){
+        this.checkCurrency(this.data.out)
       },
-      'data.sell.currency.name'(){
-        this.checkWallet(this.data.sell)
+      'data.out.currency.name'(){
+        this.checkWallet(this.data.out)
       },
       'data.fee.wallet'(){
         this.checkCurrency(this.data.fee)
@@ -366,8 +366,8 @@
           if(!this.$v.data.$error) {
             this.$emit('input', {
               involvedWallets: [ ...new Set([
-                this.data.buy.wallet,
-                this.data.sell.wallet,
+                this.data.in.wallet,
+                this.data.out.wallet,
                 this.data.fee.wallet,
               ].filter(i => i))],
               data: this.data,

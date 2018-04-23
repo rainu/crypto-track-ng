@@ -8,13 +8,13 @@
     <td>{{ldate(tx.date)}}</td>
     <!-- INCOME -->
     <td>
-      <currency-amount :amount="tx.data.buy.amount" :currency="tx.data.buy.currency" class="pull-right"/> <br />
-      <strong>{{wallet(tx.data.buy.wallet).name}}</strong>
+      <currency-amount :amount="tx.data.in.amount" :currency="tx.data.in.currency" class="pull-right"/> <br />
+      <strong>{{wallet(tx.data.in.wallet).name}}</strong>
     </td>
     <!-- OUTCOME -->
     <td>
-      <currency-amount :amount="tx.data.sell.amount" :currency="tx.data.sell.currency" class="pull-right"/> <br />
-      <strong>{{wallet(tx.data.sell.wallet).name}}</strong>
+      <currency-amount :amount="tx.data.out.amount" :currency="tx.data.out.currency" class="pull-right"/> <br />
+      <strong>{{wallet(tx.data.out.wallet).name}}</strong>
     </td>
     <!-- FEE -->
     <td>
