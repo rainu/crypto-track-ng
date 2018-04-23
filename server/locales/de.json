@@ -42,6 +42,7 @@
     "delete-question": "Wollen Sie wirklich das Wallet mit dem Namen <b>{name}</b> löschen?"
   },
   "transaction": {
+    "delete-question": "Wollen Sie wirklich die folgende Transaktion löschen?<ul><li>Typ: <strong>{type}</strong></li><li>Datum: <strong>{date}</strong></li></ul>",
     "type":{
       "in": "Eingang",
       "out": "Ausgang"
