@@ -25,7 +25,7 @@
     name: "form-datepicker",
     data() {
       return {
-        date: this.value,
+        date: new Date(this.value),
         config: {
           format: this.$t('common.datetime.format'),
           useCurrent: true,

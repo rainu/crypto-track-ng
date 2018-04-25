@@ -43,6 +43,7 @@
   },
   "transaction": {
     "delete-question": "Are you sure to delete the following Transaction?<ul><li>Type: <strong>{type}</strong></li><li>Date: <strong>{date}</strong></li></ul>",
+    "edit-success": "The transaction was successful saved.",
     "type":{
       "in": "Income",
       "out": "Outcome"

@@ -43,6 +43,7 @@
   },
   "transaction": {
     "delete-question": "Wollen Sie wirklich die folgende Transaktion löschen?<ul><li>Typ: <strong>{type}</strong></li><li>Datum: <strong>{date}</strong></li></ul>",
+    "edit-success": "Die Transaktion wurde erfolgreich aktualisiert.",
     "type":{
       "in": "Eingang",
       "out": "Ausgang"
