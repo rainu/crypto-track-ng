@@ -31,6 +31,10 @@
           useCurrent: true,
           locale: this.$store.state.i18n.locale,
           sideBySide: true,
+          toolbarPlacement: 'top',
+          showTodayButton: true,
+          showClear: true,
+          showClose: true,
           widgetPositioning: {
             horizontal: 'auto',
             vertical: 'bottom'
