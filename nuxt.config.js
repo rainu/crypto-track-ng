@@ -79,7 +79,8 @@ module.exports = {
     '~/backend/middleware/authentication',
     '~/backend/routes/authentication',
     '~/backend/routes/wallet',
-    '~/backend/routes/transaction'
+    '~/backend/routes/transaction',
+    '~/backend/routes/backup'
   ],
 
   /*
