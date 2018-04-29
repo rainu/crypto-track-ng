@@ -136,5 +136,15 @@
         "out": "Wert zum Zeitpunkt des Diebstals"
       }
     }
+  },
+  "backup": {
+    "action": {
+      "upload": "Hochladen",
+      "download": "Herunterladen"
+    },
+    "download-error": "Es konnte kein Backup geladen werden! Fehler: {err}",
+    "upload-error": "Einspielen des Backups fehlgeschlagen. Fehler: {err}",
+    "upload-error-file-corrupted": "Die Datei scheint beschädigt zu sein!",
+    "upload-success": "Einspielen des Backups war erfolgreich."
   }
 }

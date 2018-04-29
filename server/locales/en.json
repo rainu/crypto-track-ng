@@ -136,5 +136,15 @@
         "out": "Value"
       }
     }
+  },
+  "backup": {
+    "action": {
+      "upload": "Upload",
+      "download": "Download"
+    },
+    "download-error": "Failed to load backup file! Error: {err}",
+    "upload-error": "Failed to apply the backup. Error: {err}",
+    "upload-error-file-corrupted": "The file seams to be corrupted!",
+    "upload-success": "Successful applied the backup."
   }
 }
