@@ -72,7 +72,7 @@
     },
     data(){
       return {
-        date: null,
+        date: new Date(),
         type: 'exchange',
         container: {
           donation: null,
