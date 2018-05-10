@@ -112,10 +112,11 @@
         if(this.value.name === '') {
           this.selectedValue = ''
         }else if (
-          this.selectedValue &&
-          this.selectedValue.name !== this.value.name &&
-          this.selectedValue.type !== this.value.type){
-
+          !this.selectedValue || (
+            this.selectedValue &&
+            this.selectedValue.name !== this.value.name &&
+            this.selectedValue.type !== this.value.type)
+        ){
           for(let curOpt of this.options()) {
             if(curOpt.value === this.value.name){
               this.selectedValue = curOpt;
