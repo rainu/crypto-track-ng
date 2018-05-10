@@ -10,8 +10,12 @@
     <td></td>
     <!-- OUTCOME -->
     <td>
-      <currency-amount :amount="tx.data.out.amount" :currency="tx.data.out.currency" class="pull-right"/><br />
-      <strong>{{wallet(tx.data.out.wallet).name}}</strong>
+      <ul class="todo-list">
+        <li class="list-group-item">
+          <strong>{{walletName(tx.data.out.wallet)}}</strong>
+          <currency-amount class="pull-right" :amount="tx.data.out.amount" :currency="tx.data.out.currency" />
+        </li>
+      </ul>
     </td>
     <!-- FEE -->
     <td></td>
@@ -43,6 +47,13 @@
       }),
     },
     methods: {
+      walletName(wId){
+        let wallet = this.wallet(wId);
+        if(wallet) {
+          return wallet.name
+        }
+        return ""
+      },
       ldate(date){
         return moment(date).format(this.$t('common.datetime.format'))
       },

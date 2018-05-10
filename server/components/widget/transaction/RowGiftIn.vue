@@ -8,8 +8,12 @@
     <td>{{ldate(tx.date)}}</td>
     <!-- INCOME -->
     <td>
-      <currency-amount :amount="tx.data.in.amount" :currency="tx.data.in.currency" class="pull-right"/><br />
-      <strong>{{wallet(tx.data.in.wallet).name}}</strong>
+      <ul class="todo-list">
+        <li class="list-group-item">
+          <strong>{{walletName(tx.data.in.wallet)}}</strong>
+          <currency-amount class="pull-right" :amount="tx.data.in.amount" :currency="tx.data.in.currency" />
+        </li>
+      </ul>
     </td>
     <!-- OUTCOME -->
     <td>
@@ -17,10 +21,12 @@
     </td>
     <!-- FEE -->
     <td>
-      <template v-if="tx.data.fee.amount">
-        <currency-amount :amount="tx.data.fee.amount" :currency="tx.data.fee.currency" class="pull-right"/><br />
-        <strong>{{wallet(tx.data.fee.wallet).name}}</strong>
-      </template>
+      <ul class="todo-list">
+        <li class="list-group-item" v-for="(fee, i) in tx.data.fee" v-if="fee">
+          <strong>{{walletName(tx.data.fee[i].wallet)}}</strong>
+          <currency-amount class="pull-right" :amount="tx.data.fee[i].amount" :currency="tx.data.fee[i].currency" />
+        </li>
+      </ul>
     </td>
     <!-- ACTIONS -->
     <td>
@@ -50,6 +56,13 @@
       }),
     },
     methods: {
+      walletName(wId){
+        let wallet = this.wallet(wId);
+        if(wallet) {
+          return wallet.name
+        }
+        return ""
+      },
       ldate(date){
         return moment(date).format(this.$t('common.datetime.format'))
       },

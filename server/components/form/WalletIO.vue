@@ -31,7 +31,7 @@
 <script>
   import * as currencies from '../../../common/currencies'
   import {mapGetters} from 'vuex';
-  import { required, minValue } from 'vuelidate/lib/validators'
+  import { minValue, requiredIf } from 'vuelidate/lib/validators'
 
   export default {
     props: {
@@ -48,23 +48,76 @@
             wallet: '',
           }
         }
+      },
+      mandatory: {
+        type: Boolean,
+        required: false,
+        default: true,
       }
     },
     validations: {
       container: {
         amount: {
-          required,
+          mandatory: function(value){
+            if(this.mandatory && (value === null || value === 0)) {
+              return false;
+            }
+
+            return true;
+          },
+          required1: requiredIf(function() {
+            return this.container.currency.name
+          }),
+          required2: requiredIf(function() {
+            return this.container.wallet
+          }),
           minValue: minValue(0),
         },
         wallet: {
-          required,
+          mandatory(value){
+            if(this.mandatory && (value === null || value === "")) {
+              return false;
+            }
+
+            return true;
+          },
+          required1: requiredIf(function() {
+            return this.container.currency.name
+          }),
+          required2: requiredIf(function() {
+            return this.container.amount
+          }),
         },
         currency: {
           name: {
-            required
+            mandatory(value){
+              if(this.mandatory && (value === null || value === "")) {
+                return false;
+              }
+
+              return true;
+            },
+            required1: requiredIf(function() {
+              return this.container.amount
+            }),
+            required2: requiredIf(function() {
+              return this.container.wallet
+            })
           },
           type: {
-            required
+            mandatory(value){
+              if(this.mandatory && (value === null || value === "")) {
+                return false;
+              }
+
+              return true;
+            },
+            required1: requiredIf(function() {
+              return this.container.amount
+            }),
+            required2: requiredIf(function() {
+              return this.container.wallet
+            })
           }
         },
       }

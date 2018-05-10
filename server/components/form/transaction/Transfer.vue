@@ -8,7 +8,23 @@
       <wallet-io class="col-xs-12 col-lg-4" v-model="data.container.in">{{$t('transaction.transfer.in')}}</wallet-io>
 
       <!-- fee info -->
-      <wallet-io class="col-xs-12 col-lg-4" v-model="data.fee">{{$t('transaction.transfer.fee')}}</wallet-io>
+      <template v-for="(curFee, i) in data.fee">
+        <wallet-io class="col-xs-12 col-lg-4" :mandatory="false" v-model="data.fee[i]">
+          <div class="row">
+            <div class="col-xs-6">{{$t('transaction.transfer.fee')}}</div>
+            <div class="col-xs-3">
+              <button class="btn btn-danger btn-block" v-if="data.fee.length > 1" @click.prevent="removeFee(i)">
+                <i class="fa fa-minus"></i>
+              </button>
+            </div>
+            <div class="col-xs-3">
+              <button class="btn btn-success btn-block" @click.prevent="addFee()">
+                <i class="fa fa-plus"></i>
+              </button>
+            </div>
+          </div>
+        </wallet-io>
+      </template>
     </div>
 
     <!-- row for countervalues -->
@@ -103,14 +119,14 @@
           in: {
             wallet: '',
           },
-          fee: {
+          fee: [{
             amount: null,
             currency: {
               name: null,
               type: null
             },
             wallet: ''
-          },
+          }],
           details: {
             exchange: '',
             group: '',
@@ -156,17 +172,19 @@
           },
         },
         fee: {
-          amount: {
-            required: requiredIf('currency.name')
-          },
-          wallet: {
-            required: requiredIf('amount')
-          },
-          currency: {
-            name: {
-              required: requiredIf(function() {
-                return this.data.fee.amount
-              })
+          $each: {
+            amount: {
+              required: requiredIf('currency.name')
+            },
+            wallet: {
+              required: requiredIf('amount')
+            },
+            currency: {
+              name: {
+                required: requiredIf(function () {
+                  return this.data.fee.amount
+                })
+              }
             }
           }
         },
@@ -178,6 +196,21 @@
           comment: {
           }
         }
+      }
+    },
+    methods: {
+      addFee(){
+        this.data.fee.push({
+          amount: null,
+          currency: {
+            name: null,
+            type: null
+          },
+          wallet: ''
+        })
+      },
+      removeFee(index){
+        this.data.fee.splice(index, 1)
       }
     },
     watch: {
@@ -210,7 +243,7 @@
               involvedWallets: [ ...new Set([
                 this.data.out.wallet,
                 this.data.in.wallet,
-                this.data.fee.wallet,
+                ...this.data.fee.map(f => f.wallet),
               ].filter(i => i))],
               data: this.data,
             })
