@@ -14,14 +14,16 @@
       }
     },
     data(){
-      if(!this.currency || !this.currency.name) {
-        return {
-          iconClass: ''
-        }
-      }
-
       return {
-        iconClass: currencies[this.currency.type][this.currency.name].icon
+      }
+    },
+    computed: {
+      iconClass(){
+        if(!this.currency || !this.currency.name) {
+          return ''
+        }
+
+        return currencies[this.currency.type][this.currency.name].icon
       }
     }
   }
