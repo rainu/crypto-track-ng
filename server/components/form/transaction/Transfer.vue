@@ -19,17 +19,7 @@
           <div class="row">
 
             <!-- countervalue -->
-            <div class="col-xs-12 col-lg-12">
-              <div class="form-group" :class="{'has-error': $v.data.countervalue.amount.$error}">
-                <label >{{$t('transaction.transfer.countervalues.value')}}</label>
-                <input-number v-model="data.countervalue.amount" :number-format="numberFormatCountervalue" ></input-number>
-              </div>
-              <div class="form-group" :class="{'has-error': $v.data.countervalue.currency.$error}">
-                <label >{{$t('common.currency')}}</label>
-                <input-currency :crypto="false" v-model="data.countervalue.currency" />
-              </div>
-            </div>
-
+            <counter-value class="col-xs-12 col-lg-12" v-model="data.countervalue">{{$t('transaction.transfer.countervalues.value')}}</counter-value>
           </div>
         </fieldset>
       </div>
@@ -59,7 +49,6 @@
 </template>
 
 <script>
-  import * as currencies from '../../../../common/currencies'
   import { required, minValue, requiredIf } from 'vuelidate/lib/validators'
 
   export default {
@@ -189,19 +178,6 @@
           comment: {
           }
         }
-      }
-    },
-    computed: {
-      numberFormatCountervalue(){
-        return this.getNumberFormat(this.data.countervalue)
-      },
-    },
-    methods: {
-      getNumberFormat(container){
-        if(container.currency.name) {
-          return currencies[container.currency.type][container.currency.name].format.numeral
-        }
-        return null
       }
     },
     watch: {

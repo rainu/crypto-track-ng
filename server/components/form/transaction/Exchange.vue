@@ -20,28 +20,10 @@
           <div class="row">
 
             <!-- in countervalue -->
-            <div class="col-xs-12 col-lg-6">
-              <div class="form-group" :class="{'has-error': $v.data.in.countervalue.amount.$error}">
-                <label >{{$t('transaction.exchange.countervalues.in')}}</label>
-                <input-number v-model="data.in.countervalue.amount" :number-format="numberFormatInCountervalue" ></input-number>
-              </div>
-              <div class="form-group" :class="{'has-error': $v.data.in.countervalue.currency.$error}">
-                <label >{{$t('common.currency')}}</label>
-                <input-currency :crypto="false" v-model="data.in.countervalue.currency" />
-              </div>
-            </div>
+            <counter-value class="col-xs-12 col-lg-6" v-model="data.in.countervalue">{{$t('transaction.exchange.countervalues.in')}}</counter-value>
 
             <!-- out countervalue -->
-            <div class="col-xs-12 col-lg-6">
-              <div class="form-group" :class="{'has-error': $v.data.out.countervalue.amount.$error}">
-                <label >{{$t('transaction.exchange.countervalues.out')}}</label>
-                <input-number v-model="data.out.countervalue.amount" :number-format="numberFormatOutCountervalue" ></input-number>
-              </div>
-              <div class="form-group" :class="{'has-error': $v.data.out.countervalue.currency.$error}">
-                <label >{{$t('common.currency')}}</label>
-                <input-currency :crypto="false" v-model="data.out.countervalue.currency" />
-              </div>
-            </div>
+            <counter-value class="col-xs-12 col-lg-6" v-model="data.out.countervalue">{{$t('transaction.exchange.countervalues.out')}}</counter-value>
           </div>
         </fieldset>
       </div>
@@ -71,7 +53,6 @@
 </template>
 
 <script>
-  import * as currencies from '../../../../common/currencies'
   import { required, minValue, requiredIf } from 'vuelidate/lib/validators'
 
   export default {
@@ -219,22 +200,6 @@
           comment: {
           }
         }
-      }
-    },
-    computed: {
-      numberFormatInCountervalue(){
-        return this.getNumberFormat(this.data.in.countervalue)
-      },
-      numberFormatOutCountervalue(){
-        return this.getNumberFormat(this.data.out.countervalue)
-      }
-    },
-    methods: {
-      getNumberFormat(container){
-        if(container.currency.name) {
-          return currencies[container.currency.type][container.currency.name].format.numeral
-        }
-        return null
       }
     },
     watch: {
