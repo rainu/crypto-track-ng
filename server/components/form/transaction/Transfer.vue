@@ -3,60 +3,12 @@
     <!-- row for transfer info -->
     <div class="row">
       <!-- transfer info -->
-      <div class="col-xs-12 col-lg-4">
-        <fieldset>
-          <legend>{{$t('transaction.transfer.out')}}</legend>
-          <div class="form-group" :class="{'has-error': $v.data.amount.$error}">
-            <label >{{$t('common.amount')}}</label>
-            <input-number v-model="data.amount" :number-format="numberFormat" ></input-number>
-          </div>
-          <div class="form-group" :class="{'has-error': $v.data.out.wallet.$error}">
-            <label >{{$t('common.wallet')}}</label>
-            <input-wallet v-model="data.out.wallet" :whitelist="[data.currency]"/>
-          </div>
-          <div class="form-group" :class="{'has-error': $v.data.currency.$error}">
-            <label >{{$t('common.currency')}}</label>
-            <input-currency v-model="data.currency" :whitelist="currenciesWhitelist" />
-          </div>
-        </fieldset>
-      </div>
+      <wallet-io class="col-xs-12 col-lg-4" v-model="data.container.out">{{$t('transaction.transfer.out')}}</wallet-io>
 
-      <div class="col-xs-12 col-lg-4">
-        <fieldset>
-          <legend>{{$t('transaction.transfer.in')}}</legend>
-          <div class="form-group" :class="{'has-error': $v.data.amount.$error}">
-            <label >{{$t('common.amount')}}</label>
-            <input-number v-model="data.amount" :number-format="numberFormat" ></input-number>
-          </div>
-          <div class="form-group" :class="{'has-error': $v.data.in.wallet.$error}">
-            <label >{{$t('common.wallet')}}</label>
-            <input-wallet v-model="data.in.wallet" :whitelist="[data.currency]"/>
-          </div>
-          <div class="form-group" :class="{'has-error': $v.data.currency.$error}">
-            <label >{{$t('common.currency')}}</label>
-            <input-currency v-model="data.currency" :whitelist="currenciesWhitelist" />
-          </div>
-        </fieldset>
-      </div>
+      <wallet-io class="col-xs-12 col-lg-4" v-model="data.container.in">{{$t('transaction.transfer.in')}}</wallet-io>
 
       <!-- fee info -->
-      <div class="col-xs-12 col-lg-4">
-        <fieldset>
-          <legend>{{$t('transaction.transfer.fee')}}</legend>
-          <div class="form-group" :class="{'has-error': $v.data.fee.amount.$error}">
-            <label >{{$t('common.amount')}}</label>
-            <input-number v-model="data.fee.amount" :number-format="numberFormatFee" ></input-number>
-          </div>
-          <div class="form-group" :class="{'has-error': $v.data.fee.wallet.$error}">
-            <label >{{$t('common.wallet')}}</label>
-            <input-wallet v-model="data.fee.wallet" :whitelist="[data.fee.currency]"/>
-          </div>
-          <div class="form-group" :class="{'has-error': $v.data.fee.currency.$error}">
-            <label >{{$t('common.currency')}}</label>
-            <input-currency v-model="data.fee.currency" :whitelist="feeCurrenciesWhitelist" />
-          </div>
-        </fieldset>
-      </div>
+      <wallet-io class="col-xs-12 col-lg-4" v-model="data.fee">{{$t('transaction.transfer.fee')}}</wallet-io>
     </div>
 
     <!-- row for countervalues -->
@@ -108,7 +60,6 @@
 
 <script>
   import * as currencies from '../../../../common/currencies'
-  import {mapGetters} from 'vuex';
   import { required, minValue, requiredIf } from 'vuelidate/lib/validators'
 
   export default {
@@ -127,6 +78,24 @@
 
       return {
         data: {
+          container: {
+            in: {
+              amount: null,
+              currency: {
+                name: null,
+                type: null
+              },
+              wallet: ''
+            },
+            out: {
+              amount: null,
+              currency: {
+                name: null,
+                type: null
+              },
+              wallet: ''
+            },
+          },
           amount: null,
           currency: {
             name: null,
@@ -223,58 +192,11 @@
       }
     },
     computed: {
-      ...mapGetters({
-        getWalletById: 'wallet/byId'
-      }),
-      currenciesWhitelist(){
-        if(this.data.out.wallet === '' && this.data.in.wallet === ''){
-          return []
-        }
-        const outWallet = this.getWalletById(this.data.out.wallet)
-        const outTypes = outWallet ? outWallet.currencies : []
-        const inWallet = this.getWalletById(this.data.in.wallet)
-        const inTypes = inWallet ? inWallet.currencies : []
-
-        return [...new Set([...outTypes, ...inTypes])]
-      },
-      feeCurrenciesWhitelist(){
-        if(this.data.fee.wallet === ''){
-          return []
-        }
-        const wallet = this.getWalletById(this.data.fee.wallet)
-        return wallet.currencies
-      },
-      numberFormat(){
-        return this.getNumberFormat(this.data)
-      },
       numberFormatCountervalue(){
         return this.getNumberFormat(this.data.countervalue)
       },
-      numberFormatFee(){
-        return this.getNumberFormat(this.data.fee)
-      }
     },
     methods: {
-      checkWallet(container){
-        if(container.currency.name && container.wallet) {
-          const wallet = this.getWalletById(container.wallet)
-
-          if(wallet.currencies.filter(c => c.name === container.currency.name && c.type === container.currency.type).length === 0){
-            //the wallet doesn't support the currency
-            container.wallet = ''
-          }
-        }
-      },
-      checkCurrency(container){
-        if(container.currency.name && container.wallet) {
-          const wallet = this.getWalletById(container.wallet)
-
-          if(wallet.currencies.filter(c => c.name === container.currency.name && c.type === container.currency.type).length === 0){
-            //the wallet doesn't support the currency
-            container.currency = ''
-          }
-        }
-      },
       getNumberFormat(container){
         if(container.currency.name) {
           return currencies[container.currency.type][container.currency.name].format.numeral
@@ -283,23 +205,27 @@
       }
     },
     watch: {
-      'data.currency.name'(){
-        this.checkWallet(this.data)
-      },
-      'data.out.wallet'(){
-        this.checkCurrency(this.data)
-      },
-      'data.in.wallet'(){
-        this.checkCurrency(this.data)
-      },
-      'data.fee.wallet'(){
-        this.checkCurrency(this.data.fee)
-      },
-      'data.fee.currency.name'(){
-        this.checkWallet(this.data.fee)
-      },
       data: {
         handler() {
+          if(this.data.container.in.amount) {
+            this.data.amount = this.data.container.in.amount
+            this.data.container.out.amount = this.data.container.in.amount
+          }
+          if(this.data.container.out.amount) {
+            this.data.amount = this.data.container.out.amount
+            this.data.container.in.amount = this.data.container.out.amount
+          }
+          if(this.data.container.in.currency.name) {
+            this.data.currency = this.data.container.in.currency
+            this.data.container.out.currency = this.data.container.in.currency
+          }
+          if(this.data.container.out.currency.name) {
+            this.data.currency = this.data.container.out.currency
+            this.data.container.in.currency = this.data.container.out.currency
+          }
+          this.data.out.wallet = this.data.container.out.wallet
+          this.data.in.wallet = this.data.container.in.wallet
+
           this.$v.$touch();
 
           //emit only valid data

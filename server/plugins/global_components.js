@@ -14,6 +14,7 @@ import CurrencySelect from '../components/form/CurrencySelect'
 import WalletChooser from '../components/form/WalletChooser'
 import CurrencyIcon from '../components/widget/CurrencyIcon'
 import CurrencyAmount from '../components/widget/CurrencyAmount'
+import WalletIO from '../components/form/WalletIO'
 import TransactionTable from '../components/widget/transaction/Table'
 
 Vue.use(Vuelidate)
@@ -31,3 +32,4 @@ Vue.component('input-wallet', WalletChooser)
 Vue.component('transaction-table', TransactionTable)
 Vue.component('icon-currency', CurrencyIcon)
 Vue.component('currency-amount', CurrencyAmount)
+Vue.component('wallet-io', WalletIO)

@@ -3,42 +3,10 @@
     <!-- row for gift info -->
     <div class="row">
       <!-- gift info -->
-      <div class="col-xs-12 col-lg-6">
-        <fieldset>
-          <legend>{{$t('transaction.gift.out')}}</legend>
-          <div class="form-group" :class="{'has-error': $v.data.out.amount.$error}">
-            <label >{{$t('common.amount')}}</label>
-            <input-number v-model="data.out.amount" :number-format="numberFormatOut" ></input-number>
-          </div>
-          <div class="form-group" :class="{'has-error': $v.data.out.wallet.$error}">
-            <label >{{$t('common.wallet')}}</label>
-            <input-wallet v-model="data.out.wallet" :whitelist="[data.out.currency]"/>
-          </div>
-          <div class="form-group" :class="{'has-error': $v.data.out.currency.$error}">
-            <label >{{$t('common.currency')}}</label>
-            <input-currency v-model="data.out.currency" :whitelist="outCurrenciesWhitelist" />
-          </div>
-        </fieldset>
-      </div>
+      <wallet-io class="col-xs-12 col-lg-6" v-model="data.out">{{$t('transaction.gift.out')}}</wallet-io>
 
       <!-- fee info -->
-      <div class="col-xs-12 col-lg-6">
-        <fieldset>
-          <legend>{{$t('transaction.gift.fee')}}</legend>
-          <div class="form-group" :class="{'has-error': $v.data.fee.amount.$error}">
-            <label >{{$t('common.amount')}}</label>
-            <input-number v-model="data.fee.amount" :number-format="numberFormatFee" ></input-number>
-          </div>
-          <div class="form-group" :class="{'has-error': $v.data.fee.wallet.$error}">
-            <label >{{$t('common.wallet')}}</label>
-            <input-wallet v-model="data.fee.wallet" :whitelist="[data.fee.currency]"/>
-          </div>
-          <div class="form-group" :class="{'has-error': $v.data.fee.currency.$error}">
-            <label >{{$t('common.currency')}}</label>
-            <input-currency v-model="data.fee.currency" :whitelist="feeCurrenciesWhitelist" />
-          </div>
-        </fieldset>
-      </div>
+      <wallet-io class="col-xs-12 col-lg-6" v-model="data.fee">{{$t('transaction.gift.fee')}}</wallet-io>
     </div>
 
     <!-- row for countervalues -->
@@ -90,7 +58,6 @@
 
 <script>
   import * as currencies from '../../../../common/currencies'
-  import {mapGetters} from 'vuex';
   import { required, minValue, requiredIf } from 'vuelidate/lib/validators'
 
   export default {
@@ -197,54 +164,11 @@
       }
     },
     computed: {
-      ...mapGetters({
-        getWalletById: 'wallet/byId'
-      }),
-      outCurrenciesWhitelist(){
-        if(this.data.out.wallet === ''){
-          return []
-        }
-        const wallet = this.getWalletById(this.data.out.wallet)
-        return wallet.currencies
-      },
-      feeCurrenciesWhitelist(){
-        if(this.data.fee.wallet === ''){
-          return []
-        }
-        const wallet = this.getWalletById(this.data.fee.wallet)
-        return wallet.currencies
-      },
-      numberFormatFee(){
-        return this.getNumberFormat(this.data.fee)
-      },
-      numberFormatOut(){
-        return this.getNumberFormat(this.data.out)
-      },
       numberFormatOutCountervalue(){
         return this.getNumberFormat(this.data.out.countervalue)
       }
     },
     methods: {
-      checkWallet(container){
-        if(container.currency.name && container.wallet) {
-          const wallet = this.getWalletById(container.wallet)
-
-          if(wallet.currencies.filter(c => c.name === container.currency.name && c.type === container.currency.type).length === 0){
-            //the wallet doesn't support the currency
-            container.wallet = ''
-          }
-        }
-      },
-      checkCurrency(container){
-        if(container.currency.name && container.wallet) {
-          const wallet = this.getWalletById(container.wallet)
-
-          if(wallet.currencies.filter(c => c.name === container.currency.name && c.type === container.currency.type).length === 0){
-            //the wallet doesn't support the currency
-            container.currency = ''
-          }
-        }
-      },
       getNumberFormat(container){
         if(container.currency.name) {
           return currencies[container.currency.type][container.currency.name].format.numeral
@@ -253,18 +177,6 @@
       }
     },
     watch: {
-      'data.out.wallet'(){
-        this.checkCurrency(this.data.out)
-      },
-      'data.out.currency.name'(){
-        this.checkWallet(this.data.out)
-      },
-      'data.fee.wallet'(){
-        this.checkCurrency(this.data.fee)
-      },
-      'data.fee.currency.name'(){
-        this.checkWallet(this.data.fee)
-      },
       data: {
         handler() {
           this.$v.$touch();
