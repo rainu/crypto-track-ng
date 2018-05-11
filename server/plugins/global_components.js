@@ -7,6 +7,7 @@ import Info from '../components/message/Info'
 import Error from '../components/message/Error'
 import ModalGeneral from '../components/modal/General'
 import ModalWarning from '../components/modal/Warning'
+import ModalReadOnly from '../components/modal/ReadOnly'
 import Logout from '../components/Logout'
 import InputNumber from '../components/form/InputNumber'
 import CurrencyInput from '../components/form/CurrencyInput'
@@ -25,6 +26,7 @@ Vue.component('message-info', Info)
 Vue.component('message-error', Error)
 Vue.component('modal-general', ModalGeneral)
 Vue.component('modal-warning', ModalWarning)
+Vue.component('modal-read-only', ModalReadOnly)
 Vue.component('auth-logout', Logout)
 Vue.component('input-number', InputNumber)
 Vue.component('input-currency', CurrencyInput)
