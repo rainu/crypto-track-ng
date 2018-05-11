@@ -149,6 +149,6 @@
     "download-error": "Failed to load backup file! Error: {err}",
     "upload-error": "Failed to apply the backup. Error: {err}",
     "upload-error-file-corrupted": "The file seams to be corrupted!",
-    "upload-success": "Successful applied the backup."
+    "upload-success": "Successful applied the backup. You will be logged out now. After a re-login you will see the new data."
   }
 }

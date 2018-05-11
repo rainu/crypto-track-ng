@@ -9,7 +9,6 @@ router.route('/api/backup')
   //get the backup of the current user
   .get((req, resp) => {
     importer.export(req.token.user._id).then(data => {
-      console.log(data)
       resp.send(data)
     }).catch(err => {
       log.error("An error occurred while get backup from user!", err)
@@ -35,10 +34,15 @@ router.route('/api/backup')
         } else {
           try {
             let data = JSON.parse(fs.readFileSync(files.file.path, 'utf8'));
+            importer.import(data).then(() => {
+              resp.status(HttpStatus.CREATED)
+              resp.end()
+            }).catch(err => {
+              log.error("Could not import backup!", err)
 
-            console.log(data) //TODO
-            resp.status(HttpStatus.CREATED)
-            resp.end()
+              resp.status(HttpStatus.INTERNAL_SERVER_ERROR);
+              resp.end();
+            })
           }catch(err) {
             log.error("Could not parse backup (multipart/form-data)!", err)
 
@@ -48,9 +52,15 @@ router.route('/api/backup')
         }
       });
     }else{
-      console.log(req.body) //TODO
-      resp.status(HttpStatus.CREATED)
-      resp.end()
+      importer.import(data).then(() => {
+        resp.status(HttpStatus.CREATED)
+        resp.end()
+      }).catch(err => {
+        log.error("Could not import backup!", err)
+
+        resp.status(HttpStatus.INTERNAL_SERVER_ERROR);
+        resp.end();
+      })
     }
   })
 

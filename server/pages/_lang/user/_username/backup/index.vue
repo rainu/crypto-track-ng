@@ -2,7 +2,10 @@
   <div class="row">
     <message-error v-show="downloadError">{{$t('backup.download-error', { err: downloadError })}}</message-error>
     <message-error v-show="uploadError">{{$t('backup.upload-error', { err: uploadError })}}</message-error>
-    <message-success v-show="uploadSuccess">{{$t('backup.upload-success')}}</message-success>
+
+    <modal-read-only v-if="uploadSuccess" :title="'common.success'" @decided="handleModalConfirmation">
+      <span v-html="$t('backup.upload-success')"></span>
+    </modal-read-only>
 
     <div class="col-xs-12 col-lg-6">
       <div class="info-box">
@@ -86,6 +89,10 @@
         }).catch(err => {
           this.downloadError = err.message;
         });
+      },
+      handleModalConfirmation(){
+        this.$store.dispatch('auth/logout')
+        this.$router.$goto('startpage')
       }
     }
   }

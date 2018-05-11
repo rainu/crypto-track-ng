@@ -149,6 +149,6 @@
     "download-error": "Es konnte kein Backup geladen werden! Fehler: {err}",
     "upload-error": "Einspielen des Backups fehlgeschlagen. Fehler: {err}",
     "upload-error-file-corrupted": "Die Datei scheint beschädigt zu sein!",
-    "upload-success": "Einspielen des Backups war erfolgreich."
+    "upload-success": "Einspielen des Backups war erfolgreich. Sie werden nun abgemeldet. Nach dem erneuten anmelden, sind Ihre Daten sichtbar."
   }
 }
