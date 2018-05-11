@@ -10,12 +10,7 @@
     <td></td>
     <!-- OUTCOME -->
     <td>
-      <ul class="todo-list">
-        <li class="list-group-item">
-          <strong>{{walletName(tx.data.out.wallet)}}</strong>
-          <currency-amount class="pull-right" :amount="tx.data.out.amount" :currency="tx.data.out.currency" />
-        </li>
-      </ul>
+      <cell-amount :data="tx.data.out"></cell-amount>
     </td>
     <!-- FEE -->
     <td></td>
@@ -27,10 +22,11 @@
 </template>
 
 <script>
-  import {mapGetters} from 'vuex';
   import moment from 'moment'
+  import CellAmount from "./CellAmount";
 
   export default {
+    components: {CellAmount},
     props:{
       tx: {
         required: true,
@@ -41,19 +37,7 @@
       return {
       }
     },
-    computed: {
-      ...mapGetters({
-        wallet: 'wallet/byId'
-      }),
-    },
     methods: {
-      walletName(wId){
-        let wallet = this.wallet(wId);
-        if(wallet) {
-          return wallet.name
-        }
-        return ""
-      },
       ldate(date){
         return moment(date).format(this.$t('common.datetime.format'))
       },

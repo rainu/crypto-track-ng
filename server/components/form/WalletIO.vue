@@ -24,6 +24,10 @@
           :number-format="numberFormat" ></input-number>
 
       </div>
+      <div class="form-group" v-if="comment">
+        <label ><slot name="comment">{{$t('common.comment')}}</slot></label>
+        <input type="text" class="form-control" v-model="container.comment" />
+      </div>
     </fieldset>
   </div>
 </template>
@@ -46,8 +50,14 @@
               type: null
             },
             wallet: '',
+            comment: ''
           }
         }
+      },
+      comment: {
+        type: Boolean,
+        required: false,
+        default: false
       },
       mandatory: {
         type: Boolean,

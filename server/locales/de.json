@@ -16,6 +16,7 @@
     },
     "wallet": "Wallet",
     "amount": "Anzahl",
+    "comment": "Kommentar",
     "currency": "Währung",
     "fiat-currency": "Währung",
     "crypto-currency": "Krypto-Währung"
@@ -58,7 +59,10 @@
         "group": "Trading Gruppe",
         "comment": "Kommentar"
       },
-      "fee": "Gebühr",
+      "fee": {
+        "title": "Gebühr",
+        "comment": "Kommentar"
+      },
       "save-error": "Die Transaktion konnte nicht gespeichert werden!"
     },
     "exchange": {

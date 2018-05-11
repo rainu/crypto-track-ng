@@ -10,7 +10,7 @@
 
       <!-- fees info -->
       <template v-for="(curFee, i) in data.fee">
-        <wallet-io class="col-xs-12 col-lg-4" :mandatory="false" v-model="data.fee[i]">
+        <wallet-io class="col-xs-12 col-lg-4" :mandatory="false" :comment="true" v-model="data.fee[i]">
           <div class="row">
             <div class="col-xs-6">{{$t('transaction.exchange.fee')}}</div>
             <div class="col-xs-3">

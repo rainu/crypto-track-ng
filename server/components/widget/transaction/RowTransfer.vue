@@ -8,30 +8,15 @@
     <td>{{ldate(tx.date)}}</td>
     <!-- INCOME -->
     <td>
-      <ul class="todo-list">
-        <li class="list-group-item">
-          <strong>{{walletName(tx.data.in.wallet)}}</strong>
-          <currency-amount class="pull-right" :amount="tx.data.amount" :currency="tx.data.currency" />
-        </li>
-      </ul>
+      <cell-amount :data="tx.data.in"></cell-amount>
     </td>
     <!-- OUTCOME -->
     <td>
-      <ul class="todo-list">
-        <li class="list-group-item">
-          <strong>{{walletName(tx.data.out.wallet)}}</strong>
-          <currency-amount class="pull-right" :amount="tx.data.amount" :currency="tx.data.currency" />
-        </li>
-      </ul>
+      <cell-amount :data="tx.data.out"></cell-amount>
     </td>
     <!-- FEE -->
     <td>
-      <ul class="todo-list">
-        <li class="list-group-item" v-for="(fee, i) in tx.data.fee" v-if="fee">
-          <strong>{{walletName(tx.data.fee[i].wallet)}}</strong>
-          <currency-amount class="pull-right" :amount="tx.data.fee[i].amount" :currency="tx.data.fee[i].currency" />
-        </li>
-      </ul>
+      <cell-fee :fees="tx.data.fee"></cell-fee>
     </td>
     <!-- ACTIONS -->
     <td>
@@ -41,10 +26,12 @@
 </template>
 
 <script>
-  import {mapGetters} from 'vuex';
   import moment from 'moment'
+  import CellFee from "./CellFee";
+  import CellAmount from "./CellAmount";
 
   export default {
+    components: {CellAmount, CellFee},
     props:{
       tx: {
         required: true,
@@ -55,19 +42,7 @@
       return {
       }
     },
-    computed: {
-      ...mapGetters({
-        wallet: 'wallet/byId'
-      }),
-    },
     methods: {
-      walletName(wId){
-        let wallet = this.wallet(wId);
-        if(wallet) {
-          return wallet.name
-        }
-        return ""
-      },
       ldate(date){
         return moment(date).format(this.$t('common.datetime.format'))
       },

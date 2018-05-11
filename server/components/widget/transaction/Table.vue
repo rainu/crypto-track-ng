@@ -6,7 +6,7 @@
       <th width="10%">{{$t('transaction.common.date')}}</th>
       <th>{{$t('transaction.type.in')}}</th>
       <th>{{$t('transaction.type.out')}}</th>
-      <th>{{$t('transaction.common.fee')}}</th>
+      <th>{{$t('transaction.common.fee.title')}}</th>
       <th width="5%"></th>
     </tr>
     </thead>
