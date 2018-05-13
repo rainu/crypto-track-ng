@@ -1,8 +1,8 @@
 <template>
   <ul class="todo-list">
     <li class="list-group-item">
-      <strong>{{walletName(data.wallet)}}</strong>
       <currency-amount class="pull-right" :amount="data.amount" :currency="data.currency"/>
+      <strong>{{walletName(data.wallet)}}</strong>
     </li>
   </ul>
 </template>

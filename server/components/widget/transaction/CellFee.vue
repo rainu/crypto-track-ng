@@ -1,8 +1,8 @@
 <template>
   <ul class="todo-list">
-    <li class="list-group-item" v-for="(fee, i) in fees" v-if="fee">
-      <strong>{{walletName(fees[i].wallet)}}</strong>
+    <li class="list-group-item" v-for="(fee, i) in fees" v-if="fee.amount">
       <currency-amount class="pull-right" :amount="fees[i].amount" :currency="fees[i].currency" />
+      <strong>{{walletName(fees[i].wallet)}}</strong>
 
       <template v-if="fee.comment">
         <br />
