@@ -29,6 +29,10 @@ build-server:
   script:
     - npm install
     - npm run build
+  artifacts:
+      paths:
+      - ./.nuxt/dist
+      expire_in: 5 minutes
 
 build-course-crawler:
   stage: build
