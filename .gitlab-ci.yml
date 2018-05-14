@@ -20,6 +20,7 @@ test:
     - name: mongo
       alias: mongo
   script:
+    - apk --update --no-cache add make
     - npm install
     - npm run test
 
