@@ -43,6 +43,7 @@ dockerrize:
   image: tmaier/docker-compose:latest
   stage: dockerrize
   script:
+    - echo "{\"build\":{\"version\":\"${CI_COMMIT_SHA}\", \"date\":$(date +'%s' )000}}" > ./common/project-info.json
     - docker login -u ${DOCKER_USER} -p ${DOCKER_PASSWORD}
     - docker-compose build
     - docker-compose push

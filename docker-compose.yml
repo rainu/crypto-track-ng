@@ -2,6 +2,17 @@ version: '2'
 
 services:
 
+  web:
+    image: rainu/cryptotrack-web-ng
+    build:
+      context: ./
+    environment:
+      - CFG_MONGO_HOST=db
+    ports:
+      - 3000:3000
+    depends_on:
+      - db
+
   course:
     image: rainu/cryptotrack-course-ng
     build:

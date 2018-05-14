@@ -6,6 +6,7 @@ const ENV_PREFIX = 'CFG_';
 
 let config = {
   server: {
+    interface: '0.0.0.0',
     port: 3000,
   },
   oauth2: {

@@ -1,4 +1,3 @@
-const pkg = require('./package')
 const webpack = require('webpack')
 const bodyParser = require('body-parser')
 
@@ -11,11 +10,11 @@ module.exports = {
   ** Headers of the page
   */
   head: {
-    title: pkg.name,
+    title: 'crypto-track',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: pkg.description }
+      { hid: 'description', name: 'description', content: 'Tracking your cryptocurrency portfolio' }
     ],
     script: [],
     link: [

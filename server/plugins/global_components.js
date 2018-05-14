@@ -18,6 +18,8 @@ import CurrencyAmount from '../components/widget/CurrencyAmount'
 import WalletIO from '../components/form/WalletIO'
 import CounterValue from '../components/form/CounterValue'
 import TransactionTable from '../components/widget/transaction/Table'
+import ProjectVersion from '../components/widget/ProjectVersion'
+import ProjectBuildDate from '../components/widget/ProjectBuildDate'
 
 Vue.use(Vuelidate)
 Vue.component('message-success', Success)
@@ -37,3 +39,5 @@ Vue.component('icon-currency', CurrencyIcon)
 Vue.component('currency-amount', CurrencyAmount)
 Vue.component('wallet-io', WalletIO)
 Vue.component('counter-value', CounterValue)
+Vue.component('project-version', ProjectVersion)
+Vue.component('project-build-date', ProjectBuildDate)
