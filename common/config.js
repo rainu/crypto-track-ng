@@ -8,6 +8,7 @@ let config = {
   server: {
     interface: '0.0.0.0',
     port: 3000,
+    url: 'http://localhost:3000',
   },
   oauth2: {
     client: {

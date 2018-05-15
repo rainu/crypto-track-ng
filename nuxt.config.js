@@ -1,5 +1,6 @@
 const webpack = require('webpack')
 const bodyParser = require('body-parser')
+const config = require('./common/config')
 
 module.exports = {
   mode: 'universal',
@@ -87,7 +88,9 @@ module.exports = {
   */
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
-    credentials: true
+    credentials: true,
+    baseURL: `http://${config.server.interface}:${config.server.port}`,
+    browserBaseURL: config.server.url
   },
 
   /*

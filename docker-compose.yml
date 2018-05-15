@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 
 services:
 
@@ -10,6 +10,10 @@ services:
       - CFG_MONGO_HOST=db
     ports:
       - 3000:3000
+    healthcheck:
+      test: ["CMD-SHELL", "[[ $$(ps -ef | grep app.js | grep -v 'grep' | wc -l) -eq '1' ]]"]
+      interval: 5s
+      retries: 24
     depends_on:
       - db
 
