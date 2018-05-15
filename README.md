@@ -6,23 +6,67 @@ a "tax-report". This is a list of tax-related trades (with the FIFO-Method)
 # Progress
 
 **ALPHA**
+This is a new implementation of [crypto-track](https://github.com/rainu/crypto-track) and soon or later 
+it will implements all features of the old version.
 
+## Deployment
+
+If you only want to use it, you have to install [docker](https://www.docker.com/) and [docker-compose](https://docs.docker.com/compose/).
+After that you have to write a simple docker-file like this:
+
+```yml
+version: '2'
+
+services:
+
+  web:
+    image: rainu/cryptotrack-web-ng
+    container_name: cryptotrack-ng-web
+    environment:
+      - CFG_MONGO_HOST=db
+    ports:
+      - 3000:3000
+    restart: always
+    depends_on:
+      - db
+
+  course:
+    image: rainu/cryptotrack-course-ng
+    container_name: cryptotrack-ng-course
+    environment:
+      - CFG_MONGO_HOST=db
+    restart: always
+    depends_on:
+      - db
+
+  db:
+    image: mongo
+    container_name: cryptotrack-ng-db
+    volumes:
+      - ./db:/data/db
+    restart: always
+```
+
+Now you can start this stack via:
+```bash
+docker-compose up
+```
+
+This starts all necessary services and a own mongo-database. After the initialisation has finised
+you can open the application in your browser: http://localhost:3000
+
+The default credentials are:
+* username: **admin**
+* password: **admin**
+
+If you want to custom these setup have a look at the [config-documentation](DOCUMENTATION.md)
 
 ## Build Setup
 
 ``` bash
-# install dependencies
-$ npm install
-
-# serve with hot reload at localhost:3000
-$ npm run dev
-
-# build for production and launch server
-$ npm run build
-$ npm start
-
-# generate static project
-$ npm run generate
+npm install
+npm run build
+npm run start
 ```
 
 For detailed explanation on how things work, checkout [Nuxt.js docs](https://nuxtjs.org).
@@ -55,7 +99,6 @@ package.json, look for dependencies which is not used and filter them out.
 ## Mini-doc
 
 * **/common/** - common js files
-* **/config/** - default config-file locations
 * **/server/** - WebServer and client sources (nuxt.js app)
 * **/services/** - additional services which is used for the whole application
 

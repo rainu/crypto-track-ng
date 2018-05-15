@@ -10,8 +10,9 @@
 
 | Variable      | Default-Value | Description  |
 | ------------- |:-------------:| ------------|
-| HOST | 127.0.0.1 | The interface on which the server should listen |
-| PORT | 3000 | The port on which the server should be bind |
+| CFG_SERVER_INTERFACE | 0.0.0.0 | The interface on which the server should listen |
+| CFG_SERVER_PORT | 3000 | The port on which the server should be bind |
+| CFG_SERVER_URL | http://localhost:3000 | The external url of the application (the browser will request this url) |
 | CFG_OAUTH2_CLIENT_ID | clientId | The **initial** oauth2 client. If there is no client persisted, a new client will be stored with that id. |
 | CFG_OAUTH2_CLIENT_SECRET | secret | The **initial** oauth2 client. If there is no client persisted, a new client will be stored with that secret. |
 | CFG_OAUTH2_USER_NAME | admin | The **initial** oauth2 user. If there is no user persisted, a new client will be stored with that name. |
