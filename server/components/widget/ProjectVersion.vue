@@ -1,5 +1,5 @@
 <template>
-  <span>{{version()}}</span>
+  <span :title="fullVersion()">{{shortVersion()}}</span>
 </template>
 
 <script>
@@ -7,8 +7,11 @@
 
   export default {
     methods: {
-      version() {
+      fullVersion() {
         return info.build.version;
+      },
+      shortVersion() {
+        return info.build.version.substring(0, 8)
       }
     }
   }

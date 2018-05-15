@@ -67,10 +67,16 @@
     </div>
 
     <footer class="main-footer">
-      <div class="pull-right hidden-xs">
-        <b>Version</b> <project-version />
+      <div class="row">
+        <div class="col-xs-12 col-lg-6">
+          <strong class="well-sm">Version</strong>
+          <project-version />
+        </div>
+        <div class="col-xs-12 col-lg-6 text-right">
+          <strong class="well-sm">© Rainu</strong>
+          <project-build-date />
+        </div>
       </div>
-      <strong>© Rainu</strong> <project-build-date />
     </footer>
     <!-- Add the sidebar's background. This div must be placed immediately after the control sidebar -->
     <div class="control-sidebar-bg"></div>
