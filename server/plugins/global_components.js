@@ -16,7 +16,7 @@ import WalletChooser from '../components/form/WalletChooser'
 import CurrencyIcon from '../components/widget/CurrencyIcon'
 import CurrencyAmount from '../components/widget/CurrencyAmount'
 import WalletIO from '../components/form/WalletIO'
-import CounterValue from '../components/form/CounterValue'
+import ExchangeRate from '../components/form/ExchangeRate'
 import TransactionTable from '../components/widget/transaction/Table'
 import ProjectVersion from '../components/widget/ProjectVersion'
 import ProjectBuildDate from '../components/widget/ProjectBuildDate'
@@ -38,6 +38,6 @@ Vue.component('transaction-table', TransactionTable)
 Vue.component('icon-currency', CurrencyIcon)
 Vue.component('currency-amount', CurrencyAmount)
 Vue.component('wallet-io', WalletIO)
-Vue.component('exchange-rate', CounterValue)
+Vue.component('exchange-rate', ExchangeRate)
 Vue.component('project-version', ProjectVersion)
 Vue.component('project-build-date', ProjectBuildDate)

@@ -44,7 +44,7 @@
 </template>
 
 <script>
-  import { required, minValue, requiredIf } from 'vuelidate/lib/validators'
+  import { required, minValue } from 'vuelidate/lib/validators'
 
   export default {
     props: {
@@ -69,13 +69,7 @@
               type: null
             },
             wallet: '',
-            exchangerate: {
-              amount: null,
-              currency: {
-                name: null,
-                type: null
-              }
-            },
+            exchangerate: null,
           },
           details: {
             exchange: '',
@@ -101,18 +95,6 @@
             },
             type: {
               required
-            }
-          },
-          exchangerate: {
-            amount: {
-              required: requiredIf('currency.name')
-            },
-            currency: {
-              name: {
-                required: requiredIf(function() {
-                  return this.data.out.exchangerate.amount
-                })
-              }
             }
           },
         },

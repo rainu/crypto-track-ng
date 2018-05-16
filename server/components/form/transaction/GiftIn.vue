@@ -88,13 +88,7 @@
               type: null
             },
             wallet: '',
-            exchangerate: {
-              amount: null,
-              currency: {
-                name: null,
-                type: null
-              }
-            },
+            exchangerate: null,
           },
           fee: [{
             amount: null,
@@ -128,18 +122,6 @@
             },
             type: {
               required
-            }
-          },
-          exchangerate: {
-            amount: {
-              required: requiredIf('currency.name')
-            },
-            currency: {
-              name: {
-                required: requiredIf(function() {
-                  return this.data.in.exchangerate.amount
-                })
-              }
             }
           },
         },

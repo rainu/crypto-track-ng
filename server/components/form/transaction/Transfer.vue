@@ -106,13 +106,7 @@
             name: null,
             type: null
           },
-          exchangerate: {
-            amount: null,
-            currency: {
-              name: null,
-              type: null
-            }
-          },
+          exchangerate: null,
           out: {
             wallet: '',
           },
@@ -147,18 +141,6 @@
           },
           type: {
             required
-          }
-        },
-        exchangerate: {
-          amount: {
-            required: requiredIf('currency.name')
-          },
-          currency: {
-            name: {
-              required: requiredIf(function() {
-                return this.data.exchangerate.amount
-              })
-            }
           }
         },
         out: {

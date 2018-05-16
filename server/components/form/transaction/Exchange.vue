@@ -94,13 +94,7 @@
               type: null
             },
             wallet: '',
-            exchangerate: {
-              amount: null,
-              currency: {
-                name: null,
-                type: null
-              }
-            },
+            exchangerate: null,
           },
           out: {
             amount: null,
@@ -109,13 +103,7 @@
               type: null
             },
             wallet: '',
-            exchangerate: {
-              amount: null,
-              currency: {
-                name: null,
-                type: null
-              }
-            },
+            exchangerate: null,
           },
           fee: [{
             amount: null,
@@ -151,18 +139,6 @@
               required
             }
           },
-          exchangerate: {
-            amount: {
-              required: requiredIf('currency.name')
-            },
-            currency: {
-              name: {
-                required: requiredIf(function() {
-                  return this.data.in.exchangerate.amount
-                })
-              }
-            }
-          },
         },
         out: {
           amount: {
@@ -180,18 +156,6 @@
               required
             }
           },
-          exchangerate: {
-            amount: {
-              required: requiredIf('currency.name')
-            },
-            currency: {
-              name: {
-                required: requiredIf(function() {
-                  return this.data.out.exchangerate.amount
-                })
-              }
-            },
-          }
         },
         fee: {
           $each: {
