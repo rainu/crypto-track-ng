@@ -6,15 +6,15 @@
       <wallet-io class="col-xs-12 col-lg-12" v-model="data.out">{{$t('transaction.stolen.out')}}</wallet-io>
     </div>
 
-    <!-- row for countervalues -->
+    <!-- row for exchangerates -->
     <div class="row">
       <div class="col-xs-12 col-lg-12">
         <fieldset>
-          <legend>{{$t('transaction.stolen.countervalues.title')}}</legend>
+          <legend>{{$t('transaction.stolen.exchangerates.title')}}</legend>
           <div class="row">
 
-            <!-- countervalue -->
-            <counter-value class="col-xs-12 col-lg-6" v-model="data.out.countervalue">{{$t('transaction.stolen.countervalues.out')}}</counter-value>
+            <!-- exchangerate -->
+            <exchange-rate class="col-xs-12 col-lg-6" v-model="data.out.exchangerate">{{$t('transaction.stolen.exchangerates.out')}}</exchange-rate>
           </div>
         </fieldset>
       </div>
@@ -69,7 +69,7 @@
               type: null
             },
             wallet: '',
-            countervalue: {
+            exchangerate: {
               amount: null,
               currency: {
                 name: null,
@@ -103,14 +103,14 @@
               required
             }
           },
-          countervalue: {
+          exchangerate: {
             amount: {
               required: requiredIf('currency.name')
             },
             currency: {
               name: {
                 required: requiredIf(function() {
-                  return this.data.out.countervalue.amount
+                  return this.data.out.exchangerate.amount
                 })
               }
             }

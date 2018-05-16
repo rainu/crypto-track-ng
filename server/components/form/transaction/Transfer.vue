@@ -27,15 +27,15 @@
       </template>
     </div>
 
-    <!-- row for countervalues -->
+    <!-- row for exchangerates -->
     <div class="row">
       <div class="col-xs-12 col-lg-12">
         <fieldset>
-          <legend>{{$t('transaction.transfer.countervalues.title')}}</legend>
+          <legend>{{$t('transaction.transfer.exchangerates.title')}}</legend>
           <div class="row">
 
-            <!-- countervalue -->
-            <counter-value class="col-xs-12 col-lg-12" v-model="data.countervalue">{{$t('transaction.transfer.countervalues.value')}}</counter-value>
+            <!-- exchangerate -->
+            <exchange-rate class="col-xs-12 col-lg-12" v-model="data.exchangerate">{{$t('transaction.transfer.exchangerates.value')}}</exchange-rate>
           </div>
         </fieldset>
       </div>
@@ -106,7 +106,7 @@
             name: null,
             type: null
           },
-          countervalue: {
+          exchangerate: {
             amount: null,
             currency: {
               name: null,
@@ -149,14 +149,14 @@
             required
           }
         },
-        countervalue: {
+        exchangerate: {
           amount: {
             required: requiredIf('currency.name')
           },
           currency: {
             name: {
               required: requiredIf(function() {
-                return this.data.countervalue.amount
+                return this.data.exchangerate.amount
               })
             }
           }

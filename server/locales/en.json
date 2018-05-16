@@ -70,7 +70,7 @@
       "in": "Buy",
       "out": "Sell",
       "fee": "Trading Fee",
-      "countervalues": {
+      "exchangerates": {
         "title": "Exchange-Course",
         "in": "Buy value",
         "out": "Sell value"
@@ -81,7 +81,7 @@
       "out": "Transferred Amount (Out)",
       "in": "Transferred Amount (In)",
       "fee": "Transaction Fee",
-      "countervalues": {
+      "exchangerates": {
         "title": "Exchange-Course",
         "value": "Value of transferred Amount"
       }
@@ -90,7 +90,7 @@
       "title": "Income",
       "in": "Income",
       "fee": "Transaction Fee",
-      "countervalues": {
+      "exchangerates": {
         "title": "Exchange-Course",
         "in": "Value of income"
       }
@@ -99,7 +99,7 @@
       "title": "Spent",
       "out": "Spent",
       "fee": "Transaction Fee",
-      "countervalues": {
+      "exchangerates": {
         "title": "Exchange-Course",
         "out": "Value"
       }
@@ -108,7 +108,7 @@
       "title": "Donation",
       "out": "Donation",
       "fee": "Transaction Fee",
-      "countervalues": {
+      "exchangerates": {
         "title": "Exchange-Course",
         "out": "Value of donation"
       }
@@ -118,7 +118,7 @@
       "in": "Gift",
       "out": "Gift",
       "fee": "Transaction Fee",
-      "countervalues": {
+      "exchangerates": {
         "title": "Exchange-Course",
         "in": "Value of gift",
         "out": "Value of gift"
@@ -127,7 +127,7 @@
     "lost": {
       "title": "Lost",
       "out": "Lost",
-      "countervalues": {
+      "exchangerates": {
         "title": "Exchange-Course",
         "out": "Value"
       }
@@ -135,7 +135,7 @@
     "stolen": {
       "title": "Stolen",
       "out": "Stolen",
-      "countervalues": {
+      "exchangerates": {
         "title": "Exchange-Course",
         "out": "Value"
       }

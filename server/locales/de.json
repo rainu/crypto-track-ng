@@ -70,7 +70,7 @@
       "in": "Kauf",
       "out": "Verkauf",
       "fee": "Trading Gebühren",
-      "countervalues": {
+      "exchangerates": {
         "title": "Umtausch-Kurse",
         "in": "Kaufwert",
         "out": "Verkaufwert"
@@ -81,7 +81,7 @@
       "out": "Transferierter Betrag (Ausgang)",
       "in": "Transferierter Betrag (Eingang)",
       "fee": "Transaktions Gebühren",
-      "countervalues": {
+      "exchangerates": {
         "title": "Umtausch-Kurse",
         "value": "Wert des transferierten Betrags"
       }
@@ -90,7 +90,7 @@
       "title": "Einzahlung",
       "in": "Einzahlung",
       "fee": "Transaktions Gebühren",
-      "countervalues": {
+      "exchangerates": {
         "title": "Umtausch-Kurse",
         "in": "Wert der Einzahlung"
       }
@@ -99,7 +99,7 @@
       "title": "Ausgabe",
       "out": "Ausgabe",
       "fee": "Transaktions Gebühren",
-      "countervalues": {
+      "exchangerates": {
         "title": "Umtausch-Kurse",
         "out": "Wert"
       }
@@ -108,7 +108,7 @@
       "title": "Spende",
       "out": "Spende",
       "fee": "Transaktions Gebühren",
-      "countervalues": {
+      "exchangerates": {
         "title": "Umtausch-Kurse",
         "out": "Wert der Spende"
       }
@@ -118,7 +118,7 @@
       "in": "Geschenk",
       "out": "Geschenk",
       "fee": "Transaktions Gebühren",
-      "countervalues": {
+      "exchangerates": {
         "title": "Umtausch-Kurse",
         "in": "Wert des Geschenkes",
         "out": "Wert des Geschenkes"
@@ -127,7 +127,7 @@
     "lost": {
       "title": "Verloren",
       "out": "Verloren",
-      "countervalues": {
+      "exchangerates": {
         "title": "Umtausch-Kurse",
         "out": "Wert zum Zeitpunkt des Verlustes"
       }
@@ -135,7 +135,7 @@
     "stolen": {
       "title": "Gestohlen",
       "out": "Gestohlen",
-      "countervalues": {
+      "exchangerates": {
         "title": "Umtausch-Kurse",
         "out": "Wert zum Zeitpunkt des Diebstals"
       }
