@@ -60,7 +60,8 @@ module.exports = {
 
     //these plugins will only work on client side! (ssr == false)
     { src: '~/plugins/datepicker', ssr: false },
-    { src: '~/plugins/vue-select', ssr: false }
+    { src: '~/plugins/vue-select', ssr: false },
+    { src: '~/plugins/session_refresh', ssr: false },
   ],
 
   /*
