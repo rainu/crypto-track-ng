@@ -30,6 +30,7 @@
           format: this.$t('common.datetime.format'),
           useCurrent: true,
           locale: this.$store.state.i18n.locale,
+          keyBinds: null,
           sideBySide: true,
           toolbarPlacement: 'top',
           showTodayButton: true,
