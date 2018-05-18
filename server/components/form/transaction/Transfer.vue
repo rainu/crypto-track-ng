@@ -3,9 +3,9 @@
     <!-- row for transfer info -->
     <div class="row">
       <!-- transfer info -->
-      <wallet-io class="col-xs-12 col-lg-4" v-model="data.container.out">{{$t('transaction.transfer.out')}}</wallet-io>
+      <wallet-io class="col-xs-12 col-lg-4" v-model="outcome">{{$t('transaction.transfer.out')}}</wallet-io>
 
-      <wallet-io class="col-xs-12 col-lg-4" v-model="data.container.in">{{$t('transaction.transfer.in')}}</wallet-io>
+      <wallet-io class="col-xs-12 col-lg-4" v-model="income">{{$t('transaction.transfer.in')}}</wallet-io>
 
       <!-- fee info -->
       <template v-for="(curFee, i) in data.fee">
@@ -83,24 +83,6 @@
 
       return {
         data: {
-          container: {
-            in: {
-              amount: null,
-              currency: {
-                name: null,
-                type: null
-              },
-              wallet: ''
-            },
-            out: {
-              amount: null,
-              currency: {
-                name: null,
-                type: null
-              },
-              wallet: ''
-            },
-          },
           amount: null,
           currency: {
             name: null,
@@ -195,28 +177,39 @@
         this.data.fee.splice(index, 1)
       }
     },
+    computed: {
+      income: {
+        get() {
+          return {
+            amount: this.data.amount,
+            currency: this.data.currency,
+            wallet: this.data.in.wallet,
+          }
+        },
+        set(newValue) {
+          this.data.amount = newValue.amount;
+          this.data.currency = newValue.currency;
+          this.data.in.wallet = newValue.wallet;
+        }
+      },
+      outcome: {
+        get() {
+          return {
+            amount: this.data.amount,
+            currency: this.data.currency,
+            wallet: this.data.out.wallet,
+          }
+        },
+        set(newValue) {
+          this.data.amount = newValue.amount;
+          this.data.currency = newValue.currency;
+          this.data.out.wallet = newValue.wallet;
+        }
+      }
+    },
     watch: {
       data: {
         handler() {
-          if(this.data.container.in.amount) {
-            this.data.amount = this.data.container.in.amount
-            this.data.container.out.amount = this.data.container.in.amount
-          }
-          if(this.data.container.out.amount) {
-            this.data.amount = this.data.container.out.amount
-            this.data.container.in.amount = this.data.container.out.amount
-          }
-          if(this.data.container.in.currency.name) {
-            this.data.currency = this.data.container.in.currency
-            this.data.container.out.currency = this.data.container.in.currency
-          }
-          if(this.data.container.out.currency.name) {
-            this.data.currency = this.data.container.out.currency
-            this.data.container.in.currency = this.data.container.out.currency
-          }
-          this.data.out.wallet = this.data.container.out.wallet
-          this.data.in.wallet = this.data.container.in.wallet
-
           this.$v.$touch();
 
           //emit only valid data
