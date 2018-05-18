@@ -100,7 +100,9 @@
         saveSuccess: false
       }
       data.container[data.type] = {
-        data: transaction.data
+        //make sure to COPY the data, to prevent direct data-changes
+        //(it should only apply after submit the form)
+        data: {...transaction.data}
       }
 
       return data
