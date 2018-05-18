@@ -1,5 +1,5 @@
 <template>
-  <input type="text" class="form-control" v-model="rawInput" @change="changeRawInput"/>
+  <input type="text" class="form-control" v-model="input" />
 </template>
 
 <script>
@@ -20,38 +20,23 @@
     },
     name: "input-number",
     data() {
-      return {
-        rawInput: numeral(this.value).format(this.format)
-      }
+      return {}
     },
     computed:{
       ...mapState({
         locale: state => state.i18n.locale,
       }),
-      format(){
-        if(this.numberFormat) {
-          return this.numberFormat;
+      input: {
+        get(){
+          numeral.locale(this.locale)
+          return numeral(this.value).format(this.numberFormat)
+        },
+        set(rawInput){
+          numeral.locale(this.locale)
+          this.$emit('input', numeral(rawInput).value())
         }
-        return '0.00';
       }
     },
-    methods:{
-      changeRawInput(){
-        let number = numeral(this.rawInput).value()
-        this.$emit('input', number)
-      }
-    },
-    watch: {
-      value(){
-        this.rawInput = numeral(this.value).format(this.format)
-      },
-      locale(){
-        numeral.locale(this.locale)
-      },
-    },
-    mounted(){
-      numeral.locale(this.locale)
-    }
   }
 </script>
 
