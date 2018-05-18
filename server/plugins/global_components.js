@@ -8,6 +8,7 @@ import Error from '../components/message/Error'
 import ModalGeneral from '../components/modal/General'
 import ModalWarning from '../components/modal/Warning'
 import ModalReadOnly from '../components/modal/ReadOnly'
+import SessionTime from '../components/widget/SessionTime'
 import Logout from '../components/Logout'
 import InputNumber from '../components/form/InputNumber'
 import CurrencyInput from '../components/form/CurrencyInput'
@@ -30,6 +31,7 @@ Vue.component('modal-general', ModalGeneral)
 Vue.component('modal-warning', ModalWarning)
 Vue.component('modal-read-only', ModalReadOnly)
 Vue.component('auth-logout', Logout)
+Vue.component('auth-session-time', SessionTime)
 Vue.component('input-number', InputNumber)
 Vue.component('input-currency', CurrencyInput)
 Vue.component('select-currency', CurrencySelect)

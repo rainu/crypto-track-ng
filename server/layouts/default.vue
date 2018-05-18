@@ -14,9 +14,14 @@
         <div class="navbar-custom-menu">
           <ul class="nav navbar-nav">
 
+            <!-- session -->
+            <li>
+              <auth-session-time/>
+            </li>
+
             <!-- user -->
             <li class="">
-              <auth-logout></auth-logout>
+              <auth-logout />
             </li>
 
           </ul>

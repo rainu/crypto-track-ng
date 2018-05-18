@@ -6,17 +6,19 @@ const COOKIE_JWT = "JWT"
 const state = () => ({
   username: null,
   token: null,
+  refreshToken: null,
   expiresAt: null,
 })
 
 const mutations = {
-  setToken(state, {username, token, expiresAt}) {
+  setToken(state, {username, token, refreshToken, expiresAt}) {
     state.username = username;
     state.token = token;
+    state.refreshToken = refreshToken;
     state.expiresAt = expiresAt;
 
     Cookie.set(COOKIE_JWT, JSON.stringify({
-      username, token, expiresAt
+      username, token, expiresAt, refreshToken
     }), {
       expires: expiresAt, //cookie will be removed after the access token is expired
     });
@@ -24,6 +26,7 @@ const mutations = {
   clearToken(state) {
     state.username = null;
     state.token = null;
+    state.refreshToken = null;
     state.expiresAt = null;
     Cookie.remove(COOKIE_JWT)
   }
@@ -66,6 +69,34 @@ const actions = {
       vuexContext.commit("setToken", {
         username: authData.username,
         token: response.data.accessToken.token,
+        refreshToken: response.data.refreshToken.token,
+        expiresAt: new Date(response.data.accessToken.expiresAt),
+      });
+
+      return "success"
+    })
+    .catch(e => {
+      if(e.response.status === HttpStatus.BAD_REQUEST) {
+        return "invalid"
+      }else {
+        console.log("Error while authenticate user!", e)
+        return "error"
+      }
+    });
+  },
+  refresh(vuexContext) {
+    let data = new URLSearchParams();
+    data.append('grant_type', 'refresh_token');
+    data.append('refresh_token', vuexContext.state.refreshToken);
+
+    return this.$axios.post("/auth/token", data)
+    .then(response => {
+      this.$axios.setToken(response.data.accessToken.token, "Bearer")
+
+      vuexContext.commit("setToken", {
+        username: vuexContext.state.username,
+        token: response.data.accessToken.token,
+        refreshToken: response.data.refreshToken.token,
         expiresAt: new Date(response.data.accessToken.expiresAt),
       });
 
