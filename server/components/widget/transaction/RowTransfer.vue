@@ -8,11 +8,11 @@
     <td>{{ldate(tx.date)}}</td>
     <!-- INCOME -->
     <td>
-      <cell-amount :data="tx.data.in"></cell-amount>
+      <cell-amount :data="income"></cell-amount>
     </td>
     <!-- OUTCOME -->
     <td>
-      <cell-amount :data="tx.data.out"></cell-amount>
+      <cell-amount :data="outcome"></cell-amount>
     </td>
     <!-- FEE -->
     <td>
@@ -46,6 +46,22 @@
       ldate(date){
         return moment(date).format(this.$t('common.datetime.format'))
       },
+    },
+    computed: {
+      income(){
+        return {
+          amount: this.tx.data.amount,
+          currency: this.tx.data.currency,
+          wallet: this.tx.data.in.wallet,
+        }
+      },
+      outcome(){
+        return {
+          amount: this.tx.data.amount,
+          currency: this.tx.data.currency,
+          wallet: this.tx.data.out.wallet,
+        }
+      }
     }
   }
 </script>
