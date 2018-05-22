@@ -87,7 +87,7 @@
       ...mapActions({
         deleteWallet: 'wallet/deleteWallet'
       }),
-      shortWalletAddress(wallet){
+      shyWalletAddress(wallet){
         if(!wallet.address) return "";
 
         let split = wallet.address.split('');
