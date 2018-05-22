@@ -1,6 +1,7 @@
 const webpack = require('webpack')
 const bodyParser = require('body-parser')
 const config = require('./common/config')
+const scrollBehavior = require('./server/plugins/scroll_behavior')
 
 module.exports = {
   mode: 'universal',
@@ -32,7 +33,8 @@ module.exports = {
   loading: { color: '#008078' },
 
   router: {
-    middleware: ['i18n', 'usercheck']
+    middleware: ['i18n', 'usercheck'],
+    scrollBehavior: scrollBehavior
   },
 
   /*
