@@ -43,6 +43,14 @@
       }
     },
     methods: {
+      shortWalletAddress(wallet){
+        if(!wallet.address) return "";
+        if(wallet.address.length < 15) return wallet.address;
+
+        let firstPart = wallet.address.substr(0, 8);  //first 8
+        let lastPart = wallet.address.substr(wallet.address.length - 4, wallet.address.length); //last 4
+        return `${firstPart}...${lastPart}`;
+      },
       options(){
         let cleanedWhitelist = []
         if(this.whitelist){
@@ -73,7 +81,7 @@
           }
         }).map(wallet => {
           return {
-            label: `${wallet.name} (${wallet.address})`,
+            label: `${wallet.name} (${this.shortWalletAddress(wallet)})`,
             value: wallet.id,
           }
         })

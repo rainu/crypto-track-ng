@@ -11,13 +11,17 @@
             <div class="row">
               <div class="col-xs-12">
                   <table class="table">
+                    <thead><tr>
+                      <th width="50%"></th>
+                      <th width="50%"></th>
+                    </tr></thead>
                     <tbody><tr>
-                      <th style="width:50%">{{$t('wallet.name')}}</th>
+                      <th>{{$t('wallet.name')}}</th>
                       <td>{{w.name}}</td>
                     </tr>
                     <tr>
                       <th>{{$t('wallet.address')}}</th>
-                      <td>{{w.address}}</td>
+                      <td v-html="shyWalletAddress(w)"></td>
                     </tr>
                     <tr>
                       <th>{{$t('wallet.comment')}}</th>
@@ -83,6 +87,20 @@
       ...mapActions({
         deleteWallet: 'wallet/deleteWallet'
       }),
+      shortWalletAddress(wallet){
+        if(!wallet.address) return "";
+
+        let split = wallet.address.split('');
+        let shy = ""
+        for(let i = 0; i < split.length; i++) {
+          shy += split[i];
+          if(i !== 0 && i % 12 === 0) {
+            shy += '<wbr>'
+          }
+        }
+
+        return shy;
+      },
       requestDeleteWallet(id){
         this.deleteRequest = id
       },
