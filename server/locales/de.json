@@ -71,9 +71,7 @@
       "out": "Verkauf",
       "fee": "Trading Gebühren",
       "exchangerates": {
-        "title": "Umtausch-Kurse",
-        "in": "Kaufwert",
-        "out": "Verkaufwert"
+        "title": "Umtausch-Kurse"
       }
     },
     "transfer": {
@@ -82,8 +80,7 @@
       "in": "Transferierter Betrag (Eingang)",
       "fee": "Transaktions Gebühren",
       "exchangerates": {
-        "title": "Umtausch-Kurse",
-        "value": "Wert des transferierten Betrags"
+        "title": "Umtausch-Kurse"
       }
     },
     "income": {
@@ -91,8 +88,7 @@
       "in": "Einzahlung",
       "fee": "Transaktions Gebühren",
       "exchangerates": {
-        "title": "Umtausch-Kurse",
-        "in": "Wert der Einzahlung"
+        "title": "Umtausch-Kurse"
       }
     },
     "spent": {
@@ -100,8 +96,7 @@
       "out": "Ausgabe",
       "fee": "Transaktions Gebühren",
       "exchangerates": {
-        "title": "Umtausch-Kurse",
-        "out": "Wert"
+        "title": "Umtausch-Kurse"
       }
     },
     "donation": {
@@ -109,8 +104,7 @@
       "out": "Spende",
       "fee": "Transaktions Gebühren",
       "exchangerates": {
-        "title": "Umtausch-Kurse",
-        "out": "Wert der Spende"
+        "title": "Umtausch-Kurse"
       }
     },
     "gift": {
@@ -119,25 +113,21 @@
       "out": "Geschenk",
       "fee": "Transaktions Gebühren",
       "exchangerates": {
-        "title": "Umtausch-Kurse",
-        "in": "Wert des Geschenkes",
-        "out": "Wert des Geschenkes"
+        "title": "Umtausch-Kurse"
       }
     },
     "lost": {
       "title": "Verloren",
       "out": "Verloren",
       "exchangerates": {
-        "title": "Umtausch-Kurse",
-        "out": "Wert zum Zeitpunkt des Verlustes"
+        "title": "Umtausch-Kurse"
       }
     },
     "stolen": {
       "title": "Gestohlen",
       "out": "Gestohlen",
       "exchangerates": {
-        "title": "Umtausch-Kurse",
-        "out": "Wert zum Zeitpunkt des Diebstals"
+        "title": "Umtausch-Kurse"
       }
     }
   },

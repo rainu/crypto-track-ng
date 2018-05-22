@@ -4,32 +4,50 @@
       <label ><slot></slot></label>
       <div class="input-group">
         <div class="input-group-btn">
-          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i>1 </i> <icon-currency :currency="choosedCrypto" ></icon-currency> <i class="fa fa-exchange" style="margin-left: 15px;"></i>
+          <button type="button" class="btn btn-default dropdown-toggle" :class="{'disabled': fixedCrypto}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i>1 </i> <icon-currency :currency="container.in" ></icon-currency> <i class="fa fa-exchange" style="margin-left: 15px;"></i>
           </button>
           <ul class="dropdown-menu">
-            <li v-for="(coin, key) in cryptoCurrencies()">
-              <a @click.prevent="setCrypto(key)">
-                <icon-currency :currency="{ type: 'crypto', name: key }" /> {{coin.label}}
-              </a>
-            </li>
+            <template v-if="!fixedCrypto">
+              <li v-for="(coin, key) in cryptoCurrencies()" v-if="container.out.name !== key">
+                <a @click.prevent="setIn({type: 'crypto', name: key })">
+                  <icon-currency :currency="{ type: 'crypto', name: key }" /> {{coin.label}}
+                </a>
+              </li>
+              <li role="separator" class="divider"></li>
+              <li v-for="(fiat, key) in fiatCurrencies()" v-if="container.out.name !== key">
+                <a @click="setIn({type: 'fiat', name: key })">
+                  <icon-currency :currency="{ type: 'fiat', name: key }" /> {{fiat.label}}
+                </a>
+              </li>
+            </template>
           </ul>
         </div>
 
         <input-number v-model="container.ratio" :number-format="numberFormat" class="text-right"/>
 
         <div class="input-group-btn">
-          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <icon-currency :currency="choosedFiat" ></icon-currency>
+          <button type="button" class="btn btn-default dropdown-toggle" :class="{'disabled': fixedFiat}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <icon-currency :currency="container.out" ></icon-currency>
           </button>
           <ul class="dropdown-menu dropdown-menu-right">
-            <li v-for="(fiat, key) in fiatCurrencies()">
-              <a @click="setFiat(key)">
-                <icon-currency :currency="{ type: 'fiat', name: key }" /> {{fiat.label}}
-              </a>
-            </li>
+            <template v-if="!fixedFiat">
+              <li v-for="(fiat, key) in fiatCurrencies()" v-if="container.in.name !== key">
+                <a @click="setOut({type: 'fiat', name: key })">
+                  <icon-currency :currency="{ type: 'fiat', name: key }" /> {{fiat.label}}
+                </a>
+              </li>
+              <li role="separator" class="divider"></li>
+              <li v-for="(coin, key) in cryptoCurrencies()" v-if="container.in.name !== key">
+                <a @click.prevent="setOut({type: 'crypto', name: key })">
+                  <icon-currency :currency="{ type: 'crypto', name: key }" /> {{coin.label}}
+                </a>
+              </li>
+            </template>
           </ul>
         </div>
+
+        <slot name="input-group"></slot>
       </div>
     </div>
   </div>
@@ -44,10 +62,26 @@
         type: Object,
         required: false,
         default(){
+          return null;
+        }
+      },
+      selectedIn: {
+        type: Object,
+        required: false,
+        default(){
           return {
-            crypto: 'BTC',
-            fiat: 'EUR',
-            ratio: 0
+            name: 'BTC',
+            type: 'crypto'
+          }
+        }
+      },
+      selectedOut: {
+        type: Object,
+        required: false,
+        default(){
+          return {
+            name: 'EUR',
+            type: 'fiat'
           }
         }
       },
@@ -57,23 +91,24 @@
         default: '0,0.[00000000]'
       },
       fixedCrypto: {
-        type: String,
+        type: Boolean,
         required: false,
-        default: ''
+        default: false,
+      },
+      fixedFiat: {
+        type: Boolean,
+        required: false,
+        default: false,
       }
     },
     data(){
       let content = this.value;
-      if (this.value === null || this.value.crypto === null || this.value.fiat === null) {
+      if (this.value === null || this.value.in === null || this.value.out === null) {
         content = {
-          crypto: 'BTC',
-          fiat: 'EUR',
+          in: this.selectedIn,
+          out: this.selectedOut,
           ratio: 0
         }
-      }
-
-      if(this.fixedCrypto !== ''){
-        content.crypto = this.fixedCrypto
       }
 
       return {
@@ -89,20 +124,12 @@
       fiatCurrencies(){
         return currencies.fiat;
       },
-      setCrypto(symbol) {
-        this.container.crypto = symbol;
+      setIn(currency) {
+        this.container.in = currency;
       },
-      setFiat(symbol) {
-        this.container.fiat = symbol;
+      setOut(currency) {
+        this.container.out = currency;
       }
-    },
-    computed: {
-      choosedCrypto(){
-        return { type: 'crypto', name: this.container.crypto }
-      },
-      choosedFiat(){
-        return { type: 'fiat', name: this.container.fiat }
-      },
     },
     watch: {
       container:{

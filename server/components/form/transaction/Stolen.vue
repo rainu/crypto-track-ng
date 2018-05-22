@@ -7,18 +7,9 @@
     </div>
 
     <!-- row for exchangerates -->
-    <div class="row">
-      <div class="col-xs-12 col-lg-12">
-        <fieldset>
-          <legend>{{$t('transaction.stolen.exchangerates.title')}}</legend>
-          <div class="row">
-
-            <!-- exchangerate -->
-            <exchange-rate class="col-xs-12 col-lg-6" v-model="data.out.exchangerate">{{$t('transaction.stolen.exchangerates.out')}}</exchange-rate>
-          </div>
-        </fieldset>
-      </div>
-    </div>
+    <exchange-rates class="row" :currencies="involvedCurrencies" v-model="data.exchangeRates">
+      {{$t('transaction.stolen.exchangerates.title')}}
+    </exchange-rates>
 
     <!-- row for detail info -->
     <div class="row">
@@ -45,8 +36,12 @@
 
 <script>
   import { required, minValue } from 'vuelidate/lib/validators'
+  import ExchangeRates from './ExchangeRates'
 
   export default {
+    components: {
+      ExchangeRates
+    },
     props: {
       value: {
         default: null,
@@ -69,8 +64,8 @@
               type: null
             },
             wallet: '',
-            exchangerate: null,
           },
+          exchangeRates:[],
           details: {
             exchange: '',
             group: '',
@@ -106,6 +101,17 @@
           comment: {
           }
         }
+      }
+    },
+    computed: {
+      involvedCurrencies(){
+        let currencies = []
+
+        if(this.data.out.currency.name) {
+          currencies.push(this.data.out.currency)
+        }
+
+        return currencies;
       }
     },
     watch: {

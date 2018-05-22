@@ -71,9 +71,7 @@
       "out": "Sell",
       "fee": "Trading Fee",
       "exchangerates": {
-        "title": "Exchange-Course",
-        "in": "Buy value",
-        "out": "Sell value"
+        "title": "Exchange-Course"
       }
     },
     "transfer": {
@@ -82,8 +80,7 @@
       "in": "Transferred Amount (In)",
       "fee": "Transaction Fee",
       "exchangerates": {
-        "title": "Exchange-Course",
-        "value": "Value of transferred Amount"
+        "title": "Exchange-Course"
       }
     },
     "income": {
@@ -91,8 +88,7 @@
       "in": "Income",
       "fee": "Transaction Fee",
       "exchangerates": {
-        "title": "Exchange-Course",
-        "in": "Value of income"
+        "title": "Exchange-Course"
       }
     },
     "spent": {
@@ -100,8 +96,7 @@
       "out": "Spent",
       "fee": "Transaction Fee",
       "exchangerates": {
-        "title": "Exchange-Course",
-        "out": "Value"
+        "title": "Exchange-Course"
       }
     },
     "donation": {
@@ -109,8 +104,7 @@
       "out": "Donation",
       "fee": "Transaction Fee",
       "exchangerates": {
-        "title": "Exchange-Course",
-        "out": "Value of donation"
+        "title": "Exchange-Course"
       }
     },
     "gift": {
@@ -119,25 +113,21 @@
       "out": "Gift",
       "fee": "Transaction Fee",
       "exchangerates": {
-        "title": "Exchange-Course",
-        "in": "Value of gift",
-        "out": "Value of gift"
+        "title": "Exchange-Course"
       }
     },
     "lost": {
       "title": "Lost",
       "out": "Lost",
       "exchangerates": {
-        "title": "Exchange-Course",
-        "out": "Value"
+        "title": "Exchange-Course"
       }
     },
     "stolen": {
       "title": "Stolen",
       "out": "Stolen",
       "exchangerates": {
-        "title": "Exchange-Course",
-        "out": "Value"
+        "title": "Exchange-Course"
       }
     }
   },
