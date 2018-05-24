@@ -94,7 +94,6 @@ const historical = function(from = MIN_DATE){
           });
         }));
 
-        break;
       }
 
       //wait for all requests
