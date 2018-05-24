@@ -40,3 +40,7 @@ const tickerCryptoJob = () => {
     setTimeout(tickerCryptoJob, config.crawler.ticker.crypto.interval);
   });
 };
+
+historicalCryptoJob();
+historicalFiatJob();
+tickerCryptoJob();
