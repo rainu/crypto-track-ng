@@ -6,6 +6,7 @@ const HttpStatus = require('http-status-codes');
 const request = require('request');
 
 const WAIT_IN_MS = config.request.repeatSleep;
+const REQUEST_TIMEOUT = config.request.timeout;
 
 const doRequest = (uri, curTry, maxTry, lastError) => {
   return new Promise((resolve, reject) => {
@@ -15,7 +16,10 @@ const doRequest = (uri, curTry, maxTry, lastError) => {
       return;
     }
 
-    request(uri, (err, resp, body) => {
+    log.info("[CALL][START] " + uri);
+    request({uri: uri, timeout: REQUEST_TIMEOUT}, (err, resp, body) => {
+      log.info("[CALL][DONE] " + uri);
+
       if (err || resp.statusCode === HttpStatus.TOO_MANY_REQUESTS) {
         log.debug("Request error or too many requests. Retry: " + uri);
 

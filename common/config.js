@@ -26,8 +26,25 @@ let config = {
     db: "prod"
   },
   request: {
+    timeout: 60000,
     repeatSleep: 1000,
     maxRetry: 10
+  },
+  crawler: {
+    historical: {
+      crypto:{
+        interval: 36000000, //6h
+      },
+      fiat:{
+        interval: 36000000, //6h
+      }
+    },
+    ticker: {
+      crypto: {
+        interval: 300000,   //5min
+        max: 2000,
+      }
+    }
   }
 }
 

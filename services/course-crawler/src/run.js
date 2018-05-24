@@ -1,40 +1,42 @@
-/**
- * Module dependencies.
- */
-
+const mongodb = require('../../../common/db/setup');
 const log = require('../../../common/log');
 const config = require('../../../common/config');
-const mongodb = require('../../../common/db/setup');
+const historical = require('./crawler/crypto/historical');
+const ticker = require('./crawler/crypto/ticker');
+const fiatHistorical = require('./crawler/fiat/historical');
 
-const updateDailyCourse = require('./ticker');
-const updateHistoricalCourse = require('./historical');
+const historicalCryptoJob = () => {
+  log.info("Update historical crypto courses...");
 
-const dailyTick = 1000 * 60 * 10; //10min
-const historicalTick = 1000 * 60 * 60 * 6; //6h
-
-const dailyJob = () => {
-  log.info("Update courses...");
-
-  updateDailyCourse().then(() => {
-    log.info("Update courses ... done!");
-    setTimeout(dailyJob, dailyTick);
+  historical().then(() => {
+    log.info("Update historical crypto courses ... done!");
+    setTimeout(historicalCryptoJob, config.crawler.historical.crypto.interval);
   }, err => {
-    log.error('Error while requesting courses.', err);
-    setTimeout(dailyJob, dailyTick);
+    log.error('Error while requesting historical crypto courses.', err);
+    setTimeout(historicalCryptoJob, config.crawler.historical.crypto.interval);
   });
 };
 
-const historicalJob = () => {
-  log.info("Update historical courses...");
+const historicalFiatJob = () => {
+  log.info("Update historical fiat courses...");
 
-  updateHistoricalCourse().then(() => {
-    log.info("Update historical courses ... done!");
-    setTimeout(historicalJob, historicalTick);
+  fiatHistorical().then(() => {
+    log.info("Update historical fiat courses ... done!");
+    setTimeout(historicalFiatJob, config.crawler.historical.fiat.interval);
   }, err => {
-    log.error('Error while requesting historical courses.', err);
-    setTimeout(historicalJob, historicalTick);
+    log.error('Error while requesting historical fiat courses.', err);
+    setTimeout(historicalFiatJob, config.crawler.historical.fiat.interval);
   });
 };
 
-dailyJob();
-historicalJob();
+const tickerCryptoJob = () => {
+  log.info("Update ticker crypto courses...");
+
+  ticker().then(() => {
+    log.info("Update ticker crypto courses ... done!");
+    setTimeout(tickerCryptoJob, config.crawler.ticker.crypto.interval);
+  }, err => {
+    log.error('Error while requesting ticker crypto courses.', err);
+    setTimeout(tickerCryptoJob, config.crawler.ticker.crypto.interval);
+  });
+};
