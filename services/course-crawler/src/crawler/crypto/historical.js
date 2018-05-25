@@ -2,12 +2,13 @@
 
 const cheerio = require('cheerio');
 const request = require('../../../../../common/request_repeater');
+const log = require('../../../../../common/log');
 const HistoricalCourse = require('../../../../../common/db/model/course/historical');
 const moment = require("moment");
 
 const MIN_DATE = moment('2009-01-01');
 
-const getFrom = function(symbol, fiat, defaultFrom) {
+const determineStartDate = function(symbol, fiat, defaultStartDate) {
   return new Promise((resolve, reject) => {
     HistoricalCourse.find({ symbol: symbol, fiat: fiat })
     .limit(1)
@@ -15,7 +16,7 @@ const getFrom = function(symbol, fiat, defaultFrom) {
     .select({ date: 1})
     .exec((err, courses) => {
       if (err || courses.length === 0) {
-        resolve(defaultFrom);
+        resolve(defaultStartDate);
         return;
       }
 
@@ -58,50 +59,67 @@ const parse = function(content) {
   return courses;
 }
 
-const historical = function(from = MIN_DATE){
-  return new Promise((resolve, reject) => {
+const saveCourses = function(courses){
+  let bulk = HistoricalCourse.collection.initializeUnorderedBulkOp();
+  let operationCount = 0;
 
+  for(let curCourse of courses){
+    let where = { symbol: curCourse.symbol, fiat: curCourse.fiat, date: curCourse.date }
+
+    //add bulk operation
+    bulk.find(where).upsert().updateOne(curCourse);
+    operationCount++;
+  }
+
+  if(operationCount !== 0){
+    //return a promise of db-execute
+    return bulk.execute()
+  }
+
+  return Promise.resolve()
+}
+
+const parseCourses = function(coin, body) {
+  return parse(body).map(curCourse => {
+    return {
+      symbol: coin.symbol,
+      ...curCourse,
+    }
+  })
+}
+
+const processCourse = function(coin, startDate){
+  const start = startDate.format('YYYYMMDD');
+  const end = moment().add(-1, 'days').format('YYYYMMDD');
+  const url = `https://coinmarketcap.com/currencies/${coin.website_slug}/historical-data/?start=${start}&end=${end}`;
+
+  //crawl the coin
+  return request(url)
+    .then(({body}) => parseCourses(coin, body))
+    .then(saveCourses)
+    .then(() => log.info(`[DONE] Historical course of ${coin.symbol}`))
+}
+
+const processEachCourse = function(body, minStartDate) {
+  let requestPromises = [];
+  let jsonBody = JSON.parse(body);
+
+  //now we can crawl each coin
+  for(let coin of jsonBody.data) {
+    let p = determineStartDate(coin.symbol, 'USD', minStartDate)
+      .then((startDate) => processCourse(coin, startDate))
+
+    requestPromises.push(p);
+  }
+
+  //wait for all requests
+  return Promise.all(requestPromises)
+}
+
+const crawl = function(from = MIN_DATE){
     //first we need to know which coins ar listed
-    request("https://api.coinmarketcap.com/v2/listings/").then(({body}) => {
-      let requestPromises = [];
-      let jsonBody = JSON.parse(body);
-
-      //now we can crawl each coin
-      for(let coin of jsonBody.data) {
-        requestPromises.push(new Promise((reqResolve, reqReject) => {
-          getFrom(coin.symbol, 'USD', from).then((startDate) => {
-            const start = startDate.format('YYYYMMDD');
-            const end = moment().add(-1, 'days').format('YYYYMMDD');
-            const url = `https://coinmarketcap.com/currencies/${coin.website_slug}/historical-data/?start=${start}&end=${end}`;
-
-            //crawl the coin
-            request(url).then(({body}) => {
-
-              let writePromises = []
-
-              for(let curCourse of parse(body)) {
-                let dbEntity = {
-                  symbol: coin.symbol,
-                  ...curCourse,
-                };
-                let where = { symbol: dbEntity.symbol, fiat: dbEntity.fiat, date: dbEntity.date }
-                writePromises.push(HistoricalCourse.update(where, dbEntity, { upsert : true }));
-              }
-
-              //wait for all writings
-              Promise.all(writePromises).then(reqResolve).catch(reqReject)
-            }).catch(reqReject)
-          });
-        }));
-
-      }
-
-      //wait for all requests
-      Promise.all(requestPromises).then(resolve).catch(reject)
-    }).catch(err => reject(err))
-  });
+    return request("https://api.coinmarketcap.com/v2/listings/")
+      .then(({body}) => processEachCourse(body, from))
 };
 
-
-module.exports = historical;
-
+module.exports = crawl;
