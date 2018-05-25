@@ -120,6 +120,7 @@ const processPair = function(from, to, defaultStartDate) {
     .then(request)
     .then(({body}) => parsePair(body, from, to))
     .then(saveEntities)
+    .catch(err => log.error(`[DONE] Historical fiat course for ${from}${to} / ${to}${from} with error`, err))
     .then(() => log.info(`[DONE] Historical fiat course for ${from}${to} / ${to}${from}`))
 }
 

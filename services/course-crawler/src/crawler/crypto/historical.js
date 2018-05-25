@@ -97,6 +97,7 @@ const processCourse = function(coin, startDate){
   return request(url)
     .then(({body}) => parseCourses(coin, body))
     .then(saveCourses)
+    .catch(err => log.error(`[DONE] Historical course of ${coin.symbol} with error`, err))
     .then(() => log.info(`[DONE] Historical course of ${coin.symbol}`))
 }
 

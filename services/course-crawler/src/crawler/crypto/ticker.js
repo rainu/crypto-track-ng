@@ -2,6 +2,7 @@
 
 const request = require('../../../../../common/request_repeater');
 const config = require('../../../../../common/config');
+const log = require('../../../../../common/log');
 const TickerCourse = require('../../../../../common/db/model/course/ticker');
 
 const saveCourses = function(courses){
@@ -53,6 +54,7 @@ const processPage = function(offset){
   return request(`https://api.coinmarketcap.com/v2/ticker/?start=${offset}&limit=100&sort=id&structure=array`)
     .then(({body}) => parsePage(body))
     .then(saveCourses)
+    .catch(err => log.error(`[DONE] Ticker of crypto coins with error`, err))
 }
 
 const crawl = function(){
