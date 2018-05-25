@@ -2,14 +2,32 @@
 
 const FiatCourse = require('../../../../../common/db/model/course/fiat');
 const request = require('../../../../../common/request_repeater');
+const log = require('../../../../../common/log');
 const moment = require("moment");
 const parse = require('csv-parse/lib/sync');
 
 const MIN_DATE = moment('2009-01-01');
 
-const getFrom = function(from, to, defaultFrom) {
+const saveEntities = function(courses) {
+  if(!courses || courses.length === 0) {
+    return Promise.resolve()
+  }
+
+  let bulk = FiatCourse.collection.initializeUnorderedBulkOp();
+  for(let curCourse of courses) {
+    let where = { from: curCourse.from, to: curCourse.to, date: curCourse.date }
+
+    //add bulk operation
+    bulk.find(where).upsert().updateOne(curCourse);
+  }
+
+  //return a promise of db-execute
+  return bulk.execute()
+}
+
+const determineStartDate = function(pairFrom, pairTo, defaultFrom) {
   return new Promise((resolve, reject) => {
-    FiatCourse.find({ from: from, to: to })
+    FiatCourse.find({ from: pairFrom, to: pairTo })
     .limit(1)
     .sort({ date: 'desc' })
     .select({ date: 1})
@@ -71,9 +89,38 @@ const extractData = function(content) {
   };
 }
 
-const saveEntity = function(content) {
-  let where = { from: content.from, to: content.to, date: content.date }
-  return FiatCourse.update(where, content, { upsert : true });
+const parsePair = function(body, pairFrom, pairTo){
+  let courses = []
+
+  let records = parse(body, {
+    delimiter: ';',
+    auto_parse: true,
+    columns: true,
+    skip_empty_lines: true
+  })
+
+  for (let record of records) {
+    let data = {
+      from: pairFrom,
+      to: pairTo,
+      ...extractData(record),
+    }
+    let iData = inverseData(data)
+
+    courses.push(data)
+    courses.push(iData)
+  }
+
+  return courses
+}
+
+const processPair = function(from, to, defaultStartDate) {
+  return determineStartDate(from, to, defaultStartDate)
+    .then(startDate => fiatUrls[from][to](startDate, moment()))
+    .then(request)
+    .then(({body}) => parsePair(body, from, to))
+    .then(saveEntities)
+    .then(() => log.info(`[DONE] Historical fiat course for ${from}${to} / ${to}${from}`))
 }
 
 const fiatUrls = {
@@ -87,53 +134,17 @@ const fiatUrls = {
   }
 }
 
-const fiatHistorical = function(from = MIN_DATE) {
-  return new Promise((resolve, reject) => {
+const crawl = function(from = MIN_DATE) {
+  let p = []
 
-    let requestPromises = [];
-
-    for(let pairFrom of Object.keys(fiatUrls)){
-      for(let pairTo of Object.keys(fiatUrls[pairFrom])){
-
-        requestPromises.push(new Promise((reqResolve, reqReject) => {
-          getFrom(pairFrom, pairTo, from).then((startDate) => {
-
-            const url = fiatUrls[pairFrom][pairTo](startDate, moment())
-            request(url).then(({body}) => {
-              let writePromises = []
-
-              let records = parse(body, {
-                delimiter: ';',
-                auto_parse: true,
-                columns: true,
-                skip_empty_lines: true
-              })
-
-              for (let record of records) {
-                let data = {
-                  from: pairFrom,
-                  to: pairTo,
-                  ...extractData(record),
-                }
-                let iData = inverseData(data)
-
-                writePromises.push(saveEntity(data))
-                writePromises.push(saveEntity(iData))
-              }
-
-              //wait for all writings
-              Promise.all(writePromises).then(reqResolve).catch(reqReject)
-            });
-
-          });
-        }));
-      }
+  for(let pairFrom of Object.keys(fiatUrls)) {
+    for (let pairTo of Object.keys(fiatUrls[pairFrom])) {
+      p.push(processPair(pairFrom, pairTo, from))
     }
+  }
 
-    //wait for all requests
-    Promise.all(requestPromises).then(resolve).catch(reject)
-  })
+  return Promise.all(p)
 }
 
-module.exports = fiatHistorical;
+module.exports = crawl;
 
