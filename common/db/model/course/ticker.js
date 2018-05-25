@@ -14,10 +14,12 @@ const CourseTickerSchema = new Schema({
     type: Number,
   },
   price: {
-    type: Number,
-  },
-  fiat: {
-    type: String,
+    amount: {
+      type: Number,
+    },
+    currency: {
+      type: String,
+    }
   },
   change: {
     hour: {
@@ -32,6 +34,6 @@ const CourseTickerSchema = new Schema({
   }
 });
 
-CourseTickerSchema.index({ symbol: 1, fiat: 1 }, { unique: true });
+CourseTickerSchema.index({ symbol: 1, "price.currency": 1 }, { unique: true });
 
 module.exports = mongoose.model('course_ticker', CourseTickerSchema);
