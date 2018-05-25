@@ -4,14 +4,33 @@ const request = require('../../../../../common/request_repeater');
 const config = require('../../../../../common/config');
 const TickerCourse = require('../../../../../common/db/model/course/ticker');
 
+const saveCourses = function(courses){
+  if(!courses || courses.length === 0) {
+    return Promise.resolve()
+  }
+
+  let bulk = TickerCourse.collection.initializeUnorderedBulkOp();
+  for(let curCourse of courses) {
+    let where = {symbol: curCourse.symbol, "price.currency": curCourse.price.currency}
+
+    //add bulk operation
+    bulk.find(where).upsert().updateOne(curCourse);
+  }
+
+  //return a promise of db-execute
+  return bulk.execute()
+}
+
 const extractData = function(data){
   let fiat = Object.keys(data.quotes)[0];
 
   return {
     symbol: data.symbol,
     rank: data.rank,
-    price: data.quotes[fiat].price,
-    fiat: fiat,
+    price: {
+      amount: data.quotes[fiat].price,
+      currency: fiat,
+    },
     change: {
       hour: data.quotes[fiat]['percent_change_1h'],
       day: data.quotes[fiat]['percent_change_24h'],
@@ -20,45 +39,32 @@ const extractData = function(data){
   }
 }
 
-const ticker = function(){
-  return new Promise((resolve, reject) => {
-    const max = config.crawler.ticker.crypto.max;
+const parsePage = function(body) {
+  let jsonBody = JSON.parse(body);
 
-    let requestPromises = [];
-    let writePromises = []
+  if(jsonBody.data) {
+    return jsonBody.data.map(extractData)
+  }
 
-    for(let offset=1; offset < max; offset += 100) {
+  return []
+}
 
-      requestPromises.push(new Promise((reqResolve, reqReject) => {
-        request(`https://api.coinmarketcap.com/v2/ticker/?start=${offset}&limit=100&sort=id&structure=array`).then(({body}) => {
-          let jsonBody = JSON.parse(body);
+const processPage = function(offset){
+  return request(`https://api.coinmarketcap.com/v2/ticker/?start=${offset}&limit=100&sort=id&structure=array`)
+    .then(({body}) => parsePage(body))
+    .then(saveCourses)
+}
 
-          if(jsonBody.data) for(let coin of jsonBody.data){
-            let dbEntity = extractData(coin);
-            let where = { symbol: dbEntity.symbol, fiat: dbEntity.fiat }
-            writePromises.push(TickerCourse.update(where, dbEntity, { upsert : true }));
-          }
+const crawl = function(){
+  const max = config.crawler.ticker.crypto.max;
+  let p = []
 
-          reqResolve();
-        }).catch(reqReject)
-      }));
+  for(let offset=1; offset < max; offset += 100) {
+    p.push(processPage(offset))
+  }
 
-    }
+  return Promise.all(p)
+}
 
-    //first wait for all requests
-    Promise.all(requestPromises).then(() => {
-      //after that wait for all writings
-      Promise.all(writePromises).then(resolve).catch(reject)
-    }).catch((err) => {
-
-      //after that wait for all writings
-      Promise.all(writePromises).then(() => {
-        reject(err)
-      }).catch(reject)
-    })
-  })
-};
-
-
-module.exports = ticker;
+module.exports = crawl;
 
