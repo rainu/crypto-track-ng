@@ -1,5 +1,6 @@
 <template>
   <i :class="iconClass">
+    <template v-if="!iconClass">{{symbol}}</template>
     <slot></slot>
   </i>
 </template>
@@ -18,6 +19,13 @@
       }
     },
     computed: {
+      symbol(){
+        if(!this.currency || !this.currency.name) {
+          return ''
+        }
+
+        return this.currency.name
+      },
       iconClass(){
         if(!this.currency || !this.currency.name) {
           return ''
