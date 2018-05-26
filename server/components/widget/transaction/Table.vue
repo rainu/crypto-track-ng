@@ -53,7 +53,10 @@
         transactions: state => state.transaction.transactions,
       }),
       transactionView(){
-        return this.transactions
+        let tx = [...this.transactions]
+        tx.sort((a, b) => new Date(a.date) - new Date(b.date))
+
+        return tx
         // let a = []
         // for (let i = 0; i < 10; i++) {
         //   a.push(...this.transactions)
