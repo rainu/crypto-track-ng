@@ -41,6 +41,30 @@
       "format": {
         "numeral": "0,0.[00000000]"
       }
+    },
+    "OMG": {
+      "label": "OmiseGO",
+      "icon": "cc OMG",
+      "factor": 1E-18,
+      "format": {
+        "numeral": "0,0.[000000000000000000]"
+      }
+    },
+    "VIU": {
+      "label": "Viuly",
+      "icon": "",
+      "factor": 1E-18,
+      "format": {
+        "numeral": "0,0.[000000000000000000]"
+      }
+    },
+    "PAY": {
+      "label": "TenX",
+      "icon": "",
+      "factor": 1E-18,
+      "format": {
+        "numeral": "0,0.[000000000000000000]"
+      }
     }
   }
 }
