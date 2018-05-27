@@ -1,3 +1,5 @@
+import {calculateBalances} from '../functions/balances'
+
 const state = () => ({
   wallets: [],
 })
@@ -105,6 +107,21 @@ const actions = {
 const getters = {
   byId: (state) => (id) => {
     return state.wallets.find(w => w.id === id)
+  },
+  transactions: (state, getters, rootState) => (id) => {
+    return rootState.transaction.transactions.filter(tx => {
+      if(tx.involvedWallets.findIndex(wId => wId === id) === -1){
+        //this transaction has nothing to do with the given wallet
+        return false;
+      }
+
+      return true;
+    });
+  },
+  balances: (state, getters, rootState) => (id) => {
+    let wallet = getters.byId(id)
+    let transactions = getters.transactions(id)
+    return calculateBalances(wallet, transactions);
   }
 }
 

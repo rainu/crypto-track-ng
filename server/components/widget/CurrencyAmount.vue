@@ -28,7 +28,7 @@
       }),
       displayAmount(){
         if(!this.amount){
-          return null;
+          return "0";
         }
 
         let format = '0.00'
@@ -37,7 +37,13 @@
         }
 
         numeral.locale(this.locale)
-        return numeral(this.amount).format(format)
+        let dAmount = numeral(this.amount).format(format)
+
+        if(dAmount === "NaN") {
+          dAmount = "0"
+        }
+
+        return dAmount;
       }
     }
   }
