@@ -8,23 +8,7 @@
       <wallet-io class="col-xs-12 col-lg-4" v-model="income">{{$t('transaction.transfer.in')}}</wallet-io>
 
       <!-- fee info -->
-      <template v-for="(curFee, i) in data.fee">
-        <wallet-io class="col-xs-12 col-lg-4" :mandatory="false" :comment="true" v-model="data.fee[i]">
-          <div class="row">
-            <div class="col-xs-6">{{$t('transaction.transfer.fee')}}</div>
-            <div class="col-xs-3">
-              <button class="btn btn-danger btn-block" v-if="data.fee.length > 1" @click.prevent="removeFee(i)">
-                <i class="fa fa-minus"></i>
-              </button>
-            </div>
-            <div class="col-xs-3">
-              <button class="btn btn-success btn-block" @click.prevent="addFee()">
-                <i class="fa fa-plus"></i>
-              </button>
-            </div>
-          </div>
-        </wallet-io>
-      </template>
+      <fees v-model="data.fee" :title="'transaction.transfer.fee'" />
     </div>
 
     <!-- row for exchangerates -->
@@ -56,12 +40,13 @@
 </template>
 
 <script>
-  import { required, minValue, requiredIf } from 'vuelidate/lib/validators'
+  import { required, minValue } from 'vuelidate/lib/validators'
   import ExchangeRates from './ExchangeRates'
+  import Fees from './Fees'
 
   export default {
     components: {
-      ExchangeRates
+      ExchangeRates, Fees
     },
     props: {
       value: {
@@ -89,14 +74,7 @@
           in: {
             wallet: '',
           },
-          fee: [{
-            amount: null,
-            currency: {
-              name: null,
-              type: null
-            },
-            wallet: ''
-          }],
+          fee: [],
           exchangeRates:[],
           details: {
             exchange: '',
@@ -130,23 +108,6 @@
             required,
           },
         },
-        fee: {
-          $each: {
-            amount: {
-              required: requiredIf('currency.name')
-            },
-            wallet: {
-              required: requiredIf('amount')
-            },
-            currency: {
-              name: {
-                required: requiredIf(function () {
-                  return this.data.fee.amount
-                })
-              }
-            }
-          }
-        },
         details: {
           exchange: {
           },
@@ -155,21 +116,6 @@
           comment: {
           }
         }
-      }
-    },
-    methods: {
-      addFee(){
-        this.data.fee.push({
-          amount: null,
-          currency: {
-            name: null,
-            type: null
-          },
-          wallet: ''
-        })
-      },
-      removeFee(index){
-        this.data.fee.splice(index, 1)
       }
     },
     computed: {

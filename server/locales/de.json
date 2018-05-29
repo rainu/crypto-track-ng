@@ -61,7 +61,9 @@
       },
       "fee": {
         "title": "Gebühr",
-        "comment": "Kommentar"
+        "comment": "Kommentar",
+        "included": "Diese Gebühr ist mit inbegriffen.",
+        "not-included": "Diese Gebühr ist zusätzlich."
       },
       "save-error": "Die Transaktion konnte nicht gespeichert werden!"
     },

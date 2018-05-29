@@ -28,6 +28,7 @@
         <label ><slot name="comment">{{$t('common.comment')}}</slot></label>
         <input type="text" class="form-control" v-model="container.comment" />
       </div>
+      <slot name="bottom"></slot>
     </fieldset>
   </div>
 </template>

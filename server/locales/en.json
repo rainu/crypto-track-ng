@@ -61,7 +61,9 @@
       },
       "fee": {
         "title": "Fee",
-        "comment": "Comment"
+        "comment": "Comment",
+        "included": "This fee is inclusive.",
+        "not-included": "This fee is not inclusive."
       },
       "save-error": "The transaction could not be saved!"
     },
