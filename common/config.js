@@ -1,10 +1,8 @@
 "use strict";
 
-const log = require('./log');
+const envParser = require('rainu-env-parser');
 
-const ENV_PREFIX = 'CFG_';
-
-let config = {
+let defaults = {
   server: {
     interface: '0.0.0.0',
     port: 3000,
@@ -48,21 +46,6 @@ let config = {
   }
 }
 
-outer: for(let curEnv of Object.keys(process.env)) {
-  if(curEnv.startsWith(ENV_PREFIX)) {
-    let rawName = curEnv.substr(ENV_PREFIX.length).toLowerCase();
-    let configVar = config;
-
-    let path = rawName.split('_');
-    for (let i = 0; i < path.length - 1; i++) {
-      if(! configVar[path[i]] ) continue outer;
-
-      configVar = configVar[path[i]];
-    }
-
-    configVar[path[path.length - 1]] = process.env[curEnv];
-    log.info('Override value by Environment: ' + curEnv);
-  }
-}
-
-module.exports = config;
+module.exports = {
+  ...envParser.parse("CFG_", defaults)
+};
