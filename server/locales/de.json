@@ -38,6 +38,7 @@
     "currency": "Unterstüzte Währungen",
     "name": "Anzeigename",
     "comment": "Beschreibung",
+    "balances": "Guthaben",
     "save-error": "Die Wallet konnte nicht gespeichert werden!",
     "edit-success": "Das Wallet wurde erfolgreich aktualisiert.",
     "delete-question": "Wollen Sie wirklich das Wallet mit dem Namen <b>{name}</b> löschen?"

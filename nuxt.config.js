@@ -72,6 +72,7 @@ module.exports = {
   modules: [
     // Doc: https://github.com/nuxt-community/axios-module#usage
     '@nuxtjs/axios',
+    'nuxt-device-detect'
   ],
 
   serverMiddleware: [

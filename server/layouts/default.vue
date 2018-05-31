@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <div class="wrapper" :class="{ mobile: $device.isMobileOrTablet, desktop: $device.isDesktop}">
     <header class="main-header">
       <a href="" class="logo">
         <span class="logo-mini">CT</span>

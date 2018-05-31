@@ -1,14 +1,14 @@
 <template>
   <div>
     <div class="row">
-      <div v-for="w in wallets" class="col-xs-12 col-md-4">
+      <div v-for="w in wallets" class="col-xs-12 col-md-4 wallet">
         <div class="box box-default">
           <div class="box-header with-border">
             <h3 class="box-title">{{w.name}}</h3>
           </div>
 
           <div class="box-body" style="">
-            <div class="row">
+            <div class="row content-row">
               <div class="col-xs-12">
                   <table class="table">
                     <thead><tr>
@@ -31,6 +31,16 @@
                       <th>{{$t('wallet.currency')}}</th>
                       <td>
                         <span v-for="currency in w.currencies" class="label label-primary">{{currency.name}}</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>{{$t('wallet.balances')}}</th>
+                      <td>
+                        <ul class="list-inline">
+                          <li v-for="balance of balances(w)" >
+                            <currency-amount :amount="balance.amount" :currency="balance.currency"/>
+                          </li>
+                        </ul>
                       </td>
                     </tr>
                     </tbody>
@@ -81,12 +91,15 @@
     computed: {
       ...mapState({
         wallets: state => state.wallet.wallets,
-      }),
+      })
     },
     methods: {
       ...mapActions({
         deleteWallet: 'wallet/deleteWallet'
       }),
+      balances(wallet) {
+        return this.$store.getters['wallet/balances'](wallet.id);
+      },
       shyWalletAddress(wallet){
         if(!wallet.address) return "";
 
@@ -114,3 +127,15 @@
     }
   }
 </script>
+
+<style scoped>
+  .desktop .wallet {
+    height: 400px;
+  }
+  .desktop .wallet .box {
+    height: 380px;
+  }
+  .desktop .wallet .content-row {
+    height: 270px;
+  }
+</style>

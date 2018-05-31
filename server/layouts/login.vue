@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :class="{ mobile: $device.isMobileOrTablet, desktop: $device.isDesktop}">
     <nuxt/>
   </div>
 </template>
