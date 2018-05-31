@@ -84,6 +84,7 @@ module.exports = {
     '~/backend/routes/authentication',
     '~/backend/routes/wallet',
     '~/backend/routes/transaction',
+    '~/backend/routes/course',
     '~/backend/routes/backup'
   ],
 
