@@ -1,3 +1,5 @@
+import {uniq} from '../functions/currencies'
+
 const state = () => ({
   transactions: [],
 })
@@ -30,17 +32,11 @@ const mutations = {
 
 const actions = {
   init(vuexContext, nuxtContext){
-    return new Promise((resolve, reject) => {
-      if(vuexContext.rootGetters['auth/isAuthenticated']){
-        vuexContext.dispatch('refreshTransactions').then(() => {
-          resolve()
-        }).catch((err) => {
-          reject(err)
-        })
-      }else{
-        resolve()
-      }
-    });
+    if(vuexContext.rootGetters['auth/isAuthenticated']){
+      return vuexContext.dispatch('refreshTransactions')
+    }
+
+    return new Promise.resolve();
   },
   refreshTransactions(ctx){
     return new Promise((resolve, reject) => {
@@ -105,6 +101,16 @@ const actions = {
 const getters = {
   byId: (state) => (id) => {
     return state.transactions.find(t => t.id === id)
+  },
+  involvedCurrencies: (state) => () => {
+    let currencies = [];
+
+    for(let tx of state.transactions) {
+      currencies.push(...tx.involvedCurrencies)
+    }
+
+    currencies = uniq(currencies);
+    return currencies;
   }
 }
 

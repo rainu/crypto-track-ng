@@ -3,21 +3,27 @@ import auth from './auth'
 import i18n from './i18n'
 import wallet from './wallet'
 import transaction from './transaction'
+import course from './course'
 
 const createStore = () => {
   return new Vuex.Store({
     modules: {
-      auth, i18n, wallet, transaction
+      auth, i18n, wallet, transaction, course
     },
     actions: {
       nuxtServerInit(vuexContext, nuxtContext) {
-        return Promise.all([
-          //all init functions have to return a promise
-          //otherwise the store will not init completely before sending to client!
-          vuexContext.dispatch('auth/init', nuxtContext),
-          vuexContext.dispatch('wallet/init', nuxtContext),
-          vuexContext.dispatch('transaction/init', nuxtContext)
-        ])
+        //first we have init auth
+        //after that we can init wallet and transactions parallel
+        //  after we load the transactions we can load the needed course-data
+
+        let authInit = vuexContext.dispatch('auth/init', nuxtContext);
+
+        return authInit
+          .then(() => Promise.all([
+            vuexContext.dispatch('wallet/init', nuxtContext),
+            vuexContext.dispatch('transaction/init', nuxtContext)
+              .then(() => vuexContext.dispatch('course/init', nuxtContext))
+          ]))
       }
     }
   })

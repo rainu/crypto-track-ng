@@ -5,15 +5,28 @@ const log = require('../../../common/log');
 const HistoricalCourse = require('../../../common/db/model/course/historical');
 const FiatHistoricalCourse = require('../../../common/db/model/course/fiat');
 
+function transform(course) {
+  let t = {
+    ...course._doc
+  }
+
+  delete t['_id']
+  delete t['__v']
+
+  return t;
+}
+
 router.route('/api/course/crypto/:symbol')
 
   //get the course of the given currency
   .get((req, resp) => {
 
     HistoricalCourse.find({symbol: req.params.symbol})
-    .then(resp.send)
+    .then((courses) => {
+      resp.send(courses.map(transform))
+    })
     .catch(err => {
-      log.error("An error occurred while request fiat courses!", err)
+      log.error("An error occurred while request crypto courses!", err)
 
       resp.status(HttpStatus.NOT_FOUND);
       resp.end();
@@ -29,7 +42,9 @@ router.route('/api/course/fiat/:symbol')
       {from: req.params.symbol},
       {to: req.params.symbol}
     ]})
-    .then(resp.send)
+    .then((courses) => {
+      resp.send(courses.map(transform))
+    })
     .catch(err => {
       log.error("An error occurred while request fiat courses!", err)
 
