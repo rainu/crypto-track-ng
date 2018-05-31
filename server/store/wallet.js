@@ -1,4 +1,4 @@
-import {calculateBalances} from '../functions/balances'
+import {calculateBalances, addToBalance} from '../functions/balances'
 
 const state = () => ({
   wallets: [],
@@ -122,6 +122,19 @@ const getters = {
     let wallet = getters.byId(id)
     let transactions = getters.transactions(id)
     return calculateBalances(wallet, transactions);
+  },
+  totalBalances: (state, getters, rootState) => () => {
+    let balances = []
+
+    for(let curWallet of state.wallets) {
+      let curWalletBalances = getters.balances(curWallet.id)
+
+      for(let curBalance of curWalletBalances) {
+        addToBalance(balances, curBalance.currency, curBalance.amount)
+      }
+    }
+
+    return balances;
   }
 }
 

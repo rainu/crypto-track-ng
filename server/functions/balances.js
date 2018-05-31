@@ -158,5 +158,5 @@ const calculateBalances = function(wallet, transactions) {
 }
 
 export {
-  calculateBalances
+  calculateBalances, addToBalance
 }
