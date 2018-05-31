@@ -3,7 +3,7 @@ const formidable = require('formidable');
 const fs = require('fs');
 const HttpStatus = require('http-status-codes');
 const log = require('../../../common/log');
-const importer = require('../import')
+const importer = require('../backup/import')
 
 router.route('/api/backup')
   //get the backup of the current user
