@@ -3,7 +3,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const currencies = mongoose.Schema({
+const currency = mongoose.Schema({
   name: {
     type: String
   },
@@ -24,7 +24,7 @@ const WalletSchema = new Schema({
     type: String,
   },
   currencies: {
-    type: [currencies]
+    type: [currency]
   },
   description: {
     type: String,

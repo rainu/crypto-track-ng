@@ -132,9 +132,11 @@
           date,
           type,
           involvedWallets: container.involvedWallets,
+          involvedCurrencies: container.involvedCurrencies,
           data: container.data
         }
         delete payload.data.involvedWallets
+        delete payload.data.involvedCurrencies
 
         this.storeTransaction(payload).then(() => {
           //storing was successful

@@ -43,6 +43,7 @@
   import { required, minValue } from 'vuelidate/lib/validators'
   import ExchangeRates from './ExchangeRates'
   import Fees from './Fees'
+  import {uniq} from '../../../functions/currencies'
 
   export default {
     components: {
@@ -175,6 +176,10 @@
                 this.data.in.wallet,
                 ...this.data.fee.map(f => f.wallet),
               ].filter(i => i))],
+              involvedCurrencies: uniq([
+                this.data.currency,
+                ...this.data.fee.map(f => f.currency)
+              ]),
               data: this.data,
             })
           }

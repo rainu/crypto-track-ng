@@ -123,9 +123,8 @@
           //emit only valid data
           if(!this.$v.data.$error) {
             this.$emit('input', {
-              involvedWallets: [ ...new Set([
-                this.data.out.wallet,
-              ].filter(i => i))],
+              involvedWallets: [this.data.out.wallet],
+              involvedCurrencies: [this.data.out.currency],
               data: this.data,
             })
           }
