@@ -21,6 +21,7 @@ import ExchangeRate from '../components/form/ExchangeRate'
 import TransactionTable from '../components/widget/transaction/Table'
 import ProjectVersion from '../components/widget/ProjectVersion'
 import ProjectBuildDate from '../components/widget/ProjectBuildDate'
+import ReactivePieChart from '../components/chart/ReactivePie'
 
 Vue.use(Vuelidate)
 Vue.component('message-success', Success)
@@ -43,3 +44,4 @@ Vue.component('wallet-io', WalletIO)
 Vue.component('exchange-rate', ExchangeRate)
 Vue.component('project-version', ProjectVersion)
 Vue.component('project-build-date', ProjectBuildDate)
+Vue.component('chart-pie', ReactivePieChart)
