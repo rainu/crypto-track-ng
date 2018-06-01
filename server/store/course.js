@@ -13,11 +13,24 @@ const mutations = {
     if(!state.courses[currency.type]) {
       state.courses[currency.type] = {};
     }
-    if(!state.courses[currency.type][currency.name]){
-      state.courses[currency.type][currency.name] = [];
-    }
+    if(currency.type === 'crypto'){
+      if(!state.courses[currency.type][currency.name]){
+        state.courses[currency.type][currency.name] = [];
+      }
 
-    state.courses[currency.type][currency.name].push(course)
+      state.courses[currency.type][currency.name].push(course)
+    }else if(currency.type === 'fiat'){
+      if(!state.courses[currency.type][currency.name]){
+        state.courses[currency.type][currency.name] = {};
+      }
+      if(!state.courses[currency.type][currency.name][course.to]){
+        state.courses[currency.type][currency.name][course.to] = [];
+      }
+
+      state.courses[currency.type][currency.name][course.to].push(course)
+    }else{
+      console.log("ERROR: Unsupported currency type: " + currency.type)
+    }
   },
 }
 

@@ -32,11 +32,17 @@ const mutations = {
 
 const actions = {
   init(vuexContext, nuxtContext){
-    if(vuexContext.rootGetters['auth/isAuthenticated']){
-      return vuexContext.dispatch('refreshTransactions')
-    }
-
-    return new Promise.resolve();
+    return new Promise((resolve, reject) => {
+      if(vuexContext.rootGetters['auth/isAuthenticated']){
+        vuexContext.dispatch('refreshTransactions').then(() => {
+          resolve()
+        }).catch((err) => {
+          reject(err)
+        })
+      }else{
+        resolve()
+      }
+    });
   },
   refreshTransactions(ctx){
     return new Promise((resolve, reject) => {
