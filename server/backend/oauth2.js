@@ -218,7 +218,7 @@ function getRefreshToken(refreshToken) {
       refreshTokenExpiresAt: savedRT ? new Date(savedRT.expires) : null,
       refreshToken: refreshToken,
       refresh_token: refreshToken,
-      scope: savedRT.scope
+      scope: savedRT ? savedRT.scope : ''
     }
   }).catch(err => {
     Log.error("[OAUTH2] getRefreshToken - Err: %o", err)

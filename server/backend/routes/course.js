@@ -16,15 +16,20 @@ function transform(course) {
   return t;
 }
 
-router.route('/api/course/:type/:symbol')
+router.route('/api/course/:type/:symbol/historical')
 
   //get the course of the given currency
   .get((req, resp) => {
 
-    HistoricalCourse.find({$or: [
-      {from: { name: req.params.symbol, type: req.params.type } },
-      {to: { name: req.params.symbol, type: req.params.type } }
-    ]})
+    const type = req.params.type
+    const symbol = req.params.symbol
+
+    HistoricalCourse.find({
+      $or: [
+        { $and: [ {'from.name': symbol}, {'from.type': type}] },
+        { $and: [ {'to.name': symbol}, {'to.type': type}] }
+      ]
+    })
     .then((courses) => {
       resp.send(courses.map(transform))
     })
@@ -41,10 +46,15 @@ router.route('/api/course/:type/:symbol/ticker')
   //get the course of the given currency
   .get((req, resp) => {
 
-    TickerCourse.find({$or: [
-      {currency: { name: req.params.symbol, type: req.params.type }},
-      {"price.currency": { name: req.params.symbol, type: req.params.type }},
-    ]})
+    const type = req.params.type
+    const symbol = req.params.symbol
+
+    TickerCourse.find({
+      $or: [
+        { $and: [ {'currency.name': symbol}, {'currency.type': type}] },
+        { $and: [ {'price.currency.name': symbol}, {'price.currency.type': type}] }
+      ]
+    })
     .then((courses) => {
       resp.send(courses.map(transform))
     })
