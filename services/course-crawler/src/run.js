@@ -4,6 +4,7 @@ const config = require('../../../common/config');
 const historical = require('./crawler/crypto/historical');
 const ticker = require('./crawler/crypto/ticker');
 const fiatHistorical = require('./crawler/fiat/historical');
+const fiatTicker = require('./crawler/fiat/ticker');
 
 const historicalCryptoJob = () => {
   log.info("Update historical crypto courses...");
@@ -41,6 +42,19 @@ const tickerCryptoJob = () => {
   });
 };
 
+const tickerFiatJob = () => {
+  log.info("Update ticker fiat courses...");
+
+  fiatTicker().then(() => {
+    log.info("Update ticker fiat courses ... done!");
+    setTimeout(tickerFiatJob, config.crawler.ticker.fiat.interval);
+  }, err => {
+    log.error('Error while requesting ticker fiat courses.', err);
+    setTimeout(tickerFiatJob, config.crawler.ticker.fiat.interval);
+  });
+};
+
 historicalCryptoJob();
 historicalFiatJob();
 tickerCryptoJob();
+tickerFiatJob();

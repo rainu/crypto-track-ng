@@ -41,6 +41,9 @@ let defaults = {
       crypto: {
         interval: 300000,   //5min
         max: 2000,
+      },
+      fiat: {
+        interval: 300000,   //5min
       }
     }
   }
