@@ -3,7 +3,7 @@ const HttpStatus = require('http-status-codes');
 const log = require('../../../common/log');
 
 const HistoricalCourse = require('../../../common/db/model/course/historical');
-const FiatHistoricalCourse = require('../../../common/db/model/course/fiat');
+const TickerCourse = require('../../../common/db/model/course/ticker');
 
 function transform(course) {
   let t = {
@@ -16,37 +16,40 @@ function transform(course) {
   return t;
 }
 
-router.route('/api/course/crypto/:symbol')
+router.route('/api/course/:type/:symbol')
 
   //get the course of the given currency
   .get((req, resp) => {
 
-    HistoricalCourse.find({symbol: req.params.symbol})
+    HistoricalCourse.find({$or: [
+      {from: { name: req.params.symbol, type: req.params.type } },
+      {to: { name: req.params.symbol, type: req.params.type } }
+    ]})
     .then((courses) => {
       resp.send(courses.map(transform))
     })
     .catch(err => {
-      log.error("An error occurred while request crypto courses!", err)
+      log.error("An error occurred while request crypto historicalCourses!", err)
 
       resp.status(HttpStatus.NOT_FOUND);
       resp.end();
     })
   })
 
-router.route('/api/course/fiat/:symbol')
+router.route('/api/course/:type/:symbol/ticker')
 
   //get the course of the given currency
   .get((req, resp) => {
 
-    FiatHistoricalCourse.find({$or: [
-      {from: req.params.symbol},
-      {to: req.params.symbol}
+    TickerCourse.find({$or: [
+      {currency: { name: req.params.symbol, type: req.params.type }},
+      {"price.currency": { name: req.params.symbol, type: req.params.type }},
     ]})
     .then((courses) => {
       resp.send(courses.map(transform))
     })
     .catch(err => {
-      log.error("An error occurred while request fiat courses!", err)
+      log.error("An error occurred while request tickerCourses!", err)
 
       resp.status(HttpStatus.NOT_FOUND);
       resp.end();

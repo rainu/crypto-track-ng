@@ -1,6 +1,6 @@
 "use strict";
 
-const FiatCourse = require('../../../../../common/db/model/course/fiat');
+const HistoricalCourse = require('../../../../../common/db/model/course/historical');
 const request = require('../../../../../common/request_repeater');
 const log = require('../../../../../common/log');
 const moment = require("moment");
@@ -13,7 +13,7 @@ const saveEntities = function(courses) {
     return Promise.resolve()
   }
 
-  let bulk = FiatCourse.collection.initializeUnorderedBulkOp();
+  let bulk = HistoricalCourse.collection.initializeUnorderedBulkOp();
   for(let curCourse of courses) {
     let where = { from: curCourse.from, to: curCourse.to, date: curCourse.date }
 
@@ -27,7 +27,7 @@ const saveEntities = function(courses) {
 
 const determineStartDate = function(pairFrom, pairTo, defaultFrom) {
   return new Promise((resolve, reject) => {
-    FiatCourse.find({ from: pairFrom, to: pairTo })
+    HistoricalCourse.find({ from: pairFrom, to: pairTo })
     .limit(1)
     .sort({ date: 'desc' })
     .select({ date: 1})
@@ -101,8 +101,14 @@ const parsePair = function(body, pairFrom, pairTo){
 
   for (let record of records) {
     let data = {
-      from: pairFrom,
-      to: pairTo,
+      from: {
+        name: pairFrom,
+        type: 'fiat'
+      },
+      to: {
+        name: pairTo,
+        type: 'fiat'
+      },
       ...extractData(record),
     }
     let iData = inverseData(data)

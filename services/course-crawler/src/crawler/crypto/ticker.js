@@ -12,7 +12,10 @@ const saveCourses = function(courses){
 
   let bulk = TickerCourse.collection.initializeUnorderedBulkOp();
   for(let curCourse of courses) {
-    let where = {symbol: curCourse.symbol, "price.currency": curCourse.price.currency}
+    let where = {
+      currency: curCourse.currency,
+      "price.currency": curCourse.price.currency
+    }
 
     //add bulk operation
     bulk.find(where).upsert().updateOne(curCourse);
@@ -26,11 +29,17 @@ const extractData = function(data){
   let fiat = Object.keys(data.quotes)[0];
 
   return {
-    symbol: data.symbol,
+    currency: {
+      name: data.symbol,
+      type: 'crypto'
+    },
     rank: data.rank,
     price: {
       amount: data.quotes[fiat].price,
-      currency: fiat,
+      currency: {
+        name: fiat,
+        type: 'fiat'
+      },
     },
     change: {
       hour: data.quotes[fiat]['percent_change_1h'],

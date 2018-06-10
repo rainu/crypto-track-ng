@@ -10,7 +10,16 @@ const MIN_DATE = moment('2009-01-01');
 
 const determineStartDate = function(symbol, fiat, defaultStartDate) {
   return new Promise((resolve, reject) => {
-    HistoricalCourse.find({ symbol: symbol, fiat: fiat })
+    HistoricalCourse.find({
+      from: {
+        symbol: symbol,
+        type: 'crypto'
+      },
+      to: {
+        symbol: fiat,
+        type: 'fiat'
+      }
+    })
     .limit(1)
     .sort({ date: 'desc' })
     .select({ date: 1})
@@ -23,7 +32,7 @@ const determineStartDate = function(symbol, fiat, defaultStartDate) {
       resolve(moment(courses[0].date));
     })
   });
-}
+};
 
 const saveParseFloat = function(text){
   let parsed = parseFloat(text);
@@ -45,7 +54,10 @@ const parse = function(content) {
 
     const data = {
       date: moment(rawDate, "MMM DD, YYYY").hour(0).minute(0).toDate(),
-      fiat: 'USD',
+      to: {
+        symbol: 'USD',
+        type: 'fiat'
+      },
       open: saveParseFloat(cells.eq(1).data('format-value')),
       high: saveParseFloat(cells.eq(2).data('format-value')),
       low: saveParseFloat(cells.eq(3).data('format-value')),
@@ -64,7 +76,7 @@ const saveCourses = function(courses){
   let operationCount = 0;
 
   for(let curCourse of courses){
-    let where = { symbol: curCourse.symbol, fiat: curCourse.fiat, date: curCourse.date }
+    let where = { from: curCourse.from, to: curCourse.to, date: curCourse.date }
 
     //add bulk operation
     bulk.find(where).upsert().updateOne(curCourse);
@@ -82,7 +94,10 @@ const saveCourses = function(courses){
 const parseCourses = function(coin, body) {
   return parse(body).map(curCourse => {
     return {
-      symbol: coin.symbol,
+      from: {
+        symbol: coin.symbol,
+        type: 'crypto'
+      },
       ...curCourse,
     }
   })
@@ -91,36 +106,38 @@ const parseCourses = function(coin, body) {
 const processCourse = function(coin, startDate){
   const start = startDate.format('YYYYMMDD');
   const end = moment().add(-1, 'days').format('YYYYMMDD');
-  const url = `https://coinmarketcap.com/currencies/${coin.website_slug}/historical-data/?start=${start}&end=${end}`;
+  const url = `https://coinmarketcap.com/currencies/${coin.slug}/historical-data/?start=${start}&end=${end}`;
 
   //crawl the coin
   return request(url)
-    .then(({body}) => parseCourses(coin, body))
-    .then(saveCourses)
-    .catch(err => log.error(`[DONE] Historical course of ${coin.symbol} with error`, err))
-    .then(() => log.info(`[DONE] Historical course of ${coin.symbol}`))
+  .then(({body}) => parseCourses(coin, body))
+  .then(saveCourses)
+  .catch(err => log.error(`[DONE] Historical course of ${coin.symbol} with error`, err))
+  .then(() => log.info(`[DONE] Historical course of ${coin.symbol}`))
 }
 
-const processEachCourse = function(body, minStartDate) {
-  let requestPromises = [];
-  let jsonBody = JSON.parse(body);
+const list = function() {
+  const url = 'https://api.coinmarketcap.com/v2/listings/'
+  return request(url)
+    .then(({body}) => {
+      const data = JSON.parse(body);
 
-  //now we can crawl each coin
-  for(let coin of jsonBody.data) {
-    let p = determineStartDate(coin.symbol, 'USD', minStartDate)
-      .then((startDate) => processCourse(coin, startDate))
-
-    requestPromises.push(p);
-  }
-
-  //wait for all requests
-  return Promise.all(requestPromises)
+      return data.data.map(entity => {
+        return {
+          symbol: entity.symbol,
+          slug: entity.website_slug,
+        }
+      })
+    })
 }
 
 const crawl = function(from = MIN_DATE){
-    //first we need to know which coins ar listed
-    return request("https://api.coinmarketcap.com/v2/listings/")
-      .then(({body}) => processEachCourse(body, from))
+  return list()
+    .then(coins => coins.map(coin => {
+      return determineStartDate(coin.symbol, 'USD', from)
+        .then((startDate) => processCourse(coin, startDate))
+    }))
+    .then(promises => Promise.all(promises))
 };
 
 module.exports = crawl;
