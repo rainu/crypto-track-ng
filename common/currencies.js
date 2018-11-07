@@ -1,4 +1,4 @@
-{
+export default {
   "fiat": {
     "EUR": {
       "label": "Euro",

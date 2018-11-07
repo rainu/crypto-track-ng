@@ -6,7 +6,7 @@
 </template>
 
 <script>
-  import * as currencies from '../../../common/currencies'
+  import currencies from '../../../common/currencies'
 
   export default {
     props: {

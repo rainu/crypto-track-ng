@@ -34,7 +34,7 @@
 </template>
 
 <script>
-  import * as currencies from '../../../common/currencies'
+  import currencies from '../../../common/currencies'
   import {mapGetters} from 'vuex';
   import { minValue, requiredIf } from 'vuelidate/lib/validators'
 

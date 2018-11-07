@@ -6,7 +6,7 @@
 
 <script>
   import {mapState} from 'vuex';
-  import * as currencies from '../../../common/currencies'
+  import currencies from '../../../common/currencies'
   import numeral from 'numeral'
 
   export default {
