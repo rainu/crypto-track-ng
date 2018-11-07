@@ -33,21 +33,15 @@ const mutations = {
 }
 
 const actions = {
-  init(vuexContext, nuxtContext){
+  init(vuexContext){
     return new Promise((resolve, reject) => {
-      if (nuxtContext.req) {
-        //the server has got a request - so we have to look
-        //for cookies there
-        if (nuxtContext.req.cookies[COOKIE_JWT]) {
-          //server
-          let jwt = JSON.parse(nuxtContext.req.cookies[COOKIE_JWT])
-          this.$axios.setToken(jwt.token, "Bearer")
+      const rawJWT = Cookie.get(COOKIE_JWT)
 
-          vuexContext.commit('setToken', jwt)
-        }
-      } else {
-        //client
-        let jwt = JSON.parse(Cookie.get(COOKIE_JWT))
+      if (rawJWT) {
+        let jwt = JSON.parse(rawJWT, (key, value) => {
+          if(key === 'expiresAt') return new Date(value)
+          return value
+        })
         this.$axios.setToken(jwt.token, "Bearer")
 
         vuexContext.commit('setToken', jwt)

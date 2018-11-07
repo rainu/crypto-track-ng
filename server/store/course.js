@@ -70,7 +70,7 @@ const mutations = {
 }
 
 const actions = {
-  init(vuexContext, nuxtContext){
+  init(vuexContext){
     if(vuexContext.rootGetters['auth/isAuthenticated']){
       return Promise.all([
         vuexContext.dispatch('loadHistoricalCourses'),

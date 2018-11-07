@@ -31,18 +31,12 @@ const mutations = {
 }
 
 const actions = {
-  init(vuexContext, nuxtContext){
-    return new Promise((resolve, reject) => {
-      if(vuexContext.rootGetters['auth/isAuthenticated']){
-        vuexContext.dispatch('refreshWallets').then(() => {
-          resolve()
-        }).catch((err) => {
-          reject(err)
-        })
-      }else{
-        resolve()
-      }
-    });
+  init(vuexContext){
+    if(vuexContext.rootGetters['auth/isAuthenticated']){
+      return vuexContext.dispatch('refreshWallets')
+    }else{
+      return Promise.resolve()
+    }
   },
   refreshWallets(ctx){
     return new Promise((resolve, reject) => {
