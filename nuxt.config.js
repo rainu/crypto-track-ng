@@ -4,7 +4,7 @@ const config = require('./common/config')
 const scrollBehavior = require('./server/plugins/scroll_behavior')
 
 module.exports = {
-  mode: 'universal',
+  mode: 'spa',
 
   srcDir: 'server/',
 
@@ -102,7 +102,6 @@ module.exports = {
   ** Build configuration
   */
   build: {
-    vendor: ['jquery', 'bootstrap', 'admin-lte', 'moment'],
     plugins: [
       // set shortcuts as global for bootstrap
       new webpack.ProvidePlugin({
