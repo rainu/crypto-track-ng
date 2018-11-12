@@ -56,7 +56,7 @@ module.exports = {
   plugins: [
     '~/plugins/init',
     '~/plugins/axios',
-    '~/plugins/bootstrap',
+    '~/plugins/theme',
     '~/plugins/i18n',
     '~/plugins/route_helper',
     '~/plugins/global_components',
