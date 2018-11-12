@@ -23,7 +23,7 @@ module.exports = {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ],
     bodyAttrs: {
-      class: 'skin-black sidebar-mini'
+      class: 'skin-black fixed sidebar-mini'
     }
   },
 
