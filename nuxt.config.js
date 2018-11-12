@@ -20,7 +20,8 @@ module.exports = {
     ],
     script: [],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/app-icon-16x16.png' }
+      { rel: 'icon', type: 'image/png', href: '/app-icon-16x16.png' },
+      { rel: 'manifest', href: '/manifest.json' }
     ],
     bodyAttrs: {
       class: 'skin-black fixed sidebar-mini'

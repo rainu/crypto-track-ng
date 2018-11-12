@@ -3,7 +3,7 @@
     <header class="main-header">
       <a href="" class="logo">
         <span class="logo-mini">
-          <img src="/app-icon-128x128.png" alt="CT" style="width:80%" />
+          <img src="/icons/app-icon-128x128.png" alt="CT" style="width:80%" />
         </span>
         <span class="logo-lg">CoinTrack</span>
       </a>
