@@ -5,6 +5,7 @@ const webpack = require('webpack');
 module.exports = {
   entry: ['./services/course-crawler/src/run.js'],
   target: 'node',
+  mode: 'production',
   node: {
     __dirname: false,
     __filename: false,
@@ -22,16 +23,4 @@ module.exports = {
   plugins: [
     new webpack.NoEmitOnErrorsPlugin(),
   ],
-  module: {
-    loaders: [
-      {
-        test: /\.js?$/,
-        exclude: /node_modules/,
-        loader: 'babel-loader',
-        query: {
-          presets: ['es2015', 'stage-2']
-        }
-      }
-    ]
-  }
 };
