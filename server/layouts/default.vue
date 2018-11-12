@@ -2,7 +2,9 @@
   <div class="wrapper" :class="{ mobile: $device.isMobileOrTablet, desktop: $device.isDesktop}">
     <header class="main-header">
       <a href="" class="logo">
-        <span class="logo-mini">CT</span>
+        <span class="logo-mini">
+          <img src="/app-icon-128x128.png" alt="CT" style="width:80%" />
+        </span>
         <span class="logo-lg">CoinTrack</span>
       </a>
       <nav class="navbar navbar-static-top">
@@ -13,6 +15,13 @@
         <!-- Navbar Right Menu -->
         <div class="navbar-custom-menu">
           <ul class="nav navbar-nav">
+
+            <!-- info -->
+            <nuxt-link :to="{name: 'lang-legal'}" tag="li" active-class="active" exact>
+              <a>
+                <i class="fa fa-question-circle"></i>
+              </a>
+            </nuxt-link>
 
             <!-- session -->
             <li>
@@ -71,18 +80,6 @@
       </section>
     </div>
 
-    <footer class="main-footer">
-      <div class="row">
-        <div class="col-xs-12 col-lg-6">
-          <strong class="well-sm">Version</strong>
-          <project-version />
-        </div>
-        <div class="col-xs-12 col-lg-6 text-right">
-          <strong class="well-sm">© Rainu</strong>
-          <project-build-date />
-        </div>
-      </div>
-    </footer>
     <!-- Add the sidebar's background. This div must be placed immediately after the control sidebar -->
     <div class="control-sidebar-bg"></div>
   </div>

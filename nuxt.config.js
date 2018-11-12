@@ -20,7 +20,7 @@ module.exports = {
     ],
     script: [],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/app-icon-16x16.png' }
     ],
     bodyAttrs: {
       class: 'skin-black fixed sidebar-mini'
