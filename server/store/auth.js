@@ -99,7 +99,7 @@ const actions = {
     .catch(e => {
       if(e.response.status === HttpStatus.BAD_REQUEST) {
         return "invalid"
-      }else {
+      } else {
         console.log("Error while authenticate user!", e)
         return "error"
       }

@@ -49,7 +49,7 @@ module.exports = {
   loading: { color: '#008078' },
 
   router: {
-    middleware: ['i18n', 'usercheck'],
+    middleware: ['i18n', 'usercheck', 'session_refresh'],
     scrollBehavior: scrollBehavior
   },
 
@@ -80,7 +80,6 @@ module.exports = {
     //these plugins will only work on client side! (ssr == false)
     { src: '~/plugins/datepicker', ssr: false },
     { src: '~/plugins/vue-select', ssr: false },
-    { src: '~/plugins/session_refresh', ssr: false },
   ],
 
   /*
