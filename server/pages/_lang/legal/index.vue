@@ -24,7 +24,7 @@
 
       <strong><i class="fa fa-creative-commons margin-r-5"></i> Icon</strong>
       <div class="text-muted">
-        <img src="/icons/app-icon-32x32.png">
+        <img :src="$icon(32)">
         Icon made by <a href="https://www.flaticon.com/authors/itim2101" title="itim2101">itim2101</a>
         from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed
         by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0"

@@ -19,13 +19,28 @@ module.exports = {
       { hid: 'description', name: 'description', content: 'Tracking your cryptocurrency portfolio' }
     ],
     script: [],
-    link: [
-      { rel: 'icon', type: 'image/png', href: '/app-icon-16x16.png' },
-      { rel: 'manifest', href: '/manifest.json' }
-    ],
+    link: [],
     bodyAttrs: {
       class: 'skin-black fixed sidebar-mini'
     }
+  },
+
+  manifest: {
+    "name": "Tracking your cryptocurrency portfolio",
+    "short_name": "CryptoTrack",
+    "start_url": "/",
+    "scope": ".",
+    "display": "standalone",
+    "orientation": "portrait-primary",
+    "background_color": "#fff",
+    "theme_color": "#008078",
+    "description": "Tracking your cryptocurrency portfolio.",
+    "dir": "ltr",
+    "lang": "de-DE"
+  },
+
+  icon: {
+    sizes: [16, 32, 120, 144, 152, 192, 384, 512]
   },
 
   /*
@@ -72,6 +87,7 @@ module.exports = {
   ** Nuxt.js modules
   */
   modules: [
+    '@nuxtjs/pwa',
     // Doc: https://github.com/nuxt-community/axios-module#usage
     '@nuxtjs/axios',
     'nuxt-device-detect'
