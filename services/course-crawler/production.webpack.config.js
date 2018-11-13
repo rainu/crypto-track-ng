@@ -1,26 +1,13 @@
 const path = require('path');
-const nodeExternals = require('webpack-node-externals');
-const webpack = require('webpack');
 
 module.exports = {
-  entry: ['./services/course-crawler/src/run.js'],
-  target: 'node',
   mode: 'production',
-  node: {
-    __dirname: false,
-    __filename: false,
+  target: 'node',
+  entry: {
+    app: './services/course-crawler/src/run.js'
   },
-  externals: [nodeExternals()],
   output: {
-    path: path.resolve(__dirname, './dist/'),
-    publicPath: '../../',
-    filename: 'application-course.js'
-  },
-  resolve: {
-    modules: [path.join(__dirname, '../../node_modules')],
-    extensions: ['.js'],
-  },
-  plugins: [
-    new webpack.NoEmitOnErrorsPlugin(),
-  ],
+    filename: 'application-course.js',
+    path: path.resolve(__dirname, 'dist')
+  }
 };

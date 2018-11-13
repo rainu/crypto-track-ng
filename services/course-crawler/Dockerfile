@@ -6,6 +6,4 @@ ENV NODE_ENV "production"
 COPY ./dist /application/
 WORKDIR /application/
 
-RUN npm install
-
 CMD [ "node", "/application/application-course.js" ]

@@ -46,8 +46,7 @@ dockerrize:
     - echo "{\"build\":{\"version\":\"${CI_COMMIT_SHA}\", \"date\":\"$(date -Iseconds)\"}}" > ./common/project-info.json
     - docker login -u ${DOCKER_USER} -p ${DOCKER_PASSWORD}
     - docker-compose build
-    # actually the course building is broken (so for the moment push only the web)
-    - docker-compose push web
+    - docker-compose push
   dependencies:
     - build-server
     - build-course-crawler
