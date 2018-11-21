@@ -1,34 +1,34 @@
 const routes = {
-  startpage(store) {
+  startpage(store, ...parameter) {
     return `/${store.state.i18n.locale}`
   },
-  userhome(store) {
+  userhome(store, ...parameter) {
     return `/${store.state.i18n.locale}/user/${store.state.auth.username}`
   },
-  dashboard(store) {
+  dashboard(store, ...parameter) {
     return `/${store.state.i18n.locale}/user/${store.state.auth.username}/dashboard`
   },
-  wallets(store) {
+  wallets(store, ...parameter) {
     return `/${store.state.i18n.locale}/user/${store.state.auth.username}/wallet`
   },
-  transactions(store) {
+  transactions(store, ...parameter) {
     return `/${store.state.i18n.locale}/user/${store.state.auth.username}/transaction`
   }
 }
 
-export const url = (target, store) => {
+export const url = (target, store, ...parameter) => {
   if(routes.hasOwnProperty(target)) {
-    return routes[target](store)
+    return routes[target](store, parameter)
   }
 }
 
 export default ({ app }) => {
-  app.router.$goto = (target) => {
+  app.router.$goto = (target, ...parameter) => {
     if(routes.hasOwnProperty(target)) {
       const store = app.store;
       const router = app.router;
 
-      router.push(url(target, store))
+      router.push(url(target, store, ...parameter))
     }
   }
 }
