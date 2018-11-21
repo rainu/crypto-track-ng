@@ -13,6 +13,9 @@ const routes = {
   },
   transactions(store, ...parameter) {
     return `/${store.state.i18n.locale}/user/${store.state.auth.username}/transaction`
+  },
+  editTransaction(store, ...parameter) {
+    return `/${store.state.i18n.locale}/user/${store.state.auth.username}/transaction/edit/${parameter[0]}`
   }
 }
 

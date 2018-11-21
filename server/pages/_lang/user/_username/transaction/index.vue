@@ -5,9 +5,9 @@
         <button type="button" class="btn btn-danger btn-sm" @click="requestDeleteTransaction(tx.id)" :title="$t('common.delete')">
           <i class="fa fa-trash"></i>
         </button>
-        <nuxt-link :to="{name: 'lang-user-username-transaction-edit-id', params: { id: tx.id }}" tag="a" role="button" class="btn btn-primary btn-sm" :title="$t('common.edit')">
+        <button type="button" class="btn btn-primary btn-sm" @click="editTransaction(tx.id)" :title="$t('common.edit')">
           <i class="fa fa-pencil"></i>
-        </nuxt-link>
+        </button>
 
         <modal-warning v-if="deleteRequest === tx.id" :payload="{ transactionId: tx.id }" @decided="handleDeleteDecision">
           <span v-html="$t('transaction.delete-question', {
@@ -48,6 +48,9 @@
       }),
       requestDeleteTransaction(id){
         this.deleteRequest = id
+      },
+      editTransaction(id){
+        this.$router.$goto('editTransaction', id)
       },
       handleDeleteDecision(decision) {
         this.deleteRequest = null
