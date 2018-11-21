@@ -18,7 +18,7 @@ import CurrencyIcon from '../components/widget/CurrencyIcon'
 import CurrencyAmount from '../components/widget/CurrencyAmount'
 import WalletIO from '../components/form/WalletIO'
 import ExchangeRate from '../components/form/ExchangeRate'
-import TransactionTable from '../components/widget/transaction/Table'
+import TransactionList from '../components/widget/transaction/List'
 import ProjectVersion from '../components/widget/ProjectVersion'
 import ProjectBuildDate from '../components/widget/ProjectBuildDate'
 import ReactivePieChart from '../components/chart/ReactivePie'
@@ -37,7 +37,7 @@ Vue.component('input-number', InputNumber)
 Vue.component('input-currency', CurrencyInput)
 Vue.component('select-currency', CurrencySelect)
 Vue.component('input-wallet', WalletChooser)
-Vue.component('transaction-table', TransactionTable)
+Vue.component('transaction-list', TransactionList)
 Vue.component('icon-currency', CurrencyIcon)
 Vue.component('currency-amount', CurrencyAmount)
 Vue.component('wallet-io', WalletIO)

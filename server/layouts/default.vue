@@ -75,7 +75,7 @@
     </aside>
     <div class="content-wrapper">
       <section class="content-header"></section>
-      <section class="content container-fluid">
+      <section class="content">
         <nuxt/>
       </section>
     </div>
