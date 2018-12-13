@@ -53,7 +53,7 @@ const parse = function(content) {
     const rawDate = cells.eq(0).text();
 
     const data = {
-      date: moment(rawDate, "MMM DD, YYYY").hour(0).minute(0).toDate(),
+      date: new Date(moment(rawDate, "MMM DD, YYYY").format('YYYY-DD-MM') + 'T00:00:00Z'),
       to: {
         name: 'USD',
         type: 'fiat'

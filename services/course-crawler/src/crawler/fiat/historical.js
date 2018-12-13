@@ -81,7 +81,7 @@ const extractData = function(content) {
    */
 
   return {
-    date: moment(content['Datum'], "YYYY-MM-DD").toDate(),
+    date: new Date(content['Datum'] + 'T00:00:00Z'),
     open: saveParseFloat(content['Erster']),
     high: saveParseFloat(content['Hoch']),
     low: saveParseFloat(content['Tief']),
