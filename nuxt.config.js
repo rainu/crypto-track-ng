@@ -21,7 +21,7 @@ module.exports = {
     script: [],
     link: [],
     bodyAttrs: {
-      class: 'skin-black fixed sidebar-mini'
+      class: 'skin-black fixed layout-top-nav'
     }
   },
 
@@ -113,6 +113,10 @@ module.exports = {
     credentials: true,
     baseURL: `http://${config.server.interface}:${config.server.port}`,
     browserBaseURL: config.server.url
+  },
+
+  babel: {
+    presets: ['es2015', 'stage-0', 'transform-es2015-modules-commonjs']
   },
 
   /*

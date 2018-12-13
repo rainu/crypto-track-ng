@@ -1,5 +1,5 @@
 <template>
-  <div class="modal fade in" :class="modalClass" style="display: block; padding-right: 12px;" :style="style">
+  <div class="modal fade in" :class="modalClass" style="display: block; " :style="style">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">

@@ -1,5 +1,5 @@
 <template>
-  <span>
+  <span class="word-wrap">
     {{displayAmount}} <icon-currency :currency="currency" />
   </span>
 </template>

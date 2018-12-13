@@ -3,7 +3,7 @@
     <div class="box-header with-border">
       <h4 class="box-title">
         <i class="fa fa-gift" :title="$t('transaction.gift.out')"></i>
-        <span class="small">{{ldate(tx.date)}}</span>
+        <span class="small word-wrap">{{ldate(tx.date)}}</span>
       </h4>
 
       <div class="box-tools pull-right">
@@ -38,7 +38,7 @@
       <hr v-if="tx.data.details.comment"/>
       <div class="row">
         <div class="col-xs-12 text-center">
-          <span class="small">{{tx.data.details.comment}}</span>
+          <span class="small word-wrap">{{tx.data.details.comment}}</span>
         </div>
       </div>
     </div>
@@ -85,8 +85,5 @@
   hr {
     margin-top: 10px;
     margin-bottom: 10px;
-  }
-  .small {
-    word-wrap: break-word;
   }
 </style>
