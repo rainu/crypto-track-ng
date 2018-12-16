@@ -70,8 +70,9 @@ module.exports = {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    '~/plugins/init',
     '~/plugins/axios',
+    '~/plugins/webworker',
+    '~/plugins/init',
     '~/plugins/theme',
     '~/plugins/i18n',
     '~/plugins/route_helper',
@@ -136,6 +137,14 @@ module.exports = {
     */
     extend(config, ctx) {
 
+      if (ctx.isClient) {
+        config.devtool = '#source-map'
+      }
+
+      /*
+      * Required for HotModuleReloading to work with web-worker
+      */
+      config.output.globalObject = `(typeof self !== 'undefined' ? self : this)`
     }
   }
 }

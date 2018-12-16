@@ -23,13 +23,21 @@ router.route('/api/course/:type/:symbol/historical')
 
     const type = req.params.type
     const symbol = req.params.symbol
+    const from = req.query.from
 
-    HistoricalCourse.find({
+    let searchQuery = {
       $or: [
         { $and: [ {'from.name': symbol}, {'from.type': type}] },
         { $and: [ {'to.name': symbol}, {'to.type': type}] }
       ]
-    })
+    }
+
+    if(from) {
+      searchQuery.$or[0].$and.push({ date: { $gt: new Date(from) } })
+      searchQuery.$or[1].$and.push({ date: { $gt: new Date(from) } })
+    }
+
+    HistoricalCourse.find(searchQuery)
     .then((courses) => {
       resp.send(courses.map(transform))
     })
