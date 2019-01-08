@@ -22,6 +22,7 @@ import TransactionList from '../components/widget/transaction/List'
 import ProjectVersion from '../components/widget/ProjectVersion'
 import ProjectBuildDate from '../components/widget/ProjectBuildDate'
 import ReactivePieChart from '../components/chart/ReactivePie'
+import BalanceChart from '../components/widget/dashboard/BalanceChart'
 
 Vue.use(Vuelidate)
 Vue.component('message-success', Success)
@@ -45,3 +46,4 @@ Vue.component('exchange-rate', ExchangeRate)
 Vue.component('project-version', ProjectVersion)
 Vue.component('project-build-date', ProjectBuildDate)
 Vue.component('chart-pie', ReactivePieChart)
+Vue.component('balance-chart', BalanceChart)

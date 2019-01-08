@@ -1,6 +1,6 @@
 //init stuff here
 
-export default function ({$axios, app, store}) {
+export default function ({app, store}) {
   //first we have init auth (and wait for them)
   //after that we can init wallet and transactions parallel (without waiting)
   //  after we load the transactions we can load the needed course-data

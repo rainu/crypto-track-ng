@@ -25,6 +25,12 @@
     "no-result": "Keine Ergebnisse gefunden",
     "loading": "Lade..."
   },
+  "widget": {
+    "balance-chart": {
+      "title": "Wert pro Währung",
+      "data-footer": "({percent}% von Gesamt)"
+    }
+  },
   "login": {
     "username": "Benutzername",
     "password": "Passwort",
