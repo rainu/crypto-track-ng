@@ -17,7 +17,6 @@ export function balances() {
 
   return {
     ready() {
-      console.log(store)
       return Promise.all([
         store.balance.ready(),
         store.meta.ready(),
