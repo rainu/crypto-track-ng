@@ -2,7 +2,10 @@ const state = () => ({
   syncStates: {
     historical: false,
     ticker: false
-  }
+  },
+  calcCache: {
+    totalTickerBalance: {}
+  },
 })
 
 const mutations = {
@@ -11,6 +14,10 @@ const mutations = {
   },
   setSyncStateForTicker(state, syncState) {
     state.syncStates.ticker = syncState
+    state.calcCache.totalTickerBalance = {}
+  },
+  setCalcCacheTotalTickerBalance(state, {key, balances}) {
+    state.calcCache.totalTickerBalance[key] = balances
   }
 }
 
@@ -33,7 +40,7 @@ const actions = {
     p.push(ctx.commit('setSyncStateForHistorical', false))
 
     for(let currency of currencies) {
-      p.push(this.$webworker.course.syncHistoricalCourses(
+      p.push(this.$webworker.courseSync.syncHistoricalCourses(
         userToken,
         currency
       ))
@@ -50,7 +57,7 @@ const actions = {
     p.push(ctx.commit('setSyncStateForTicker', false))
 
     for(let currency of currencies) {
-      p.push(this.$webworker.course.syncTickerCourses(
+      p.push(this.$webworker.courseSync.syncTickerCourses(
         userToken,
         currency
       ))
@@ -59,6 +66,37 @@ const actions = {
     return Promise.all(p)
       .then(() => ctx.commit('setSyncStateForTicker', true))
   },
+
+  getTotalTickerBalanceFor(ctx, counterCurrency) {
+    let key = `${counterCurrency.type}_${counterCurrency.name}`
+
+    if(ctx.state.calcCache.totalTickerBalance[key]) {
+      return Promise.resolve(ctx.state.calcCache.totalTickerBalance[key])
+    }
+
+    //TODO: make sure that no duplicate calculations are running!
+
+    let promises = []
+    let balances = []
+
+    for(let coin of ctx.rootGetters['wallet/totalBalances']()) {
+      let p = this.$webworker.balance.calcTickerBalance(coin.amount, coin.currency, counterCurrency)
+        .then(counterValue => {
+          balances.push({
+            ...coin,
+            counterValue: {
+              currency: counterCurrency,
+              amount: counterValue
+            }
+          })
+        })
+      promises.push(p)
+    }
+
+    return Promise.all(promises)
+      .then(() => ctx.commit('setCalcCacheTotalTickerBalance', {key: key, balances: balances}))
+      .then(() => balances)
+  }
 }
 
 const getters = {

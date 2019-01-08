@@ -55,6 +55,8 @@
 
             this.$store.dispatch('wallet/refreshWallets')
             this.$store.dispatch('transaction/refreshTransactions')
+            this.$store.dispatch('course/syncHistoricalCourses')
+            this.$store.dispatch('course/syncTickerCourses')
           }
         })
       }

@@ -1,11 +1,18 @@
-import CourseWorker from 'workerize-loader!../webworker/course'
+import Vue from 'vue'
+import BalanceWorker from 'workerize-loader!../webworker/balances'
+import CourseSyncWorker from 'workerize-loader!../webworker/courseSync'
 
-export default function ({app, store}) {
-  const courseWorker = new CourseWorker
+const balanceWorker = new BalanceWorker
+const courseWorker = new CourseSyncWorker
 
-  app.$webworker = {
-    course: courseWorker
-  }
+const $webworker = {
+  courseSync: courseWorker,
+  balance: balanceWorker
+}
 
-  store.$webworker = app.$webworker
+Vue.prototype.$webworker = $webworker
+
+export default function ({app, store}, inject) {
+  app.$webworker = $webworker
+  store.$webworker = $webworker
 }

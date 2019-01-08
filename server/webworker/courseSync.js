@@ -4,12 +4,11 @@ import * as coursesDB from '../store/courses_db'
 export function syncHistoricalCourses(userToken, currency) {
   const dbHandle = coursesDB.courses()
 
-  let p = dbHandle.getLastDateSavedCourse(currency)
-    .then((lastDate) => {
-      let query = ""
-      if(lastDate) {
-        query = `?from=${lastDate}`
-      }
+  let p = dbHandle.getLastDateSavedCourse(currency).then((lastDate) => {
+    let query = ""
+    if(lastDate) {
+      query = `?from=${lastDate}`
+    }
 
       return axios.get(`/api/course/${currency.type}/${currency.name}/historical${query}`, {
         headers: {

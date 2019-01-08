@@ -24,19 +24,38 @@ export function courses() {
     meta: localforage.createInstance({
       driver: localforage.INDEXEDDB,
       version: 1.0,
-      storeName: 'meta', // Should be alphanumeric, with underscores.
-    })
+      storeName: 'course_meta', // Should be alphanumeric, with underscores.
+    }),
+  }
+
+  const genKey = (fromCurrency, toCurrency = null, date = null) => {
+    let key = `${fromCurrency.type}_${fromCurrency.name}`
+    if(toCurrency) {
+      key += `__${toCurrency.type}_${toCurrency.name}`
+    }
+    if(date) {
+      key += `__${date.format('YYYY-MM-DD')}`
+    }
+    return key
   }
 
   return {
+    ready(){
+      return Promise.all([
+        store.course.historical.ready(),
+        store.course.ticker.ready(),
+        store.pair.ready(),
+        store.meta.ready()
+      ])
+    },
     getLastDateSavedCourse(currency){
-      return store.meta.getItem(`${currency.type}_${currency.name}__lastdate`)
+      return store.meta.getItem(`${genKey(currency)}__lastdate`)
     },
     setLastDateSavedCourse(currency, date) {
-      return store.meta.setItem(`${currency.type}_${currency.name}__lastdate`, date.format('YYYY-MM-DD'))
+      return store.meta.setItem(`${genKey(currency)}__lastdate`, date.format('YYYY-MM-DD'))
     },
     addPair(cFrom, cTo) {
-      return store.pair.setItem(`${cFrom.type}_${cFrom.name}__${cTo.type}_${cTo.name}`, {
+      return store.pair.setItem(genKey(cFrom, cTo), {
         from: cFrom,
         to: cTo,
       })
@@ -49,13 +68,35 @@ export function courses() {
         return pairs
       })
     },
+    getHistoricalCourse(fromCurrency, toCurrency, date, backSteps = 0){
+      //we have to fill gaps (at the weekend/hollidays we have no courses)
+      return store.course.historical.getItem(genKey(fromCurrency, toCurrency, date)).then(value => {
+        if(value) {
+          return Promise.resolve(value)
+        }
+
+        if(backSteps >= 7 || backSteps < 0) {
+          //go MAX 7 days back
+          return Promise.resolve(value)
+        }
+
+        //go one day back
+        return this.getHistoricalCourse(fromCurrency, toCurrency, date.clone().add(-1, 'days'), backSteps + 1)
+      })
+    },
+    getTickerCourse(fromCurrency, toCurrency){
+      return store.course.ticker.getItem(genKey(fromCurrency, toCurrency))
+        .then(course => {
+          return course.price.amount
+        })
+    },
     saveHistoricalCourses(currency, courses){
       let p = []
       let lastDate;
       let pairs = {}
 
-      for(let c of courses) {
-        let date = moment(c.date).utc()
+      for (let c of courses) {
+        const date = moment(c.date).utc()
 
         if (!lastDate || lastDate.isBefore(date)) {
           lastDate = date;
@@ -63,17 +104,14 @@ export function courses() {
 
         let key = `${c.from.type}${c.from.name}${c.to.type}${c.to.name}`
         pairs[key] = [c.from, c.to]
-        p.push(store.course.historical.setItem(
-          `${c.from.type}_${c.from.name}__${c.to.type}_${c.to.name}__${date.format('YYYY-MM-DD')}`,
-          c
-        ))
+        p.push(store.course.historical.setItem(genKey(c.from, c.to, date), c))
       }
 
-      for(let key of Object.keys(pairs)){
+      for (let key of Object.keys(pairs)) {
         p.push(this.addPair(pairs[key][0], pairs[key][1]))
       }
 
-      if(lastDate) {
+      if (lastDate) {
         p.push(this.setLastDateSavedCourse(currency, lastDate))
       }
 
@@ -82,14 +120,11 @@ export function courses() {
     saveTickerCourses(currency, courses) {
       let p = []
       for(let c of courses) {
-        p.push(store.course.ticker.setItem(
-          `${c.currency.type}_${c.currency.name}__${c.price.currency.type}_${c.price.currency.name}`,
-          c
-        ))
+        p.push(store.course.ticker.setItem(genKey(c.currency, c.price.currency), c))
         p.push(this.addPair(c.currency, c.price.currency))
       }
 
       return Promise.all(p)
-    }
+    },
   }
 }
