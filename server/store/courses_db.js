@@ -82,6 +82,11 @@ export function courses() {
 
         //go one day back
         return this.getHistoricalCourse(fromCurrency, toCurrency, date.clone().add(-1, 'days'), backSteps + 1)
+          .then(value => {
+            //we have to set the original date instead the "real" date
+            if(value) value.date = date
+            return value
+          })
       })
     },
     getTickerCourse(fromCurrency, toCurrency){

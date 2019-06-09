@@ -19,10 +19,9 @@
 <script>
   import MainHeader from "../components/MainHeader";
   import MainFooter from "../components/MainFooter";
-  import MainLeftSidebar from "../components/MainLeftSidebar";
 
   export default {
-    components: {MainLeftSidebar, MainFooter, MainHeader}
+    components: {MainFooter, MainHeader}
   }
 </script>
 

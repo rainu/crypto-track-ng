@@ -56,6 +56,11 @@ export function balances() {
         currency: currency,
         date: fDate
       })
+    },
+    getTotalAmountAt(currency, date) {
+      let fDate = date.format('YYYY-MM-DD')
+      let key = `total_${currency.type}_${currency.name}_${fDate}`
+      return store.balance.getItem(key)
     }
   }
 }

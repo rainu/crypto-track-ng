@@ -1,10 +1,13 @@
+import * as balancesDB from '../store/balances_db'
+import moment from "moment"
+
 const state = () => ({
   syncStates: {
     historical: false,
     ticker: false
   },
   calcCache: {
-    totalTickerBalance: {}
+    totalTickerBalance: {},
   },
 })
 
@@ -96,6 +99,34 @@ const actions = {
     return Promise.all(promises)
       .then(() => ctx.commit('setCalcCacheTotalTickerBalance', {key: key, balances: balances}))
       .then(() => balances)
+  },
+
+  getHistoricalTotalAmountFor(ctx, {counterCurrency, from, until}) {
+    let dbHandle = balancesDB.balances()
+
+    from = moment(from).startOf('day')
+    until = moment(until).startOf('day')
+
+    let p = []
+    for (let curDate = from; curDate.isSameOrBefore(until); curDate = curDate.clone().add(1, 'days')) {
+      p.push(dbHandle.getTotalAmountAt(counterCurrency, curDate))
+    }
+
+    return Promise.all(p)
+  },
+
+  getHistoricalBalancesFor(ctx, {from, until}) {
+    let dbHandle = balancesDB.balances()
+
+    from = moment(from).startOf('day')
+    until = moment(until).startOf('day')
+
+    let p = []
+    for (let curDate = from; curDate.isSameOrBefore(until); curDate = curDate.clone().add(1, 'days')) {
+      p.push(dbHandle.getBalancesAt(curDate))
+    }
+
+    return Promise.all(p)
   }
 }
 

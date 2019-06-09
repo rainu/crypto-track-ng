@@ -176,29 +176,23 @@ const _calcHistoricalBalance = (dbHandle, pairs, amount, srcCurrency, dstCurrenc
     return Promise.resolve(-1);
   }
 
-  const path = paths[0]; //the shortest path
+  const shortestPath = paths[0]; //the shortest path
   let ratioPromises = []
 
   //enrich path with ratios
-  for(let hop of path) {
-    let p = dbHandle.getHistoricalCourse(hop.from, hop.to, date)
-    .then((course) => {
-      hop.ratio = course ? course.close : 0
-    })
-    ratioPromises.push(p);
+  for(let i in shortestPath) {
+    const hop = shortestPath[i]
+    ratioPromises.push(dbHandle.getHistoricalCourse(hop.from, hop.to, date));
   }
 
-  let p = Promise.all(ratioPromises)
-  .then(() => {
-    //now all path hops contains ratios
-    let result = amount
-    for(let hop of path) {
-      result *= hop.ratio
-    }
-    return result
-  })
-
-  return p
+  return Promise.all(ratioPromises)
+    .then((courses) => {
+      let result = amount
+      for(let course of courses) {
+        result *= (course ? course.close : 0)
+      }
+      return result
+    })
 }
 
 const _calcTotalBalanceAt = (courseHandle, balances, pairs, date, dstCurrency) => {
@@ -241,7 +235,9 @@ const _calcHistoricalBalances = (balanceHandle, courseHandle, transactions, pair
     p.push(balanceHandle.saveBalancesAt(balances, curDate))
 
     let totalPromise = _calcTotalBalanceAt(courseHandle, balances, pairs, curDate, dstCurrency)
-      .then((amount) => balanceHandle.saveTotalAmountAt(amount, dstCurrency, curDate))
+      .then((amount) => {
+        balanceHandle.saveTotalAmountAt(amount, dstCurrency, curDate)
+      })
     p.push(totalPromise)
   }
 

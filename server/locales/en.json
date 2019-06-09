@@ -14,6 +14,9 @@
     "datetime": {
       "format": "YYYY/MM/DD HH:mm:SS"
     },
+    "date": {
+      "format": "YYYY/MM/DD"
+    },
     "wallet": "Wallet",
     "amount": "Amount",
     "comment": "Comment",
@@ -29,6 +32,17 @@
     "balance-chart": {
       "title": "Value per Currency",
       "data-footer": "({percent}% of Total)"
+    },
+    "balance-by-day-chart": {
+      "title": "Value per Currency",
+      "label": {
+        "total-crypto": "Coins",
+        "total-fiat": "Fiat",
+        "total-account": "Account value"
+      },
+      "tooltip": {
+        "title-date-format": "MMM DD, YYYY"
+      }
     }
   },
   "login": {
