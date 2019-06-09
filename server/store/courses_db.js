@@ -101,6 +101,8 @@ export function courses() {
       let pairs = {}
 
       for (let c of courses) {
+        if(!c) continue;  //skip empty ones
+
         const date = moment(c.date).utc()
 
         if (!lastDate || lastDate.isBefore(date)) {
@@ -125,6 +127,8 @@ export function courses() {
     saveTickerCourses(currency, courses) {
       let p = []
       for(let c of courses) {
+        if(!c) continue;  //skip empty ones
+
         p.push(store.course.ticker.setItem(genKey(c.currency, c.price.currency), c))
         p.push(this.addPair(c.currency, c.price.currency))
       }

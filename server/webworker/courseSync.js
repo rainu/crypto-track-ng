@@ -16,7 +16,19 @@ export function syncHistoricalCourses(userToken, currency) {
         }
       })
     })
-    .then((response) => dbHandle.saveHistoricalCourses(currency, response.data))
+    .then(response => {
+      let courses = response.data
+
+      //remove invalid data
+      for(let i in courses) {
+        if(!courses[i].close) {
+          courses[i] = null
+        }
+      }
+
+      return courses
+    })
+    .then((courses) => dbHandle.saveHistoricalCourses(currency, courses))
 
   return p
 }
@@ -29,7 +41,19 @@ export function syncTickerCourses(userToken, currency) {
         Authorization: `Bearer ${userToken}`
       }
     })
-    .then((response) => dbHandle.saveTickerCourses(currency, response.data))
+    .then(response => {
+      let courses = response.data
+
+      //remove invalid data
+      for(let i in courses) {
+        if(!courses[i].price || !courses[i].price.amount) {
+          courses[i] = null
+        }
+      }
+
+      return courses
+    })
+    .then((courses) => dbHandle.saveTickerCourses(currency, courses))
 
   return p
 }
