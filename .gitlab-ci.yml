@@ -25,6 +25,8 @@ test:
 
 build-server:
   stage: build
+  variables:
+    NODE_ENV: "production"
   script:
     - npm install
     - npm run build
