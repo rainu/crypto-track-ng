@@ -1,4 +1,4 @@
-FROM node:alpine
+FROM node:11-alpine
 MAINTAINER rainu <rainu@raysha.de>
 
 ENV NODE_ENV "production"

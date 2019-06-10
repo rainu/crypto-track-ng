@@ -1,4 +1,4 @@
-image: rainu/docker-node
+image: rainu/docker-node:11-alpine
 
 stages:
   - test
