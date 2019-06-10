@@ -176,6 +176,12 @@
             })
         }
       }
+    },
+    mounted() {
+      this.getTotalTickerBalanceFor(this.counterValue)
+        .then(balances => {
+          this.calcChartData(balances)
+        })
     }
   }
 </script>

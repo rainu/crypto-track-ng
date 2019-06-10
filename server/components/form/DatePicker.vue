@@ -17,6 +17,16 @@
         validator(value) {
           return value === null || value instanceof Date || typeof value === 'string' || value instanceof String || value instanceof moment
         }
+      },
+      minDate: {
+        type: Date,
+        required: false,
+        default: null,
+      },
+      maxDate: {
+        type: Date,
+        required: false,
+        default: null,
       }
     },
     components: {
@@ -25,6 +35,7 @@
     name: "form-datepicker",
     data() {
       return {
+        ignoreNext: false,
         date: new Date(this.value),
         config: {
           format: this.$t('common.date.format'),
@@ -36,6 +47,8 @@
           showTodayButton: true,
           showClear: true,
           showClose: true,
+          minDate: this.minDate ? this.minDate : false,
+          maxDate: this.maxDate ? this.maxDate : false,
           widgetPositioning: {
             horizontal: 'auto',
             vertical: 'bottom'
@@ -45,8 +58,23 @@
     },
     watch: {
       date(){
+        if(this.ignoreNext){
+          this.ignoreNext = false
+          return
+        }
+
         //here we want to return a "true" date instead of the date as string
         this.$emit('input', moment(this.date, this.$t('common.date.format')).toDate());
+      },
+      minDate(newVal){
+        this.config.minDate = newVal
+      },
+      maxDate(newVal){
+        this.config.maxDate = newVal
+      },
+      value(newVal){
+        this.ignoreNext = true  //prevent endless loop
+        this.date = new Date(newVal)
       }
     }
   }

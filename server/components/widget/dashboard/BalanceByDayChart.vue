@@ -19,6 +19,23 @@
           return this.$t('widget.balance-by-day-chart.title')
         }
       },
+      from: {
+        type: Date,
+        required: false,
+        default() {
+          let from = new Date()
+          from.setDate(from.getDate() - 60);
+
+          return from
+        }
+      },
+      until: {
+        type: Date,
+        required: false,
+        default() {
+          return new Date()
+        }
+      },
       counterValue: {
         type: Object,
         required: false,
@@ -178,26 +195,31 @@
         }
 
         this.chartData = data;
+      },
+      applyChartSettings(from, until) {
+        Promise.all([
+          this.getHistoricalBalancesFor({from, until}),
+          this.getHistoricalTotalAmountFor({counterCurrency: this.counterValue, from, until}),
+        ]).then(results => {
+          this.calcChartData(results[0], results[1])
+        })
       }
     },
     watch: {
       historicalState(state){
         if(state) {
-          //TODO
+          this.applyChartSettings(this.from, this.until)
         }
+      },
+      from(newVal){
+        this.applyChartSettings(newVal, this.until)
+      },
+      until(newVal){
+        this.applyChartSettings(this.from, newVal)
       }
     },
     mounted() {
-      let from = new Date()
-      from.setDate(from.getDate() - 60);
-      let until = new Date()
-
-      Promise.all([
-        this.getHistoricalBalancesFor({from, until}),
-        this.getHistoricalTotalAmountFor({counterCurrency: this.counterValue, from, until}),
-      ]).then(results => {
-        this.calcChartData(results[0], results[1])
-      })
+      this.applyChartSettings(this.from, this.until)
     }
   }
 </script>

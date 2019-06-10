@@ -47,6 +47,17 @@
     "total-balances": {
       "account-value": "Account-Value",
       "crypto-value": "Crypto-Value"
+    },
+    "settings": {
+      "short-range": "{days} Days"
+    },
+    "recalculation": {
+      "action": "Refresh calculation {state}",
+      "state": {
+        "doing": "...",
+        "done": "done",
+        "error": "failed"
+      }
     }
   },
   "login": {

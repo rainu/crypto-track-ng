@@ -42,6 +42,17 @@
       },
       "tooltip": {
         "title-date-format": "dddd, DD MMM YYYY"
+      },
+      "settings": {
+        "short-range": "{days} Tage"
+      },
+      "recalculation": {
+        "action": "Berechnung aktualisieren {state}",
+        "state": {
+          "doing": "...",
+          "done": "fertig",
+          "error": "fehlgeschlagen"
+        }
       }
     },
     "total-balances": {
