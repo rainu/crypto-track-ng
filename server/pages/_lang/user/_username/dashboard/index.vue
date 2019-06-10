@@ -39,12 +39,11 @@
 <script>
 
 import TotalBalances from "../../../../../components/widget/dashboard/TotalBalances";
-import TrackChart from "../../../../../components/widget/dashboard/TrackChart";
 import BalanceByDayChart from "../../../../../components/widget/dashboard/BalanceByDayChart";
 import BalancesCalculation from "../../../../../components/widget/dashboard/BalancesCalculation";
 
 export default {
-  components: {BalanceByDayChart, TrackChart, TotalBalances, BalancesCalculation},
+  components: {BalanceByDayChart, TotalBalances, BalancesCalculation},
   data() {
     let from = new Date()
     from.setDate(from.getDate() - 60)
