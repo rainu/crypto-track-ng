@@ -27,7 +27,7 @@
       return {
         date: new Date(this.value),
         config: {
-          format: this.$t('common.date.format'),
+          format: this.$t('common.datetime.format'),
           useCurrent: true,
           locale: this.$store.state.i18n.locale,
           keyBinds: null,
@@ -46,7 +46,7 @@
     watch: {
       date(){
         //here we want to return a "true" date instead of the date as string
-        this.$emit('input', moment(this.date, this.$t('common.date.format')).toDate());
+        this.$emit('input', moment(this.date, this.$t('common.datetime.format')).toDate());
       }
     }
   }

@@ -29,7 +29,7 @@
 
             <div class="form-group" :class="{'has-error': $v.date.$error}">
               <label >{{$t('transaction.common.date')}}</label>
-              <date-picker v-model="date" @input="$v.date.$touch()"></date-picker>
+              <date-time-picker v-model="date" @input="$v.date.$touch()"></date-time-picker>
             </div>
           </fieldset>
         </div>
