@@ -43,6 +43,10 @@
       "tooltip": {
         "title-date-format": "MMM DD, YYYY"
       }
+    },
+    "total-balances": {
+      "account-value": "Account-Value",
+      "crypto-value": "Crypto-Value"
     }
   },
   "login": {
