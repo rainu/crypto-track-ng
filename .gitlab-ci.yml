@@ -14,14 +14,14 @@ cache:
   paths:
   - node_modules/
 
-test:
-  stage: test
-  services:
-    - name: mongo
-      alias: mongo
-  script:
-    - npm install
-    - npm run test
+#test:
+#  stage: test
+#  services:
+#    - name: mongo
+#      alias: mongo
+#  script:
+#    - npm install
+#    - npm run test
 
 build-server:
   stage: build
