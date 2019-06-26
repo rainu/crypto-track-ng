@@ -172,7 +172,8 @@
   "backup": {
     "action": {
       "upload": "Upload",
-      "download": "Download"
+      "download": "Download",
+      "cointracking": "Cointracking.info CSV"
     },
     "download-error": "Failed to load backup file! Error: {err}",
     "upload-error": "Failed to apply the backup. Error: {err}",

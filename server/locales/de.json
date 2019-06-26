@@ -172,7 +172,8 @@
   "backup": {
     "action": {
       "upload": "Hochladen",
-      "download": "Herunterladen"
+      "download": "Herunterladen",
+      "cointracking": "Cointracking.info CSV"
     },
     "download-error": "Es konnte kein Backup geladen werden! Fehler: {err}",
     "upload-error": "Einspielen des Backups fehlgeschlagen. Fehler: {err}",

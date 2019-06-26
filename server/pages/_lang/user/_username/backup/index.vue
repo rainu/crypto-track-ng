@@ -30,6 +30,15 @@
         </div>
       </div>
     </div>
+    <div class="col-xs-12 col-lg-6">
+      <div class="info-box">
+        <span class="info-box-icon bg-aqua"><i class="fa fa-file-text"></i></span>
+
+        <div class="info-box-content">
+          <button class="btn btn-lg btn-primary btn-block" @click="downloadCointracking">{{$t('backup.action.cointracking')}}</button>
+        </div>
+      </div>
+    </div>
 
     <a class="download-link"></a>
   </div>
@@ -85,6 +94,19 @@
           let link = this.$el.querySelector('a.download-link');
           link.href = window.URL.createObjectURL(blob);
           link.download = `cryptotrack_backup_${this.account.username}.json`;
+          link.click();
+        }).catch(err => {
+          this.downloadError = err.message;
+        });
+      },
+      downloadCointracking(){
+        this.downloadError = null;
+
+        this.$axios.get(`/api/backup?format=cointracking`).then((response) => {
+          let blob = new Blob([response.data], { type: 'text/csv' } );
+          let link = this.$el.querySelector('a.download-link');
+          link.href = window.URL.createObjectURL(blob);
+          link.download = `cointracking_${this.account.username}.csv`;
           link.click();
         }).catch(err => {
           this.downloadError = err.message;

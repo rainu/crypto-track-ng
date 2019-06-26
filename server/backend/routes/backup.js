@@ -4,11 +4,17 @@ const fs = require('fs');
 const HttpStatus = require('http-status-codes');
 const log = require('../../../common/log');
 const importer = require('../backup/import')
+const cointrackingExport = require('../backup/export_cointracking').exportCointracking
 
 router.route('/api/backup')
   //get the backup of the current user
   .get((req, resp) => {
-    importer.export(req.token.user._id).then(data => {
+    let exportFn = importer.export
+    if(req.query.format === 'cointracking') {
+      exportFn = cointrackingExport
+    }
+
+    exportFn(req.token.user._id).then(data => {
       resp.send(data)
     }).catch(err => {
       log.error("An error occurred while get backup from user!", err)
